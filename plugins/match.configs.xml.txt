@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ¤Note:
+- For permanent change do not customize this file ! If you really want to change standard settings then duplicate the entry in custom/match.configs.custom.xml.txt
+-->
+
+<fast>
+
+	<matchconfig><ident>gc9tst</ident>
+		<title>ET-GC</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<reported_score>true</reported_score>
+		<matchsettings>test.txt</matchsettings>
+		<show_nextmaps>2</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<map>speed</map>
+		<map>alpine</map>
+		<map>rally</map>
+		<map>island</map>
+		<map>bay</map>
+		<map>coast</map>
+		<map>stadium</map>
+		<break_before_map>3</break_before_map>
+		<break_warmup>2</break_warmup>
+		<break_chattime>50000</break_chattime>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>2</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>10000</chat_time>
+		<finishtimeout>20000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>1</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>gc9</ident>
+		<title>ET-GC</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<reported_score>true</reported_score>
+		<matchsettings>gc9.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<map>speed</map>
+		<map>alpine</map>
+		<map>rally</map>
+		<map>island</map>
+		<map>bay</map>
+		<map>coast</map>
+		<map>stadium</map>
+		<break_before_map>5</break_before_map>
+		<break_warmup>2</break_warmup>
+		<break_chattime>95000</break_chattime>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>10</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>25000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>2</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>morel</ident>
+		<title>MO-TRelay</title>
+		<imgurl>http://maniacup.net/logos/MOlogo.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>test.txt</matchsettings>
+		<show_nextmaps>7</show_nextmaps>
+		<map_falsestart>0</map_falsestart>
+		<match_falsestart>0</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<break_before_map>3</break_before_map>
+		<break_chattime>30000</break_chattime>
+
+		<fgamemode>TeamRelay</fgamemode>
+		<trelay_nblaps>2</trelay_nblaps>
+		<trelay_warmup>1</trelay_warmup>
+		<trelay_penalty>0,800,1500,2100,2600,3000</trelay_penalty>
+		
+		<chat_time>10000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>4</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>CPTime</fteam_ranks_rule>
+		<fteam_scores_rule>motogp</fteam_scores_rule>
+		<fteam_mapscores_rule>Copy</fteam_mapscores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>morelay</ident>
+		<title>MO-TRelay</title>
+		<imgurl>http://maniacup.net/logos/MOlogo.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>morelay.txt</matchsettings>
+		<show_nextmaps>7</show_nextmaps>
+		<map_falsestart>0</map_falsestart>
+		<match_falsestart>0</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<break_before_map>5</break_before_map>
+		<break_chattime>480000</break_chattime>
+
+		<fgamemode>TeamRelay</fgamemode>
+    <trelay_nblaps>6</trelay_nblaps>
+    <trelay_warmup>1</trelay_warmup>
+    <trelay_penalty>0,800,1500,2100,2600,3000</trelay_penalty>
+		
+		<chat_time>30000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>4</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+    <fteam_draw_rule>Average</fteam_draw_rule>
+    <fteam_ranks_rule>CPTime</fteam_ranks_rule>
+    <fteam_scores_rule>motogp</fteam_scores_rule>
+    <fteam_mapscores_rule>Copy</fteam_mapscores_rule>
+    <fteam_join_mode>Script</fteam_join_mode>
+    <fteam_lock_mode>Script</fteam_lock_mode>
+    <fteam_lock_name>true</fteam_lock_name>
+    <fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>molaps</ident>
+		<title>MO-Endurance</title>
+		<imgurl>http://maniacup.net/logos/MOlogo.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>mo.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<break_before_map>5</break_before_map>
+		<break_chattime>480000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet3</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>6</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>30000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>3</allwarmupduration>
+		<laps_nblaps>15</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>3</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>fet6tst</ident>
+		<title>ET-FET6tst</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>laps.txt</matchsettings>
+		<show_nextmaps>1</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<break_before_map>2</break_before_map>
+		<break_chattime>90000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet3</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>30000</chat_time>
+		<finishtimeout>30000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>2</allwarmupduration>
+		<laps_nblaps>3</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>fet6a</ident>
+		<title>ET-FET6</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>fet6.txt</matchsettings>
+		<show_nextmaps>1</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<break_before_map>2</break_before_map>
+		<break_chattime>90000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet3</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>30000</chat_time>
+		<finishtimeout>210000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>4</allwarmupduration>
+		<laps_nblaps>24</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>fet6b</ident>
+		<title>ET-FET6</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>fet6.txt</matchsettings>
+		<show_nextmaps>2</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<break_before_map>3</break_before_map>
+		<break_chattime>90000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet3</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>30000</chat_time>
+		<finishtimeout>210000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>4</allwarmupduration>
+		<laps_nblaps>24</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+
+	<matchconfig><ident>fet6c</ident>
+		<title>ET-FET6</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>fet6.txt</matchsettings>
+		<show_nextmaps>3</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>4</number_of_maps>
+		<break_before_map>3</break_before_map>
+		<break_chattime>100000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet3</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>30000</chat_time>
+		<finishtimeout>210000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>4</allwarmupduration>
+		<laps_nblaps>24</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+
+	<matchconfig><ident>mfet2</ident>
+		<title>ET-mFET2</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>test.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<break_before_map>5</break_before_map>
+		<break_chattime>120000</break_chattime>
+
+		<fgamemode>TeamLaps</fgamemode>
+		<fteam_points_rule>fet2</fteam_points_rule>
+		<fteam_notfinish_multiplier>0.5</fteam_notfinish_multiplier>
+		<fteam_max_players>4</fteam_max_players>
+		<fteam_max_playing>2</fteam_max_playing>
+		<fteam_max_playing_rule>mapcp</fteam_max_playing_rule>
+		<fteam_max_playing_keep>true</fteam_max_playing_keep>
+		<fteam_draw_rule>Average</fteam_draw_rule>
+		<fteam_ranks_rule>Points</fteam_ranks_rule>
+		<fteam_scores_rule>Points</fteam_scores_rule>
+		<fteam_join_mode>Script</fteam_join_mode>
+		<fteam_lock_mode>Script</fteam_lock_mode>
+		<fteam_lock_name>true</fteam_lock_name>
+		<fteam_autoleave>ForceOnly</fteam_autoleave>
+
+		<chat_time>10000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>1</allwarmupduration>
+		<laps_nblaps>1</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+    
+		<freeplay>
+		  <fteam_max_playing>4</fteam_max_playing>
+		  <fteam_max_playing_rule>free</fteam_max_playing_rule>
+		</freeplay>
+	</matchconfig>
+
+	<matchconfig><ident>mostunts</ident>
+		<title>MO-Stunts</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>stunts.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<break_before_map>5</break_before_map>
+		<break_chattime>60000</break_chattime>
+		<map_scores_list>25,20,16,13,11,10,9,8,7,6,5,4,3,2,1</map_scores_list>
+		<map_restarts>4</map_restarts>
+		<map_restarts_wu>1</map_restarts_wu>
+		<map_rs_scoremode>addscores</map_rs_scoremode>
+
+		<game_mode>4</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+		<timeattack_limit>70000</timeattack_limit>
+		<timeattack_synchstartperiod>0</timeattack_synchstartperiod>
+	</matchconfig>
+	 
+	<matchconfig><ident>morace</ident>
+		<title>MO-Race</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<reported_score>true</reported_score>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>1</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<custom_points>motogp</custom_points>
+		<show_nextmaps>2</show_nextmaps>
+		<rounds_roundslimit>2</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>10000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>1</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>gc8</ident>
+		<title>ET-GC</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>gc8.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<map>speed</map>
+		<map>island</map>
+		<map>rally</map>
+		<map>stadium</map>
+		<map>coast</map>
+		<map>alpine</map>
+		<map>bay</map>
+		<break_before_map>5</break_before_map>
+		<break_warmup>3</break_warmup>
+		<break_chattime>60000</break_chattime>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>10</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>25000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>2</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>ga150</ident>
+		<title>GA2010</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fGA$f80-Match %s</srvname>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		<cup_autoadjust>2</cup_autoadjust>
+		
+		<game_mode>5</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<cup_pointslimit>150</cup_pointslimit>
+		<cup_roundsperchallenge>4</cup_roundsperchallenge>
+		<cup_nbwinners>4</cup_nbwinners>
+		<cup_warmupduration>1</cup_warmupduration>
+	</matchconfig>
+
+	<matchconfig><ident>ga100</ident>
+		<title>GA2010</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fGA$f80-Match %s</srvname>
+		<show_nextmaps>4</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		<cup_autoadjust>2</cup_autoadjust>
+		
+		<game_mode>5</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<cup_pointslimit>100</cup_pointslimit>
+		<cup_roundsperchallenge>4</cup_roundsperchallenge>
+		<cup_nbwinners>2</cup_nbwinners>
+		<cup_warmupduration>1</cup_warmupduration>
+	</matchconfig>
+
+	<matchconfig><ident>gc7tst</ident>
+		<title>ET-GC</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>gc7.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>2</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>3</allwarmupduration>
+		<rounds_pointslimit>100</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>gc7</ident>
+		<title>ET-GC</title>
+		<imgurl>http://maniacup.net/logos/ETall.png</imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>gc7.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<map>stadium</map>
+		<map>speed</map>
+		<map>island</map>
+		<map>rally</map>
+		<map>bay</map>
+		<map>alpine</map>
+		<map>coast</map>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>10</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>30000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>3</allwarmupduration>
+		<rounds_pointslimit>100</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>gc7nta</ident>
+		<title>GC7N Seed</title>
+		<imgurl>http://maniacup.net/logos/ETstad.png</imgurl>
+		<locale_info></locale_info>
+		<map_falsestart>0</map_falsestart>
+		<match_falsestart>0</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>1</number_of_maps>
+		<map>current</map>
+		<custom_points></custom_points>
+		
+		<game_mode>1</game_mode>
+		<chat_time>30000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>0</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+		<timeattack_limit>600000</timeattack_limit>
+		<timeattack_synchstartperiod>0</timeattack_synchstartperiod>
+	</matchconfig>
+	
+	<matchconfig><ident>gc7n</ident>
+		<title>GC7N</title>
+		<imgurl>http://maniacup.net/logos/ETstad.png</imgurl>
+		<locale_info></locale_info>
+		<reported_score>true</reported_score>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>1</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<custom_points></custom_points>
+		<show_nextmaps>2</show_nextmaps>
+		<map>shuffle</map>
+		<rounds_roundslimit>6</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>30000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>0</forceshowallopponents>
+		<allwarmupduration>2</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>gc7nold</ident>
+		<title>GC7N</title>
+		<imgurl>http://maniacup.net/logos/ETstad.png</imgurl>
+		<locale_info></locale_info>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>1</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>1</number_of_maps>
+		<map>current</map>
+		<custom_points></custom_points>
+		
+		<game_mode>0</game_mode>
+		<chat_time>40000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>0</forceshowallopponents>
+		<allwarmupduration>3</allwarmupduration>
+		<rounds_pointslimit>41</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>tstgc</ident>
+		<title>TestGC</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fTestGCf80-Match $f00%s</srvname>
+		<reported_score>true</reported_score>
+		<show_nextmaps>2</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<map>shuffle</map>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>2</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>10000</chat_time>
+		<finishtimeout>16000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>1</allwarmupduration>
+		<rounds_pointslimit>0</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>tst</ident>
+		<title>TestCup</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fTestCup$f80-Match $f00%s</srvname>
+		<show_nextmaps>1</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		<cup_autoadjust>2</cup_autoadjust>
+		
+		<game_mode>5</game_mode>
+		<chat_time>5000</chat_time>
+		<finishtimeout>10000</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<cup_pointslimit>20</cup_pointslimit>
+		<cup_roundsperchallenge>5</cup_roundsperchallenge>
+		<cup_nbwinners>2</cup_nbwinners>
+		<cup_warmupduration>0</cup_warmupduration>
+	</matchconfig>
+
+	<matchconfig><ident>eswc</ident>
+		<title>ESWC</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fESWC$f80-Match $f00%s</srvname>
+		<show_nextmaps>4</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		<cup_autoadjust>2</cup_autoadjust>
+		
+		<game_mode>5</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>1</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<cup_pointslimit>100</cup_pointslimit>
+		<cup_roundsperchallenge>5</cup_roundsperchallenge>
+		<cup_nbwinners>2</cup_nbwinners>
+		<cup_warmupduration>1</cup_warmupduration>
+	</matchconfig>
+
+	<matchconfig><ident>eswcqualif</ident>
+		<title>ESWC Qualif</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fESWC$f80-Qualif $f00%s</srvname>
+		<show_nextmaps>1</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		<number_of_maps>2</number_of_maps>
+		
+		<game_mode>1</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>1</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+		<timeattack_limit>600000</timeattack_limit>
+		<timeattack_synchstartperiod>0</timeattack_synchstartperiod>
+	</matchconfig>
+
+	<matchconfig><ident>eswc07</ident>
+		<title>ESWC07</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>$00fESWC$f80-Match $f00%s</srvname>
+		<show_nextmaps>3</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<map>shuffle</map>
+		<custom_points></custom_points>
+		
+		<game_mode>0</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>1</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>1</allwarmupduration>
+		<rounds_pointslimit>100</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+
+	<matchconfig><ident>gc</ident>
+		<title>ET-GC</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-GC %s</srvname>
+		<global_score>true</global_score>
+		<score_panel>true</score_panel>
+		<matchsettings>gc.txt</matchsettings>
+		<show_nextmaps>6</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>7</number_of_maps>
+		<map>stadium</map>
+		<map>speed</map>
+		<map>island</map>
+		<map>rally</map>
+		<map>bay</map>
+		<map>alpine</map>
+		<map>coast</map>
+		<fwarmupduration>3</fwarmupduration>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>10</rounds_roundslimit>
+		
+		<game_mode>0</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<allwarmupduration>0</allwarmupduration>
+		<rounds_pointslimit>100</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+	</matchconfig>
+	
+	<matchconfig><ident>ul</ident>
+		<title>ET-UL</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>UL: %s</srvname>
+		<show_nextmaps>2</show_nextmaps>
+		<map_falsestart>3</map_falsestart>
+		<match_falsestart>10</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<map></map>
+		<fwarmupduration>true</fwarmupduration>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>-1</rounds_roundslimit>
+		
+		<game_mode>2</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<allwarmupduration>0</allwarmupduration>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+		<team_pointslimit>7</team_pointslimit>
+		<team_maxpoints>6</team_maxpoints>
+		<team_usenewrules>1</team_usenewrules>
+		<team_pointslimitnewrules>7</team_pointslimitnewrules>
+	</matchconfig>
+	
+	<matchconfig><ident>fet</ident>
+		<title>FET</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>ET-FET: %s</srvname>
+		<matchsettings>fet.txt</matchsettings>
+		<show_nextmaps>2</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>1</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>3</number_of_maps>
+		<map></map>
+		<fwarmupduration>3</fwarmupduration>
+		
+		<game_mode>3</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>200000</finishtimeout>
+		<allwarmupduration>0</allwarmupduration>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+	</matchconfig>
+
+	<matchconfig><ident>gpcoast</ident>
+		<title>GPF1</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>GPcoast: %s</srvname>
+		<show_nextmaps>0</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>1</match_falsestart>
+		<ladder_mode>1</ladder_mode>
+		<number_of_maps>2</number_of_maps>
+		<map></map>
+		<break_before_map>1</break_before_map>
+		<break_warmup>4</break_warmup>
+		<fwarmupduration>3</fwarmupduration>
+		
+		<game_mode>3</game_mode>
+		<chat_time>20000</chat_time>
+		<finishtimeout>200000</finishtimeout>
+		<allwarmupduration>0</allwarmupduration>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>4</forceshowallopponents>
+	</matchconfig>
+
+</fast>

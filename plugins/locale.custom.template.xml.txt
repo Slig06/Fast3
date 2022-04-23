@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Do not customize this file ! instead rename it 'locale.custom.xml.txt',¤ -->
+<!-- then complete it copying and modifying entries from others -->
+<!-- 'locale.xxxxx.xml.txt' files, so updates will not modify your changes !  ;)  -->
+
+<fast>
+	<locale>
+		<en>
+      
+      <pad></pad>
+      
+		</en>
+	</locale>
+</fast>
+
+<!-- note: the strings will use args like in a sprintf() call, -->
+<!--       and you so can specify the used arg. For example -->
+<!--       %3$s will be replace by the 3rd arg, supposed to be a string -->

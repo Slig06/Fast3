@@ -1,0 +1,66 @@
+
+   For TM FOREVER only !!! (United and Nations)
+
+   Uniquement pour TM FOREVER !!! (United and Nations )
+
+
+QUICK INSTALLATION FOR WINDOWS
+------------------------------
+
+For first install use the fast3.2.x-winphp5.zip package !
+
+You are supposed to already have a fonctionnal TM server (dedicated or not)
+
+- Extract the files in the dedicated server directory
+
+- Modify 'FAST3 start.bat' to indicate the name (and path if needed)
+  of the dedicated.cfg file used by your dedicated :
+      replace 'dedconfig.cfg' with the real name of your dedicated
+      config file !
+
+- start 'FAST3 start.bat'
+
+
+NOTE: your dedicated HAVE TO really use the ports indicated in its
+used dedicated.cfg file, so those configured ports must not be used
+by another program !!! I suggest to use for the dedicated the ports
+2352,3452 and 5002, and make router-NAT redirections for them if
+needed (2352 tcp and udp, 3452 tcp, and, only if you want external
+remote control, 5002 tcp).
+
+PS: You can get and use the tool TCPView (search on google) to see what
+program use what port easily.
+
+- Modify if you wish fast.php with wordpad or some other text editor
+  to adapt the votes etc. to your needs.
+
+
+
+INSTALLATION RAPIDE SOUS WINDOWS
+--------------------------------
+
+Pour une premiere installation utilisez l'archive fast3.2.x-winphp5.zip !
+
+Vous etes cense avoir deja un serveur TM (dedie ou pas) fonctionnel.
+
+- Extraire les fichiers dans le repertoire du dedie
+
+- Modifier 'FAST3 start.bat' pour indiquer le nom (et le chemin
+  si necessaire) du fichier dedicated.cfg utilise par le dedie :
+      remplacez 'dedconfig.cfg' par le vrai nom de votre fichier
+      de config du dedie !
+
+- Lancer 'FAST3 start.bat'
+
+NOTE: votre dedie DOIT reellement utiliser des ports indiques dans son
+fichier dedicated.cfg utilise, donc aucun autre programme ne doit les
+utiliser !!! Je suggere d'utiliser pour le dedie les ports 2352,3452,
+et 5002, et de faire si necessaire les redirections sur le routeur-NAT
+pour ceux-ci (2352 tcp et udp, 3452 tcp, et, uniquement si vous voulez
+un acces de controle distant exterieur, le 5002 tcp).
+
+PS: Vous pouvez utiliser TCPView (chercher sur google) pour voir
+facilement quelles applications utilisent quels ports.
+
+- Si vous desirez, modifiez fast.php avec wordpad ou un autre editeur
+  de texte pour adapter le vote etc. a vos besoins.

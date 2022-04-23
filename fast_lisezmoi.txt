@@ -1,0 +1,132 @@
+# Fast3
+Controler for Trackmania Forever dedicated server
+
+FAST3 est un controleur pour le serveur dédié de Trackmania Forever, qui permet d'étendre ses fonctionalités.
+
+Il ne remplace pas le serveur dédié, mais se connecte dessus et utilise son API afin d'ajouter des choses.
+
+
+FAST3 est pourt TM FOREVER uniquement !!! (United et Nations)
+
+
+
+
+REPOSITORY
+----------
+github :  https://github.com/Slig06/Fast3
+
+( Original repository :  http://slig.info/fast3.2/ )
+ 
+
+FORUM : updates/bugs/idees
+-----
+
+Vous pouvez acceder au forum directement la : 
+
+	http://dedimania.com/SITE/forum/viewforum.php?id=5
+
+
+Il faut se connecter sur le site Dedimania pour pouvoir
+poster dans le forum :
+
+	http://dedimania.net/
+
+
+INSTALLATION
+------------
+
+Il faut avoir php5 de fonctionnel.
+Le plus simple et le mieux c'est de desarchiver fast dans
+le repertoire du dedie de maniere a avoir fast.php dans le meme
+rep que le binaire du dedie.
+
+Je vous laisse faire votre .bat ou autre pour le lancer...
+
+
+CONFIGURATION
+-------------
+
+C'est le login/pass du dedie qui sert pour Dedimania,
+le compte y est automatiquement cree apres verif
+du mot de passe TM sur les master Nadeo. 
+
+
+L'utilisation c'est une commande du style :
+
+	php5 fast.php dedicated.cfg
+
+
+NOTE: votre dedie DOIT reellement utiliser des ports indiques dans son
+fichier dedicated.cfg utilise, donc aucun autre programme ne doit les
+utiliser !!! Je suggere d'utiliser pour le dedie les ports 2352,3452,
+et 5002, et de faire si necessaire les redirections sur le routeur-NAT
+pour ceux-ci (2352 tcp et udp, 3452 tcp, et uniquement si vous voulez
+un acces de controle distant exterieur le 5002 tcp).
+
+PS: Vous pouvez utiliser TCPView (chercher sur google) pour voir
+facilement quelles applications utilisent quels ports.
+
+
+LOGS
+----
+
+Les logs sont regroupes dans le repertoire fastlog/, de plus
+leur nom contient le nom du jeu et le login du compte serveur.
+
+
+ADMIN
+-----
+
+Les admins sont maintenant dans un fichier xml du meme genre
+que guestlist.txt etc. Il sera cree automatiquement au premier
+demarrage, quand la liste est vide le premier joueur tapant dans
+le chat /help ou une commande admin sera ajoute a la liste.
+La liste est automatiquement sauvegardee lorsqu'on ajoute ou
+enleve du monde avec les commandes /admin. On peut aussi modifier
+le fichier avec un editeur et relancer fast.Comme pour les
+log le nom du fichier admin contient le nom du jeu et le login du
+compte serveur.
+
+
+FONCTIONNEMENT
+--------------
+
+Il n'y a plus de probleme pour en lancer plusieurs depuis
+le meme repertoire, comme pour le dedie. Il suffit donc de
+faire des fichiers dedxxx.cfg avec des comptes et ports differents
+pour lancer plusieurs dedies et leurs Fast associes sans se
+compliquer la vie.
+
+Si vous voulez avoir pour ceux ci certains points de configuration
+specifiques a Fast differents, faites des copy de fast.php sous
+d'autres noms, modifiez les, et utilisez les pour lancer Fast
+avec des configs variees.
+
+
+FAST EN USAGE REMOTE
+--------------------
+
+Si on utilise Fast de maniere *distante* par *rapport* au *serveur*,
+le mieux est d'avoir une copie du dedicated.cfg du serveur dans
+le repertoire de Fast et d'y preciser l'adresse IP du serveur
+dans un <server_ip> qu'on ajoute.
+
+
+STATISTIQUES
+------------
+
+Le site de stats est la : 
+	http://dedimania.net/tmstats/
+
+
+CUSTOMISATIONS
+--------------
+
+Si vous faites des modifications dans les affichages vous devriez
+faire une copie de locale.colors.txt, locale.en.txt ou locale.fr.txt
+sous le nom locale.custom.txt (dans plugins) et y integrer les
+textes modifies et/ou traduits.
+
+
+Voila, bons tests  :)
+Gilles

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Перевод сделан Глюком (GLUK) с сайта TMPOWER.SU -->
+<!-- Версия перевода оригинально предназначена для версии FAST 3.2.2c. Версия перевода от 19 марта 2010 года -->
+<!-- С предложениями обращайтесь в ICQ 328048859, Skype tmgluk, vkontakte(vk.com) id1916756 или на форум по ссылке http://tmpower.su/forum/42-736-1 -->
+
+<fast>
+	<locale>
+		<ru>
+
+			<pad></pad>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<help>Команды: </help>
+
+			<helpforadm>Команды: </helpforadm>
+
+			<welcome.message>$f00Сервер использует FAST %s .  Ваш ник : $z%s\r\n$z$f00$sВведите /help чтобы увидеть список доступных команд ! \r\n$i$000Перевод FAST выполнен сайтом TMPOWER.SU</welcome.message>  
+			<!-- args: fast_version:string, player_name:string -->
+
+			<welcome.connection>$cadПрисоединился: </welcome.connection>
+			<welcome.disconnection>$97cОтсоединился: </welcome.disconnection>
+			<welcome.relay.connection>$cdaПрисоединился: </welcome.relay.connection>
+			<welcome.relay.disconnection>$9c7Отсоединился: </welcome.relay.disconnection>
+
+
+			<lan.login>Вы используете LAN-соединение, ваши рекорды будут учитываться, используя логин: %s (после этой карты).</lan.login>
+			<!-- args: real_login:string -->
+
+			<lan.rec>Ваши рекорды будут учитываться, используя логин: %s.</lan.rec>
+			<!-- args: real_login:string -->
+
+			<lan.nologin>Вы используете LAN-соединение и не имеете логина для рекордов.</lan.nologin>
+
+
+			<players.failedconnection>$74bСоединение прервано: </players.failedconnection>
+			<players.low_upload>Низкий UploadRate запрещён на этом сервере, вы будете кикнуты сейчас...</players.low_upload>
+			<players.low_download>Низкий DownloadRate запрещён на этом сервере, вы будете кикнуты сейчас...</players.low_download>
+
+			<players.forceoppgamefix>Внимание: этот сервер использует опцию ShowOpponents, а ваша игра старой версии и имеет недоработки, и поэтому ваши оппоненты будут показываться все и не будут скрываться даже при близком контакте с ними ! Вам надо установить $fff%s !</players.forceoppgamefix>
+			<!-- args: gamefixlink:string -->
+
+			<players.net_inactivity>Игрок %s был кикнут из-за лагов (неактивность соединения в течении %d секунд).</players.net_inactivity>
+			<!-- args: login:string, time:int -->
+
+			<players.billpayedbyserv> Сервер послал вам %d монет.</players.billpayedbyserv>
+			<!-- args: coppers:int -->
+
+			<players.billpayed> %s послал вам %d монет.</players.billpayed>
+			<!-- args: payedby:string, coppers:int -->
+
+
+			<ml.ok>Ок</ml.ok>
+			<ml.apply>Применить</ml.apply>
+			<ml.confirm>Подтвердить</ml.confirm>
+			<ml.cancel>Отмена</ml.cancel>
+			<ml.quit>Выход</ml.quit>
+			<ml.close>закрыть</ml.close>
+			<ml.yes>Да</ml.yes>
+			<ml.no>Нет</ml.no>
+
+
+			<ml_main.show_ml> Визуальное оформление включено.</ml_main.show_ml>
+			<ml_main.hide_ml> Визуальное оформление выключено (/ml что бы включить).</ml_main.hide_ml>
+
+			<ml_main.show_posbars> Позиции включены.</ml_main.show_posbars>
+			<ml_main.hide_posbars> Позиции выключены.</ml_main.hide_posbars>
+
+			<ml_main.show_difftimes> Времена оппонентов включены.</ml_main.show_difftimes>
+			<ml_main.hide_difftimes> Времена оппонентов выключены.</ml_main.hide_difftimes>
+
+			<ml_main.positions>Позиции:</ml_main.positions>
+			<ml_main.players>Игроки:</ml_main.players>
+
+
+			<ml_bests.show> Лучшие времена трассы включены.</ml_bests.show>
+			<ml_bests.hide> Лучшие времена трассы выключены.</ml_bests.hide>
+			<ml_bests.entry>Лучшие</ml_bests.entry>
+
+			<falsestart.alert>Фальстарт !...</falsestart.alert>
+
+			<race.entry>Гонка</race.entry>
+			<race.off> Выкл </race.off>
+			<race.break> ПАУЗА </race.break>
+			<race.break_on> Пауза </race.break_on>
+			<race.warmup> РАЗОГРЕВ </race.warmup>
+			<race.warmup_start> Разогрев </race.warmup_start>
+			<race.warmup_extend> Продление </race.warmup_extend>
+			<race.race> ГОНКА </race.race>
+			<race.race_start> Вперёд </race.race_start>
+			<race.race_restart> Рестарт </race.race_restart>
+
+
+			<ml_times.show> Информация о рекордах включена.</ml_times.show>
+			<ml_times.hide> Информация о рекордах выключена.</ml_times.hide>
+			<ml_times.more>больше</ml_times.more>
+			<ml_times.less>меньше</ml_times.less>
+			<ml_times.play>Игра</ml_times.play>
+			<ml_times.spec>Наблюдатель</ml_times.spec>
+			<ml_times.author>Автор</ml_times.author>
+			<ml_times.showrec>показать</ml_times.showrec>
+			<ml_times.open>открыть</ml_times.open>
+			<ml_times.close>закрыть</ml_times.close>
+
+
+			<record.recs>$ccc%s$i$s$cc0>>$fff Рекорды на:  $z%s$z$s$n$i</record.recs>
+			<!-- args: database_name:string, map_name:string -->
+			<!-- use:  -->
+
+			<record.recs_none>$ccc%s$i$s$cc0>>$fff Нет рекордов на:  $z%s$z</record.recs_none>
+			<!-- args: database_name:string, map_name:string -->
+			<!-- use:  -->
+
+			<record.top_prefix>$z$i$s$ccc$n%s$cc0> $fff$z</record.top_prefix>
+			<!-- args: database_name:string -->
+			<!-- use:  -->
+
+			<record.top>%s$z$i$s$ddd$n проехал $fff$mTOP $ee0%d$ddd$n рекорд : $fff$m%s</record.top>
+			<!-- args: player_name:string, player_rank:int,	player_time:string -->
+			<!-- use:  -->
+
+			<record.top_oldinfo> $n$ddd($ee0%d$ddd,%0.2f)</record.top_oldinfo>
+			<!-- args: player_old_rank:int,	player_gap_time:double -->
+			<!-- use:  -->
+
+			<record.newrec_prefix>$z$i$s$ccc%s$cc0>> $fff$zИтог : </record.newrec_prefix>
+			<!-- args: database_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_many>%d новых рекордов на $z%s$z$s$n$i</record.newrec_many>
+			<!-- args: rec_numbers:int, map_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_one>1 новый рекорд на $z%s$z$s$n$i</record.newrec_one>
+			<!-- args: map_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_none>нет новых рекордов на $z%s</record.newrec_none>
+			<!-- args: map_name:string -->
+			<!-- use:  -->
+
+
+			<vote.bad>Плохая</vote.bad>
+			<vote.maybe>Не знаю</vote.maybe>
+			<vote.good>Крутая</vote.good>
+			<vote.trashit>Удалите её !</vote.trashit>
+			<vote.keepit>Оставьте её !</vote.keepit>
+			<vote.no>Нет</vote.no>
+			<vote.yes>Да</vote.yes>
+			<vote.syntax>используйте /vote с номером </vote.syntax>
+			<vote.notnow>Невозможно проголосовать, попробуйте позже.</vote.notnow>
+
+			<ml_vote.query>Проголосуйте за трассу пожалуйста !</ml_vote.query>
+			<ml_vote.entry>Голосовать</ml_vote.entry>
+
+			<ml_vote.entry.value>Голосов (%s)</ml_vote.entry.value>
+			<!-- args: vote_value:string -->
+
+			<ml_players.title>Список игроков</ml_players.title>
+			<ml_players.entry>Игроки</ml_players.entry>
+			<ml_players.nickcolor>Цветные ники</ml_players.nickcolor>
+			<ml_players.nonickcolor>Безцветные ники</ml_players.nonickcolor>
+			<ml_players.play>Играть</ml_players.play>
+			<ml_players.blue>К синим</ml_players.blue>
+			<ml_players.red>К красным</ml_players.red>
+			<ml_players.spec>Наблюдать</ml_players.spec>
+			<ml_players.specforce>Набл. всегда</ml_players.specforce>
+			<ml_players.kick>Кикнуть</ml_players.kick>
+			<ml_players.ignore>Чат-игнор</ml_players.ignore>
+			<ml_players.unignore>Чат-НеИгнор</ml_players.unignore>
+			<ml_players.ban>Бан</ml_players.ban>
+			<ml_players.unban>РазБан</ml_players.unban>
+			<ml_players.black>ЧёрнСпис</ml_players.black>
+			<ml_players.unblack>НеЧёрнСпис</ml_players.unblack>
+
+			<ml_players.choose>$s$i$cc8Выберите действие для :   $z%s - %3$s</ml_players.choose>
+			<!-- args: login:string, nick-nocolor:string, nick-color:string -->
+
+			<ml_players.confirm>$s$i$f22Действие для  $z%s - %3$s $z$i : $s$8f2$o %4$s </ml_players.confirm>
+			<!-- args: login:string, nick-nocolor:string, nick-color:string, action:string-->
+
+
+			<roundspoints.announce>Нестандартные очки: %s ($n%s...$n)</roundspoints.announce>
+			<!-- args: rule:string, points_list:string -->
+
+			<roundslimit.announce>Лимит раундов: %d (сейчас раунд: %d)</roundslimit.announce>
+			<!-- args: rule:int, current:int -->
+			<roundslimit.round>Раунд %d /%d: Поехали !</roundslimit.round>
+			<!-- args: current:int, rule:int  -->
+			<roundslimit.finish>Трасса завершена, %d раундов проехано.</roundslimit.finish>
+			<!-- args: rule:int  -->
+
+
+
+			<menu.config>Конфиг сервера ...</menu.config>
+
+			<menu.config.buddynotify.on>Друг онлайн: вкл</menu.config.buddynotify.on>
+			<menu.config.buddynotify.off>Друг онлайн: выкл</menu.config.buddynotify.off>
+			<chat.config.buddynotify.on>Уведомление о друге онлайн по умолчанию ВКЛЮЧЕНО</chat.config.buddynotify.on>
+			<chat.config.buddynotify.off>Уведомление о друге онлайн по умолчанию ВЫКЛЮЧЕНО</chat.config.buddynotify.off>
+
+			<menu.config.hidescorepanel.on>Панель очков: вкл</menu.config.hidescorepanel.on>
+			<menu.config.hidescorepanel.off>Панель очков: выкл</menu.config.hidescorepanel.off>
+			<chat.config.hidescorepanel.on>Панель очков между раундами ВКЛЮЧЕНА</chat.config.hidescorepanel.on>
+			<chat.config.hidescorepanel.off>Панель очков между раундами ВЫКЛЮЧЕНА</chat.config.hidescorepanel.off>
+
+			<menu.config.hideroundpanel.on>Панель раунда: вкл</menu.config.hideroundpanel.on>
+			<menu.config.hideroundpanel.off>Панель раунда: задержка</menu.config.hideroundpanel.off>
+			<chat.config.hideroundpanel.on>Панель раунда когда первый игрок финишировал: нормальная</chat.config.hideroundpanel.on>
+			<chat.config.hideroundpanel.off>Панель раунда когда первый игрок финишировал: с задержкой</chat.config.hideroundpanel.off>
+
+			<menu.hud>Панели ...</menu.hud>
+
+			<menu.hud.live.on>Живая информ.: вкл</menu.hud.live.on>
+			<menu.hud.live.off>Живая информ.: выкл</menu.hud.live.off>
+			<chat.hud.live.on>Живая информация ВКЛЮЧЕНА</chat.hud.live.on>
+			<chat.hud.live.off>Живая информация ВЫКЛЮЧЕНА</chat.hud.live.off>
+			<menu.hud.live>Живая информация ...</menu.hud.live>
+
+			<menu.hud.netlost.on>Потеря соединения: вкл</menu.hud.netlost.on>
+			<menu.hud.netlost.off>Потеря соединения: выкл</menu.hud.netlost.off>
+			<chat.hud.netlost.on>Показ потери соединения у игроков ВКЛЮЧЁН</chat.hud.netlost.on>
+			<chat.hud.netlost.off>Показ потери соединения у игроков ВЫКЛЮЧЕН</chat.hud.netlost.off>
+
+			<menu.hud.prefspec.replay>Режим набл: репл.</menu.hud.prefspec.replay>
+			<menu.hud.prefspec.follow>Режим набл: след.</menu.hud.prefspec.follow>
+			<menu.hud.prefspec.free>Режим набл: свобод.</menu.hud.prefspec.free>
+			<chat.hud.prefspec.replay>Режим наблюдателя по умолчанию: Реплей</chat.hud.prefspec.replay>
+			<chat.hud.prefspec.follow>Режим наблюдателя по умолчанию: Следовать</chat.hud.prefspec.follow>
+			<chat.hud.prefspec.free>Режим наблюдателя по умолчанию: Свободная камера</chat.hud.prefspec.free>
+
+			<menu.hud.buddynotify.on>Друг онлайн: вкл</menu.hud.buddynotify.on>
+			<menu.hud.buddynotify.off>Друг онлайн: выкл</menu.hud.buddynotify.off>
+			<chat.hud.buddynotify.on>Уведомление о друге онлайн ВКЛЮЧЕНО</chat.hud.buddynotify.on>
+			<chat.hud.buddynotify.off>Уведомление о друге онлайн ВЫКЛЮЧЕНО</chat.hud.buddynotify.off>
+
+			<menu.hud.chat.off>Чат: выкл</menu.hud.chat.off>
+			<menu.hud.chat.noplay>Чат: выкл когда гонка</menu.hud.chat.noplay>
+			<menu.hud.chat.on>Чат: вкл</menu.hud.chat.on>
+			<chat.hud.chat.off>Чат ВЫКЛЮЧЕН</chat.hud.chat.off>
+			<chat.hud.chat.noplay>Чат выключается во время гонки</chat.hud.chat.noplay>
+			<chat.hud.chat.on>Чат ВКЛЮЧЁН</chat.hud.chat.on>
+
+			<menu.hud.plnum.on>Кол-во игроков: вкл</menu.hud.plnum.on>
+			<menu.hud.plnum.off>Кол-во игроков: выкл</menu.hud.plnum.off>
+			<chat.hud.plnum.on>Количество игроков ВКЛЮЧЕНО</chat.hud.plnum.on>
+			<chat.hud.plnum.off>Количество игроков ВЫКЛЮЧЕНО</chat.hud.plnum.off>
+
+			<menu.hud.notices.on>Старая живая инф: вкл</menu.hud.notices.on>
+			<menu.hud.notices.off>Старая живая инф: выкл</menu.hud.notices.off>
+			<chat.hud.notices.on>Старые живые уведомления ВКЛЮЧЕНЫ</chat.hud.notices.on>
+			<chat.hud.notices.off>Старые живые уведомления ВЫКЛЮЧЕНЫ</chat.hud.notices.off>
+
+			<menu.hud.mapinfo.on>Инфо о карте: вкл</menu.hud.mapinfo.on>
+			<menu.hud.mapinfo.off>Инфо о карте: выкл</menu.hud.mapinfo.off>
+			<menu.hud.mapinfo.none>Инфо о карте: нет</menu.hud.mapinfo.none>
+			<chat.hud.mapinfo.on>Дополнительная информация о карте ВКЛЮЧЕНА</chat.hud.mapinfo.on>
+			<chat.hud.mapinfo.off>Дополнительная информация о карте ВЫКЛЮЧЕНА</chat.hud.mapinfo.off>
+			<chat.hud.mapinfo.none>Информация о карте СКРЫТА</chat.hud.mapinfo.none>
+
+			<menu.hud.bests.off>Лучшие заезды: выкл</menu.hud.bests.off>
+			<menu.hud.bests.noplay>Лучш.заезды: нет езды</menu.hud.bests.noplay>
+			<menu.hud.bests.on>Лучшие заезды: вкл</menu.hud.bests.on>
+			<chat.hud.bests.off>Лучшие времена на трассе ВЫКЛЮЧЕНЫ</chat.hud.bests.off>
+			<chat.hud.bests.noplay>Лучшие времена на трассе когда нет гонки</chat.hud.bests.noplay>
+			<chat.hud.bests.on>Лучшие времена на трассе ВКЛЮЧЕНЫ</chat.hud.bests.on>
+
+			<menu.hud.times.on>Панель времён: вкл</menu.hud.times.on>
+			<menu.hud.times.off>Панель времён: выкл</menu.hud.times.off>
+			<chat.hud.times.on>Панель рекордов и времён ВКЛЮЧЕНА</chat.hud.times.on>
+			<chat.hud.times.off>Панель рекордов и времён ВЫКЛЮЧЕНА</chat.hud.times.off>
+			<menu.hud.times>Панель времён ...</menu.hud.times>
+
+			<menu.hud.position.on>Позиция: вкл</menu.hud.position.on>
+			<menu.hud.position.off>Позиция: выкл</menu.hud.position.off>
+			<chat.hud.position.on>Позиция игрока в раунде ВКЛЮЧЕНА</chat.hud.position.on>
+			<chat.hud.position.off>Позиция игрока в раунде ВЫКЛЮЧЕНА</chat.hud.position.off>
+
+			<menu.hud.showcp.on>Отрыв свой: вкл</menu.hud.showcp.on>
+			<menu.hud.showcp.off>Отрыв свой: выкл</menu.hud.showcp.off>
+			<chat.hud.showcp.on>Отставание на чекпоинте от своего рекорда ВКЛЮЧЕНО</chat.hud.showcp.on>
+			<chat.hud.showcp.off>Отставание на чекпоинте от своего рекорда ВКЛЮЧЕНО</chat.hud.showcp.off>
+
+			<menu.hud.showtop.on>Отрыв рек.: вкл</menu.hud.showtop.on>
+			<menu.hud.showtop.off>Отрыв рек.: выкл</menu.hud.showtop.off>
+			<chat.hud.showtop.on>Отставание на чекпоинте от мирового (Top1) рекорда ВКЛЮЧЕНО</chat.hud.showtop.on>
+			<chat.hud.showtop.off>Отставание на чекпоинте от мирового (Top1) рекорда ВЫКЛЮЧЕНО</chat.hud.showtop.off>
+
+			<menu.hud.liveplayers.high>Позиции: центр</menu.hud.liveplayers.high>
+			<menu.hud.liveplayers.on>Позиции: вкл</menu.hud.liveplayers.on>
+			<menu.hud.liveplayers.off>Позиции: выкл</menu.hud.liveplayers.off>
+			<chat.hud.liveplayers.high>Позиции игроков в раунде ПО ЦЕНТРУ</chat.hud.liveplayers.high>
+			<chat.hud.liveplayers.on>Позиции игроков в раунде ВКЛЮЧЕНЫ</chat.hud.liveplayers.on>
+			<chat.hud.liveplayers.off>Позиции игроков в раунде ВЫКЛЮЧЕНЫ</chat.hud.liveplayers.off>
+
+			<menu.hud.specplayers.on>Позиции (набл): вкл</menu.hud.specplayers.on>
+			<menu.hud.specplayers.off>Позиции (набл): выкл</menu.hud.specplayers.off>
+			<chat.hud.specplayers.on>Информация о позициях раунда в режиме наблюдателя ВКЛЮЧЕНА</chat.hud.specplayers.on>
+			<chat.hud.specplayers.off>Информация о позициях раунда в режиме наблюдателя ВЫКЛЮЧЕНА</chat.hud.specplayers.off>
+
+			<menu.hud.lapinfo.on>Круги (набл): вкл</menu.hud.lapinfo.on>
+			<menu.hud.lapinfo.off>Круги (набл): выкл</menu.hud.lapinfo.off>
+			<chat.hud.lapinfo.on>Информация о кругах и чекпонтах в режиме наблюдателя ВКЛЮЧЕНА</chat.hud.lapinfo.on>
+			<chat.hud.lapinfo.off>Режим наблюдателя: информация о кругах и чекпонтах в режиме наблюдателя ВЫКЛЮЧЕНА</chat.hud.lapinfo.off>
+
+
+
+			<lang.current> Текущий язык: '%s' (по умолчанию: '%s').</lang.current>
+			<!-- args: current_language:string, default_language:string -->
+
+			<lang.nocurrent> Нет текущего языка (по умолчанию: '%s').</lang.nocurrent>
+			<!-- args: default_language:string -->
+
+			<lang.notavailable> Язык '%s' недоступен.</lang.notavailable>
+			<!-- args: language:string -->
+
+			<lang.set> Язык '%s' установлен.</lang.set>
+			<!-- args: language:string -->
+
+
+			<chat.bye2> Пока </chat.bye2>
+			<chat.bye1> Пока </chat.bye1>
+			<chat.bye> Я должен идти... Всем пока !</chat.bye>
+			<chat.hi2> Привет </chat.hi2>
+			<chat.hi1> Привет </chat.hi1>
+			<chat.hi> Привет всем !</chat.hi>
+			<chat.gg2> Хорошая игра </chat.gg2>
+			<chat.gg1> Хорошая игра </chat.gg1>
+			<chat.ggall> Хорошая игра, народ !</chat.ggall>
+			<chat.afk> Отошёл от компьютера !</chat.afk>
+			<chat.lol.0> ЛoЛ</chat.lol.0>
+			<chat.lol.1> ЛooЛ</chat.lol.1>
+			<chat.lol.2> ЛoOoЛ</chat.lol.2>
+			<chat.lol.3> ЛOooOЛ</chat.lol.3>
+			<chat.lol.4> ЛooOooЛ</chat.lol.4>
+			<chat.lol.5> ЛOoOOoOЛ</chat.lol.5>
+			<chat.lol.6> ЛooOoOooЛ</chat.lol.6>
+			<chat.lol.7> ЛooOoOoOooЛ</chat.lol.7>
+
+		</ru>
+	</locale>
+</fast>

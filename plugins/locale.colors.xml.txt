@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Do not customize this file ! instead make a 'locale.custom.xml.txt' file,¤ -->
+<!-- and put in it all tags for all languages that you want to customize, -->
+<!-- so updates will not modify your changes !  ;)  -->
+
+<fast>
+  <locale>
+    <en>
+
+		  <pad></pad>
+		  <!-- args:  -->
+		  <!-- use:  -->
+
+			<server_message>$z$s$i</server_message>
+			<!-- args: none -->
+
+			<server_prefix>$z$s$i$ff0>> </server_prefix>
+			<!-- args: none -->
+
+			<author_chat>$z$ff0[$z%s$z$ff0] </author_chat>
+			<!-- args: chat_author_name -->
+
+			<me_chat>$z$ff0&gt;&gt;&gt;$z %s $z$ff0</me_chat>
+			<!-- args: chat_author_name -->
+
+			<author_chat.relay>$z$4f0[$z%s$z$4f0] </author_chat.relay>
+			<!-- args: chat_author_name -->
+
+			<me_chat.relay>$z$4f0&gt;&gt;&gt;$z %s $z$4f0</me_chat.relay>
+			<!-- args: chat_author_name -->
+
+
+			<record>$z$s$i$9f6</record>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<track_round>$z$s$i$09c</track_round>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<interact>$z$s$i$dcf</interact>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<highlight>$z$s$i$fff</highlight>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<emotic>$z$s$i$f90</emotic>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<match>$z$s$i$ff6</match>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<match2>$z$s$i$f66</match2>
+			<!-- args:  -->
+			<!-- use:  -->
+
+			<debug>$z$s$i$999</debug>
+			<!-- args:  -->
+			<!-- use:  -->
+
+
+		</en>
+	</locale>
+</fast>
+
+
+<!-- note: the strings will use args like in a sprintf() call, -->
+<!--       and you so can specify the used arg. For example -->
+<!--       %3$s will be replace by the 3rd arg, supposed to be a string -->

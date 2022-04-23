@@ -1,0 +1,303 @@
+Todo
+----
+
+
+
+
+3.2.4c
+------
+- fix in ktlc
+
+3.2.4b
+------
+- fix in matchlog (thanks JJ)
+
+3.2.3n
+------
+- fixed simulate flowmanualtransitions events when disabled (mainly on relays)
+
+3.2.3m
+------
+- added few support of 2011-02-21 new features
+- fixed various custom modes things about points/scores handling
+
+3.2.3k
+------
+- fixed issues in match with multi restart per map (used in MO Stunts event)
+-	added a train panel which show to players his last runs results
+- added automatic multi logins destinations when sending manialinks to logins
+
+3.2.3i
+------
+- fixed some issues with relay server chat
+- added GPP plugin fix for chatbot issue, see in :
+        http://slig.free.fr/fast3.2/3rd_party_plugins/
+
+3.2.3h
+------
+- fixed some PlayerFinish(login,0) events problem
+- added PlayerStart (TA only) and PlayerSpecFinish events
+
+3.2.3a to 3.2.3g
+----------------
+- added script team support (beta)
+- added custom team game modes for rounds, laps and relayrace (beta)
+- added match support for TA, Laps and Stunts (beta)
+- added many infos about Fast global variables, in howto and players plugins
+- added PlayerSpecFinish event when player goes spec,
+        and in TA to replace the FinishPlayer(login,0) at BeginRound
+- added more debug possibilities to set specific debugs levels
+        for dedicated callbacks, backtrace of addCall and addEvent
+        calls, and plugins and/or events, permitting to increase or
+        lower the debugs levels in specific cases only.
+- added support for ChatEnableManualRouting (probably need 3rd party
+        plugins support if they used it, doc about it is missing)
+- fixed stripColors function
+- fixed or improved some other things...
+
+3.2.2y
+------
+- added -d option to /cp chat command
+- added $_server_timezone can be set in fast.php to specify a timezone
+- added chats of specs on relays are now in green to differenciate
+        from chats of players on the main server
+- added specific welcome connect/disconnect message for specs on relays
+- fixed fufi autoqueue did not received PlayerDisconnect event
+        in some unusual cases
+- fixed removed the wu duration checks in TA and Laps as actual dedicated handle it nicely
+- fixed improved handling of init
+- fixed improved handling of flow control
+- fixed multiLocaleText
+- fixed all files are now saved in utf-8 (without bom)
+- fixed reduced a little the min chattime to have vote popup automatically
+
+3.2.2w
+------
+- many changes, it is a working release, report any bug please.
+
+3.2.2g
+------
+- added match plugin, which can handle multiple kinds of matches and store
+        results both in specific logs and in mysql database (if configured)
+- added use of FlowControl, with new events BeforePlay, BeforeEndRound
+        and EndPodium usable when the manual flow control is enabled/activated
+- added Cup submode which reduce the custompoints when there are winners/finalists
+        (remove the 1st custom points value if 1 winner/finalist, 
+        2 first custom points values if 2 winners/finalists, etc.)
+				(using BeforeEndRound event)
+- fixed roundlimit fixed feature (using BeforeEndRound event this time)
+
+3.2.2f
+------
+- fixed potential issues making a dedicated relay/maniachannel crash
+- added Xml tag in ml_popup plugin, to permit custom manialink in it
+- fixed stop to create BadCallCB.xxx.phpser in 'connection failed' cases
+        (there is no need to keep data for tests in such cases)
+- fixed roundlimit (ie for fixed number of rounds should now succeed
+        to finish the map at the end of the last round without waiting
+        the begining of next round)
+- fixed better test of players who come player just before the
+        begining of the map (ie using /play during sync), and show a 
+        message with the reason of the round restart...
+- fixed the chat cross did not hide the chat when main hud was off
+- fixed chat, in disabled at 1st cp mode, disapeared also in 1 cp maps
+- fixed the manialink lap info was broken
+
+3.2.2c
+------
+- fixed an little error in utf8 check/filter
+- fixed filtering of names sent to Dedimania.
+        Also fixed it on Dedimania side (now if the xmlrpc parse fail 
+        then an utf8 filtering is done and the parse is retried, also
+        when data is bad Dedimania send an error 400 instead of 404)
+
+3.2.2b
+------
+- added upper left cross now set manialinks on/off directly, 
+        and 1st hotkey (F5) is set on it for quick on/off while playing
+- fixed the chat on/off cross is now usable when manialinks are off
+- fixed few changes in the popup plugin
+- fixed a fatal error case, and added some log info in some error cases in dedimania replies
+
+3.2.2a
+------
+- fixed nasty bug making a wrong finish in some race conditions
+
+3.2.1z
+------
+- added some cheat tests (mainly for GHB D3D hack)
+- added some sanity checks to invalidate records (which can't be
+        considered as cheat for sure)
+- added Fast announce and detection (a new started script will stop when an
+        older active one is detected)
+- added some test to terminate warmup in some unusual cases
+- added a popup plugin to help making simple popup in plugins
+- fixed loaded utf8 list switch to learn mode if an utf8 error happens
+- fixed the url in the Game FIX message for not fixed games in forced opponents mode
+- fixed dropEvent to stop also the current level
+- fixed after reconnect the manialinks are not disabled any more
+- fixed in dialog with dedicated some timeout when reading callbacks/async responses,
+        some error messages, and a bug which could modified sent datas
+- fixed /versions show original tmnf/tmuf versions as 2.11.11 with a different color
+- fixed some restart problem in case of false start
+
+3.2.1y
+------
+- added connection handling for local mysql database
+- added infos about main usefull plugin.01.players.php global
+        variables and tables in beginning of the file
+- fixed the PlayerCheckpoint event did not appear in log in some cases
+- fixed a minor add in utf8 handling
+- fixed The EndRound() event has a new parameter $SpecialRestarting 
+        which is true in case of false start or like round/race restarting process.
+- fixed in Cup mode, the winner(s) don't release a giveup false start any more
+- fixed some other issues with false start restart and warmup handling
+- fixed /debug changed to not show the database password.
+- fixed the delay to update the players positions panel when spec was wrong
+- fixed the minimum record and author times for Dedimania records
+
+3.2.1u
+------
+- fixed script did not work using a php version without memory_get_usage()
+
+3.2.1t
+------
+- fixed a nasty mini bug which make the script crash on  /lol  use  :(
+
+3.2.1s
+------
+Too many time and changes to list all now...
+- fixed manialinks had sometimes strange reaction on some servers,
+        should be fixed
+- fixed tm_substr() now make a full/real control that a utf8 string is
+        comatible with the tm dedicated. All plugins should use it
+        on player nicknames or map names (btw for players you can use
+        NickDraw, NickDraw2 or NickDraw3 in $_players most time).
+        (please don't use it for each draw : store the result and use it !)
+- fixed now if the call of methods to  the dedicated make a utf8 related
+        error, Fast try to fix it and resend. Btw it is a rescue
+        feature ! plugins have to use tm_substr() to avoid such case
+        to happen. In case of utf8 error, if $_debug >= 2 then the
+        call is serialized and saved to a file, which can be used
+        to help debug.
+- added method to dedicated can now be sent asynchronously (ie not
+        loosing time waiting for the response). It can be used
+        explicitally using addCallAsync() instead of addCall().
+        Manialinks and chat now use it automatically, which should
+        improve script reactivity when there are many players, and
+        also make manialinks faster.
+- added max player control when the server is ladder >60K (it does not
+        set the max player number, but verify that the max is
+        respected and put the last new player as spec if needed).
+        Setting as player above max number (with Fast, not using external
+        controller) is now also forbidden.
+- added server and spec passwords control, forbidding them for ladder servers
+- added some chat commands added or fixed, mainly :
+- added a false start feature, which restart round/race in case of early
+        'del' or netlost at beginning. It is disabled by default, and
+        have associated /falsestart (or /fs) commands.
+- added /team score back #, /rounds score back # and /cup score back #
+        which permit to set back to score of previous round.
+- added now restart/next/prev don't reset Cup scores : to reset scores
+        use /cup reset , /adm next reset , /adm prev reset , /adm restart reset
+
+3.2.1c
+------
+- added '/adm restart quick' make a quick restart without podium like
+        at the end of warmup.
+- fixed remove warmup rounds/maps from matchlog
+
+3.2.1b
+------
+- fixed '/adm setmap' changed map immediatly
+- chged '/adm map' and '/maps xx' show actual and next map using colors
+- added '/adm restart wu' do a reload of the map and so restart it
+        with warmup if active.
+
+3.2.1a
+------
+- added support for relay server (ManiaChannel on 2008-06-10 dedicated).
+        Note: some harmless warnings can happen on relay server because
+        some infos are missing on relay dedicated...
+- added some /adm commands (setnext, setprev, setmap)
+- fixed time based custom points (time1000 and time2000)
+- fixed adapted /adm opponents for new dedicated (2008-06-10)
+- chged removed spectator workaround since the game fix make it ok now
+- fixed menu handling modified, should work with more php versions (some versions
+        of php have bugs in deep array handling with references, and also
+        memory leaks in object destructions...
+
+
+3.2.0x
+------
+- chged live infos are now manialinks and not notices any more
+- added workaround for nicer spectator view/modes
+- chged completed/corrected the /info infos
+- added a custom directory usable to put custom files instead of
+        using the plugins directory
+- added a possibility to disable plugins and locale files in fast.php
+- fixed infos read after connection to dedicated completed
+- fixed a problem with decimal dot in float to string conversions
+        depending on php locale config
+- fixed the net activity for Forever servers
+- fixed some changes in Fast core about dedicated callbacks handling
+- added a degraded mode which automatically disable server p2p and 
+        VehicleNetQuality when player number increase, depending on
+        configured net rates
+- added many configs in fast.php for defaut state of player HUD
+- added config for servername in chat lines
+- chged higly increased the autokick delay in case of lost net activity
+- chged separate autohide for rounds score panel and scoretable
+- chged removed default language config (no need as all forever games
+        have the language info)
+- added utf8 integrity control for names written in manialinks
+- added some internal Events
+- chged updated GbxRemote.inc.php, and added a bigendian version
+- fixed some webaccess fixes
+- added packmask to xmlrpc_db_access to fit dedimania change
+- added some /adm commands added or fixed
+- added a debug plugin usable by admins, Fast author, and Dedicated author
+- fixed many changes in manialinks support to send to dedicated only parts
+        which have really changed
+- added game hud support
+- added new menus system, handled by ml_menus plugin, and involved changes in
+        many plugins, for devs see ml_howto and plugins to see how using it...
+- added new Fast hud based on the new menu system
+- fixed all manialinks based plugins to use new manialinks system and the menus,
+        with player hud easy config
+- added new mapinfo replacement with author time and next map infos
+- chged best times or current challenges adapted
+- added cup support in matchlog
+
+
+3.2.0k
+------
+- added plugin ml_scorepanel, which disable score panel between round
+        and show round panel result only after passing the finish
+        can be activated by setting $_scorepanel_hide=false; in fast.php,
+        or using  /scorepanel on|off. Default standard tmf.
+- fixed manialinks changes less ugly at the end of warmup
+- fixed handling of hud parts
+- fixed some other minor things
+
+
+3.2.0j
+------
+- fixed dedimania refused Cup mode records, now they are rounds records
+- fixed missing notives infos (diff with top1)
+- fixed some bugs and missfeatures in some chat commands
+- fixed some problem with manialinks
+- fixed some changes in ml_howto
+- fixed some log info for debugging
+
+
+3.2.0i
+------
+- new/fixed the way manialinks are handled has been fully changed
+- added some new callbacks
+- fixed all Fast structs no reflect the optional infos of server
+- fixed many internal changes, removing some code which became useless
+
+3.2.0a
+------
+- fixed few changes for basic support of TM Forever :)

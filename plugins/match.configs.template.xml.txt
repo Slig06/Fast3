@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ¤Notes : 
+- don't modify plugins/match.configs.template.xml.txt : it is only use as a template to create the file in custom/ ! use custom/match.configs.custom.xml.txt !
+- custom/match.configs.custom.xml.txt  will be re-read at each '/match start xxx', so you can start a customized match without restarting Fast.
+- each matchconfig setting must have a unique <name> value !
+
+-->
+
+<fast>
+
+	<matchconfig><ident>custom</ident>
+		<title>CUP</title>
+		<imgurl></imgurl>
+		<locale_info></locale_info>
+		<srvname>CupMatch: %s</srvname>
+		<global_score>false</global_score>
+		<score_panel>false</score_panel>
+		<matchsettings></matchsettings>
+		<show_nextmaps>3</show_nextmaps>
+		<map_falsestart>1</map_falsestart>
+		<match_falsestart>2</match_falsestart>
+		<ladder_mode>0</ladder_mode>
+		<number_of_maps></number_of_maps>
+		<map>shuffle</map>
+		<break_time>180</break_time>
+		<fwarmupduration>0</fwarmupduration>
+		<custom_points>motogp</custom_points>
+		<rounds_roundslimit>-1</rounds_roundslimit>
+		<team_roundslimit>-1</team_roundslimit>
+		<cup_autoadjust>1</cup_autoadjust>
+		
+		<game_mode>5</game_mode>
+		<chat_time>10000</chat_time>
+		<finishtimeout>1</finishtimeout>
+		<allwarmupduration>0</allwarmupduration>
+		<disablerespawn>0</disablerespawn>
+		<forceshowallopponents>0</forceshowallopponents>
+		<rounds_pointslimit>50</rounds_pointslimit>
+		<rounds_usenewrules>0</rounds_usenewrules>
+		<rounds_forcedlaps>0</rounds_forcedlaps>
+		<rounds_pointslimitnewrules>5</rounds_pointslimitnewrules>
+		<team_pointslimit>5</team_pointslimit>
+		<team_maxpoints>6</team_maxpoints>
+		<team_usenewrules>0</team_usenewrules>
+		<team_pointslimitnewrules>5</team_pointslimitnewrules>
+		<timeattack_limit>300000</timeattack_limit>
+		<timeattack_synchstartperiod>0</timeattack_synchstartperiod>
+		<laps_nblaps>5</laps_nblaps>
+		<laps_timelimit>0</laps_timelimit>
+		<cup_pointslimit>100</cup_pointslimit>
+		<cup_roundsperchallenge>5</cup_roundsperchallenge>
+		<cup_nbwinners>3</cup_nbwinners>
+		<cup_warmupduration>2</cup_warmupduration>
+	</matchconfig>
+
+</fast>

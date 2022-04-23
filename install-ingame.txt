@@ -1,0 +1,71 @@
+
+   For TM FOREVER only !!! (United and Nations)
+
+   Uniquement pour TM FOREVER !!! (United and Nations )
+
+
+QUICK INSTALLATION FOR WINDOWS INGAME SERVER
+--------------------------------------------
+
+For first install use the fast3.2.x-winphp5.zip package !
+
+You are supposed to already have a fonctionnal TM server
+
+- Extract the files in any directory (eventually your game one)
+
+- Modify 'ingame.cfg' with wordpad or any other editor, you have
+  to set the values for :
+
+	Server TMF login in:        <login></login>
+  Server TMF password(*) in:  <password></password>
+
+  If you changed the default ports of your game server then
+  you have also to modify them in the file.
+
+- Modify if you wish fast.php with wordpad or some other text editor
+  to adapt the votes etc. to your needs.
+
+- start 'FAST3 ingame.bat'
+
+
+(*)or community code !
+
+NOTE: your server HAVE TO really use the ports indicated in the
+game config, so those configured ports must not be used
+by another program !!!
+PS: You can get and use the tool TCPView (search on google) to see what
+program use what port easily.
+
+
+
+INSTALLATION RAPIDE POUR LE SERVEUR INTEGRE AU JEU
+--------------------------------------------------
+
+Pour une premiere installation utilisez l'archive fast3.2.x-winphp5.zip !
+
+Vous etes cense avoir deja un serveur TM fonctionnel.
+
+- Extraire les fichiers dans le repertoire de votre choix
+
+- Modifier 'ingame.cfg' avec wordpad ou un autre editeur, vous
+  devez indiquer les valeurs pour :
+
+	Login server TMF dans:        <login></login>
+  Mot de passe(*) serveur TMF:  <password></password>
+
+	Si vous avez change les ports du serveur du jeu alors
+  vous devez aussi les modifier dans ce fichier.
+
+- Si vous desirez, modifiez fast.php avec wordpad ou un autre editeur
+  de texte pour adapter le vote etc. a vos besoins.
+
+- Lancer 'FAST3 ingame.bat'
+
+(*)ou community code !
+
+NOTE: votre serveur DOIT reellement utiliser des ports indiques dans
+la config du jeu, donc aucun autre programme ne doit les
+utiliser !!!
+PS: Vous pouvez utiliser TCPView (chercher sur google) pour voir
+facilement quelles applications utilisent quels ports.
+

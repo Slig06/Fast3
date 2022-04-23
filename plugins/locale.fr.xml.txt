@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Ne modifiez pas ce fichier ! A la place faites un fichier 'locale.custom.xml.txt',¤ -->
+<!-- et mettez y les les entrees que vous voulez modifier, pour les differentes langues, -->
+<!-- anisi vos modifications ne seront pas perdues lors de mises a jour !  ;)  -->
+
+<fast>
+	<locale>
+		<fr>
+
+			<chat.wu>$z$o$s$i$ff0 WUWUWU ! $f00Warmup ! Warmup !</chat.wu>
+			<chat.go>$z$o$s$i$ff0 GOGOGO ! $f00GO ! GO ! Goooo !!!</chat.go>
+			<chat.break>$z$o$s$i$ff0 Pause de %1$s minute(s) !!! $f00Pause de %1$s minute(s) !!!</chat.break>			<!-- args: num_minutes:string -->
+
+			<welcome.message>$f00Bienvenue sur FAST %s :  $z%s\r\n$z$f00$sFaites /help pour voir les commandes disponibles !</welcome.message>  
+			<!-- args: fast_version, player_name -->
+
+			<welcome.connection>$cadConnexion: </welcome.connection>
+			<welcome.disconnection>$97cDéconnexion: </welcome.disconnection>
+			<welcome.relay.connection>$cdaConnexion: </welcome.relay.connection>
+			<welcome.relay.disconnection>$9c7Disconnexion: </welcome.relay.disconnection>
+
+
+			<lan.login>Vous êtes connecté en LAN, vos records seront fait sous le login : %s (après ce challenge).</lan.login>
+			<!-- args: real_login:string -->
+
+			<lan.rec>Vos records seront fait sous le login : %s.</lan.rec>
+			<!-- args: real_login:string -->
+
+			<lan.nologin>Vous êtes connecté en LAN et n'avez pas de login pour vos records actuellement.</lan.nologin>
+
+
+			<players.failedconnection>$74bConnexion échouée: </players.failedconnection>
+			<players.low_upload>Le réglage Upload réduit est interdit sur ce
+			serveur, vous allez être kické dans quelques secondes...</players.low_upload>
+			<players.low_download>Le réglage Download réduit est interdit sur ce serveur, vous allez être kické dans quelques secondes...</players.low_download>
+
+			<players.forceoppgamefix>Note: ce serveur utilise le ShowOpponents forcé, et le jeu d'origine a des bugs, qui rendent vraiment tous les adversaires visibles, et inactivent le cacher voisines ! Considerez l'installation du $fff%s !</players.forceoppgamefix>
+			<!-- args: gamefixlink:string -->
+
+			<players.net_inactivity>Le joueur %s a été kické pour inactivité réseau (plus de %ds).</players.net_inactivity>
+			<!-- args: login:string, time:int -->
+
+			<players.billpayedbyserv> Le serveur vous a envoyé %d coppers.</players.billpayedbyserv>
+			<!-- args: coppers:int -->
+
+			<players.billpayed> %s vous a envoyé %d coppers.</players.billpayed>
+			<!-- args: payedby:string, coppers:int -->
+
+
+			<ml.ok>OK</ml.ok>
+			<ml.apply>Appliquer</ml.apply>
+			<ml.confirm>Confirmer</ml.confirm>
+			<ml.cancel>Annuler</ml.cancel>
+			<ml.quit>Quitter</ml.quit>
+			<ml.close>Fermer</ml.close>
+			<ml.yes>Oui</ml.yes>
+			<ml.no>Non</ml.no>
+
+
+			<ml_main.show_ml> Infos manialink activées.</ml_main.show_ml>
+			<ml_main.hide_ml> Infos manialink désactivées (/ml pour activer).</ml_main.hide_ml>
+
+			<ml_main.show_posbars> Barres de positions activées.</ml_main.show_posbars>
+			<ml_main.hide_posbars> Barres de positions désactivées.</ml_main.hide_posbars>
+
+			<ml_main.show_difftimes> Ecarts de temps activés.</ml_main.show_difftimes>
+			<ml_main.hide_difftimes> Ecarts de temps désactivés.</ml_main.hide_difftimes>
+
+			<ml_main.positions>Positions:</ml_main.positions>
+			<ml_main.players>Joueurs:</ml_main.players>
+
+			<ml_bests.show> Infos temps Best activées.</ml_bests.show>
+			<ml_bests.hide> Infos temps Best désactivées.</ml_bests.hide>
+			<ml_bests.entry>Bests</ml_bests.entry>
+
+			<falsestart.alert>Faux départ !...</falsestart.alert>
+
+			<ml_times.show> Infos records activées.</ml_times.show>
+			<ml_times.hide> Infos records désactivées.</ml_times.hide>
+			<ml_times.more>plus</ml_times.more>
+			<ml_times.less>moins</ml_times.less>
+			<ml_times.play>Jeu</ml_times.play>
+			<ml_times.spec>Spec</ml_times.spec>
+			<ml_times.author>Auteur</ml_times.author>
+			<ml_times.showrec>voir</ml_times.showrec>
+			<ml_times.open>ouvre</ml_times.open>
+			<ml_times.close>ferme</ml_times.close>
+
+
+			<record.recs>$ccc%s$i$s$cc0>>$fff Records sur :  $z%s$z$s$n$i</record.recs>
+			<!-- args: database_name:string, map_name:string -->
+			<!-- use:  -->
+
+			<record.recs_none>$ccc%s$i$s$cc0>>$fff Aucun record sur :  $z%s$z</record.recs_none>
+			<!-- args: database_name:string, map_name:string -->
+			<!-- use:  -->
+
+			<record.top>%s$z$i$s$ddd$n a fait le $fff$mTOP $ee0%d$ddd$n : $fff$m%s</record.top>
+			<!-- args: player_name:string, player_rank:int,	player_time:string -->
+			<!-- use:  -->
+
+			<record.newrec_prefix>$z$i$s$ccc%s$cc0>> $fff$zResultat : </record.newrec_prefix>
+			<!-- args: database_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_many>%d nouveaux records sur $z%s$z$s$n$i</record.newrec_many>
+			<!-- args: rec_numbers:int, map_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_one>1 nouveau record sur $z%s$z$s$n$i</record.newrec_one>
+			<!-- args: map_name:string -->
+			<!-- use:  -->
+
+			<record.newrec_none>aucun nouveau record sur $z%s</record.newrec_none>
+			<!-- args: map_name:string -->
+			<!-- use:  -->
+
+
+			<vote.bad>Mauvais</vote.bad>
+			<vote.maybe>Jouable</vote.maybe>
+			<vote.good>Bon</vote.good>
+			<vote.trashit>Jetez le !</vote.trashit>
+			<vote.keepit>Gardez le !</vote.keepit>
+			<vote.no>Non</vote.no>
+			<vote.yes>Oui</vote.yes>
+			<vote.syntax>usage: /vote suivi d'un nombre </vote.syntax>
+			<vote.notnow>Vote non disponible maintenant, essayez plus tard.</vote.notnow>
+
+			<ml_vote.query>Notez le challenge svp !</ml_vote.query>
+			<ml_vote.entry>Vote</ml_vote.entry>
+
+			<ml_vote.entry.value>Vote (%s)</ml_vote.entry.value>
+			<!-- args: vote_value:string -->
+
+
+			<ml_players.title>Liste des joueurs</ml_players.title>
+			<ml_players.entry>Joueurs</ml_players.entry>
+			<ml_players.nickcolor>Pseudos colorés</ml_players.nickcolor>
+			<ml_players.nonickcolor>Pseudos non colorés</ml_players.nonickcolor>
+			<ml_players.play>Jouer</ml_players.play>
+			<ml_players.blue>Jouer Bleu</ml_players.blue>
+			<ml_players.red>Jouer Rouge</ml_players.red>
+			<ml_players.spec>Spec</ml_players.spec>
+			<ml_players.specforce>Force Spec</ml_players.specforce>
+			<ml_players.kick>Kicker</ml_players.kick>
+			<ml_players.ignore>Ignorer</ml_players.ignore>
+			<ml_players.unignore>Designorer</ml_players.unignore>
+			<ml_players.ban>Bannir</ml_players.ban>
+			<ml_players.unban>Debannir</ml_players.unban>
+			<ml_players.black>Liste Noire</ml_players.black>
+			<ml_players.unblack>Hors Liste Noire</ml_players.unblack>
+
+			<ml_players.choose>$s$i$cc8Choisissez une action pour :   $z%s - %3$s</ml_players.choose>
+			<!-- args: login:string, nick-nocolor:string, nick-color:string -->
+
+			<ml_players.confirm>$s$i$f22Action sur  $z%s - %3$s $z$i : $s$8f2$o %4$s </ml_players.confirm>
+			<!-- args: login:string, nick-nocolor:string, nick-color:string, action:string-->
+
+
+			<roundspoints.announce>Points modifiés: %s ($n%s...$n)</roundspoints.announce>
+			<!-- args: rule:string, points_list:string -->
+
+
+			<roundslimit.announce>Limite de rounds: %d (round actuel: %d)</roundslimit.announce>
+			<!-- args: rule:int, current:int -->
+			<roundslimit.round>Round %d /%d: Goooo !</roundslimit.round>
+			<!-- args: current:int, rule:int  -->
+			<roundslimit.finish>Course terminée, %d rounds effectués.</roundslimit.finish>
+			<!-- args: rule:int  -->
+
+
+
+			<menu.config>Config serveur ...</menu.config>
+
+			<menu.config.buddynotify.on>Notif. amis: on</menu.config.buddynotify.on>
+			<menu.config.buddynotify.off>Notif. amis: off</menu.config.buddynotify.off>
+			<chat.config.buddynotify.on>Notification des amis active par défault sur le serveur</chat.config.buddynotify.on>
+			<chat.config.buddynotify.off>Notification des amis inactive par défault sur le serveur</chat.config.buddynotify.off>
+
+			<menu.config.hidescorepanel.on>Tableau score: on</menu.config.hidescorepanel.on>
+			<menu.config.hidescorepanel.off>Tableau score: off</menu.config.hidescorepanel.off>
+			<chat.config.hidescorepanel.on>Tableau de score entre les rounds actif</chat.config.hidescorepanel.on>
+			<chat.config.hidescorepanel.off>Tableau de score entre les rounds inactif</chat.config.hidescorepanel.off>
+
+			<menu.config.hideroundpanel.on>Score round: on</menu.config.hideroundpanel.on>
+			<menu.config.hideroundpanel.off>Score round: retardé</menu.config.hideroundpanel.off>
+			<chat.config.hideroundpanel.on>Panneau de score du round lorsque le premier termine le round: normal</chat.config.hideroundpanel.on>
+			<chat.config.hideroundpanel.off>Panneau de score du round lorsque le premier termine le round: retardé</chat.config.hideroundpanel.off>
+
+			<menu.hud>Hud ...</menu.hud>
+
+			<menu.hud.live.on>Infos live: on</menu.hud.live.on>
+			<menu.hud.live.off>Infos live: off</menu.hud.live.off>
+			<chat.hud.live.on>Infos live actives</chat.hud.live.on>
+			<chat.hud.live.off>Infos live inactives</chat.hud.live.off>
+			<menu.hud.live>Infos live ...</menu.hud.live>
+
+			<menu.hud.netlost.on>NetLost: on</menu.hud.netlost.on>
+			<menu.hud.netlost.off>NetLost: off</menu.hud.netlost.off>
+			<chat.hud.netlost.on>Joueurs en perte reseau actif</chat.hud.netlost.on>
+			<chat.hud.netlost.off>Joueurs en perte reseau inactif</chat.hud.netlost.off>
+
+			<menu.hud.prefspec.replay>Pref.Spec: replay</menu.hud.prefspec.replay>
+			<menu.hud.prefspec.follow>Pref.Spec: suiveuse</menu.hud.prefspec.follow>
+			<menu.hud.prefspec.free>Pref.Spec: libre</menu.hud.prefspec.free>
+			<chat.hud.prefspec.replay>Prefered spectator mode: Replay</chat.hud.prefspec.replay>
+			<chat.hud.prefspec.follow>Prefered spectator mode: Suiveuse</chat.hud.prefspec.follow>
+			<chat.hud.prefspec.free>Prefered spectator mode: Libre</chat.hud.prefspec.free>
+
+			<menu.hud.buddynotify.on>Notif. amis: on</menu.hud.buddynotify.on>
+			<menu.hud.buddynotify.off>Notif. amis: off</menu.hud.buddynotify.off>
+			<chat.hud.buddynotify.on>Notification des amis active</chat.hud.buddynotify.on>
+			<chat.hud.buddynotify.off>Notification des amis inactive</chat.hud.buddynotify.off>
+
+			<menu.hud.chat.off>Zone de chat: off</menu.hud.chat.off>
+			<menu.hud.chat.noplay>Chat: off en jouant</menu.hud.chat.noplay>
+			<menu.hud.chat.on>Zone de chat: on</menu.hud.chat.on>
+			<chat.hud.chat.off>Chat inactif</chat.hud.chat.off>
+			<chat.hud.chat.noplay>Chat lorsque ne joue pas</chat.hud.chat.noplay>
+			<chat.hud.chat.on>Chat actif</chat.hud.chat.on>
+
+			<menu.hud.plnum.on>Nombre joueurs: on</menu.hud.plnum.on>
+			<menu.hud.plnum.off>Nombre joueurs: off</menu.hud.plnum.off>
+			<chat.hud.plnum.on>Nombre de joueurs actif</chat.hud.plnum.on>
+			<chat.hud.plnum.off>Nombre de joueurs inactif</chat.hud.plnum.off>
+
+			<menu.hud.notices.on>Anciennes notices: on</menu.hud.notices.on>
+			<menu.hud.notices.off>Anciennes notices: off</menu.hud.notices.off>
+			<chat.hud.notices.on>Anciennes notices live actives</chat.hud.notices.on>
+			<chat.hud.notices.off>Anciennes notices live inactives</chat.hud.notices.off>
+
+			<menu.hud.mapinfo.on>Infos map: on</menu.hud.mapinfo.on>
+			<menu.hud.mapinfo.off>Infos map: off</menu.hud.mapinfo.off>
+			<menu.hud.mapinfo.none>Infos map: cachées</menu.hud.mapinfo.none>
+			<chat.hud.mapinfo.on>Infos challenge étendues actives</chat.hud.mapinfo.on>
+			<chat.hud.mapinfo.off>Infos challenge étendues inactives</chat.hud.mapinfo.off>
+			<chat.hud.mapinfo.none>Infos challenge masquées</chat.hud.mapinfo.none>
+
+			<menu.hud.bests.off>Meilleurs runs: off</menu.hud.bests.off>
+			<menu.hud.bests.noplay>Meilleurs runs: en spec</menu.hud.bests.noplay>
+			<menu.hud.bests.on>Meilleurs runs: on</menu.hud.bests.on>
+			<chat.hud.bests.off>Meilleurs temps du challenge actifs</chat.hud.bests.off>
+			<chat.hud.bests.noplay>Meilleurs temps du challenge lorsque ne joue pas</chat.hud.bests.noplay>
+			<chat.hud.bests.on>Meilleurs temps du challenge inactifs</chat.hud.bests.on>
+
+			<menu.hud.times.on>Panneau temps: on</menu.hud.times.on>
+			<menu.hud.times.off>Panneau temps: off</menu.hud.times.off>
+			<chat.hud.times.on>Panneau des records etc. actif</chat.hud.times.on>
+			<chat.hud.times.off>Panneau des records etc. inactif</chat.hud.times.off>
+			<menu.hud.times>Panneau temps ...</menu.hud.times>
+
+			<menu.hud.position.on>Position: on</menu.hud.position.on>
+			<menu.hud.position.off>Position: off</menu.hud.position.off>
+			<chat.hud.position.on>Position du joueur dans le round actif</chat.hud.position.on>
+			<chat.hud.position.off>Position du joueur dans le round inactif</chat.hud.position.off>
+
+			<menu.hud.showcp.on>Ecarts cp: on</menu.hud.showcp.on>
+			<menu.hud.showcp.off>Ecarts cp: off</menu.hud.showcp.off>
+			<chat.hud.showcp.on>Checkpoint et écarts de temps du joueur actifs</chat.hud.showcp.on>
+			<chat.hud.showcp.off>Checkpoint et écarts de temps du joueur inactifs</chat.hud.showcp.off>
+
+			<menu.hud.showtop.on>Ecarts top: on</menu.hud.showtop.on>
+			<menu.hud.showtop.off>Ecarts top: off</menu.hud.showtop.off>
+			<chat.hud.showtop.on>Ecarts du joueur avec le top actifs</chat.hud.showtop.on>
+			<chat.hud.showtop.off>Ecarts du joueur avec le top inactifs</chat.hud.showtop.off>
+
+			<menu.hud.liveplayers.high>Pos. joueurs: haute</menu.hud.liveplayers.high>
+			<menu.hud.liveplayers.on>Pos. joueurs: on</menu.hud.liveplayers.on>
+			<menu.hud.liveplayers.off>Pos. joueurs: off</menu.hud.liveplayers.off>
+			<chat.hud.liveplayers.high>Positions des joueurs dans le round actives en haut</chat.hud.liveplayers.high>
+			<chat.hud.liveplayers.on>Positions des joueurs dans le round actives</chat.hud.liveplayers.on>
+			<chat.hud.liveplayers.off>Positions des joueurs dans le round inactives</chat.hud.liveplayers.off>
+
+			<menu.hud.specplayers.on>Spec, joueurs: on</menu.hud.specplayers.on>
+			<menu.hud.specplayers.off>Spec, joueurs: off</menu.hud.specplayers.off>
+			<chat.hud.specplayers.on>Spectateur: infos joueurs pendant le round actives</chat.hud.specplayers.on>
+			<chat.hud.specplayers.off>Spectateur: infos joueurs pendant le round inactives</chat.hud.specplayers.off>
+
+			<menu.hud.lapinfo.on>Spec, info tour: on</menu.hud.lapinfo.on>
+			<menu.hud.lapinfo.off>Spec, info tour: off</menu.hud.lapinfo.off>
+			<chat.hud.lapinfo.on>Spectateur: infos tour et checkpoint actives</chat.hud.lapinfo.on>
+			<chat.hud.lapinfo.off>Spectateur: infos tour et checkpoint inactives</chat.hud.lapinfo.off>
+
+
+
+			<lang.current> Langage courrant : '%s' (defaut : '%s').</lang.current>
+			<!-- args: current_language:string, default_language:string -->
+
+			<lang.nocurrent> Pas de langage définit (defaut : '%s').</lang.nocurrent>
+			<!-- args: default_language:string -->
+
+			<lang.notavailable> Langage '%s' non disponible.</lang.notavailable>
+			<!-- args: language:string -->
+
+			<lang.set> Langage '%s' sélectionné.</lang.set>
+			<!-- args: language:string -->
+
+
+		</fr>
+	</locale>
+</fast>
+
+<!-- note: les chaines de caractere utilisent la meme notation pour les arguments que sprintf(), -->
+<!--       ainsi vous pouvez specifier l'argument de remplacement. Par exemple -->
+<!--       %3$s sera replace par le 3eme argument, suppose etre une chaine de caracteres -->

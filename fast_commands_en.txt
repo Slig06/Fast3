@@ -1,0 +1,145 @@
+Fast chat commands for players (use /help, or generally the command without a value to get some help) :
+
+/info  --> info about config on current and next challenge (game mode and related infos)
+/play [pass] --> go player
+/spec  --> go spectator
+/red  --> go red player (team)
+/blue  --> go blue player (team)
+/cp [best|ideal|num]  --> select the top record reference for time gaps
+/maps [num]  --> list next maps
+/plist   --> list players (or: /pl )
+/ml  --> enable/disable manialinks drawing
+/pay [coppers] --> send coppers to server
+/vote [num] --> note the map (0 a 10)
+/r  --> list records on current map (or: /rec , /record)
+/msg [login|id] message --> send message to specified target
+/lang [lang]   --> choose the language for chat and graphics (only 'en' and 'fr' actually), automatic on tmf.
+/quit  --> exit server (kick)
+/time  --> show server time
+
+
+
+
+Fast chat commands for admins (use /help, /adm, or generally the command without a value to get some help) :
+
+/map matchsetting_file_name --> load a matchsettings
+/rpoints [std,motogp,etc.] --> specify points to win in Rounds and Cup mode
+/scorepanel [global|round|all] [on|off] --> enable/disable the global scorepanel between rounds, and delay the end round panel instead of when the 1st reach the finish.
+/custom tm_cmd arg,...    --> send the specified command to server (see dedicated methods)
+/debug [var]        --> debug use...
+
+/adm
+    /adm endround  --> force next round (or: end )
+    /adm restart [warmup|wu|reset] --> restart current challenge
+    /adm next [warmup|wu|reset] --> force next challenge
+    /adm next [envir|num|name] --> force a next challenge in list ("3" to go to the 3rd one, or "rally" for next rally map, or a part of the track name)
+    /adm setnext [envir|num|name] --> same but will not end the map immediatly
+    /adm prev [warmup|wu|reset] --> force previous challenge
+    /adm prev [envir|num|name] --> force previous challenge in list ("3" to go to the 3rd previous one, or "rally" for previous rally map, or a part of the track name)
+    /adm setprev [envir|num|name] --> same but will not end the map immediatly
+    /adm map [id] --> list maps with id, move id map as next map to play
+    /adm setmap [id] --> same but will not end the map immediatly
+    /adm shuffle [num] --> shuffle maps, alterning envirs (0=altern all 7 as available, 1=altern depending how many map of each envir are in list)
+    /adm mode [mode_name|num]  --> force game mode, "0"=rounds, "1"=time attack, "2"=team, "3"=laps, "4"=stunt, "5"=cup
+    /adm name "xxx"   --> set server name (or: srvname )
+    /adm comment "xxx"  --> set server comment
+    /adm srvpass "***"  --> password for player (/adm srvpass none --> remove pass)
+    /adm spectpass "***"  --> password for spec (/adm spectpass none --> remove pass)
+    /adm pass "***"  --> password pour player et spec (/adm pass none --> remove pass)
+    /adm maxplayers [num]    --> max players
+    /adm maxspec [num]    --> max specs
+    /adm ftimeout [num]  --> time to finish after first, tmu default=1=adapation (or: ftimeout, fto )
+    /adm chattime [var]   --> chat time during podium (or: ctime )
+    /adm opponents [0|1|num]  --> force opponents visibles, 0=normal,1=force all,num=force num minimum (or: opp, showopponents )
+    /adm ladder [0|1]    --> disable/enable ladder
+    /adm voteratio [num]    --> ratio level for votes
+    /adm votetimeout [num]    --> to 0 to disable votes, set <0 to enable auto when admin here
+    /adm play [login]    --> put the player in spectator state
+    /adm spec [login]    --> put the player in play state
+    /adm specforce [login]    --> force a player in spec state
+    /adm free        --> unforce the play/spec state
+    /adm autorestart    --> auto restart at end of challenge
+    /adm noautorestart    --> no auto restart at end of challenge
+    /adm autonewrestart [on|check|finish|round|off]   --> auto restart for new challenges (at start, 1st checkpoint, 1st finish, or end of 1st round)
+    /adm noautonewrestart  --> no auto restart for new challenges
+    /adm kick [login]    --> kick a player from server
+    /adm ban [login]    --> ban a player (until server is stopped)
+    /adm unban [login|cleanlist]    --> unban a player / clean ban list
+    /adm black [login]    --> ban a player (permanent)
+    /adm unblack [login|cleanlist]    --> unban a player / clean permanent ban list
+    /adm ignore [login]    --> lock player chat (unable to write)
+    /adm ignore [login|cleanlist]    --> unignore a player / clean ignore list
+    /adm guest [login]    --> add a player in guest list (who can enter on server when full)
+    /adm replay [on|off|save] --> auto save server replays / save=just save current replay
+
+
+/falsestart
+    /falsestart map # --> set max number of falsestart per player on each map
+    /falsestart match #|init -->  set max number of restart by player by match (or permanent), init to reset counters
+    /falsestart timeout # --> max netlost timeout accepted to do a restart within th few first round seconds
+    /falsestart giveup #|first|all --> number of accepted early 'del' in a round, accept 'del' in all or first round only
+
+
+/admin
+    /admin list  --> list server admins
+    /admin add on_login|id    --> add a server admin (currently connected)
+    /admin addlogin [login]    --> add a server admin (non connected)
+    /admin remove [login]    --> remove an admin
+
+
+/ta
+    /ta timelimit [num ms]    --> time limit for challenge (or: time, limit )
+    /ta sync [num ms]        --> sync starts every ... ms
+    /ta warmupduration [num]  --> >0 to set time of warmup (or: wduration, wud, wu )
+
+
+/laps
+    /laps nblaps [num] --> number of laps to finish race (or: nb, laps )
+    /laps timelimit [num ms] --> time limit for race, 0 for no limit and laps based only (or: time, limit )
+    /laps warmupduration [num]  --> >0 to set time of warmup (or: wduration, wud, wu )
+    /laps finishtimeout [num]  --> time to finish after first, tmu default=1=adapation (or: ftimeout, fto )
+
+
+/rounds
+    /rounds pointslimit [number] --> points to win challenge
+    /rounds newrules [0/1] --> alternate rules (habitually 0)
+    /rounds warmupduration [num]  --> >0 to set number of warmup rounds (or: wduration, wud, wu )
+    /rounds finishtimeout [num]  --> time to finish after first, tmu default=1=adapation (or: ftimeout, fto )
+    /rounds custom [std|motogp|xx,xx,..] --> custom won points. std, motogp, motogp5, champcar (or: cust, rpoints )
+    /rounds fixed [num]  --> fixed number of rounds instead of points limit
+    /rounds score login=# | back [#]	 --> modify players scores, or back to previous round score
+
+
+/team
+    /team pointslimit [number]    --> points to win challenge (7 for ET compets)  (or: limit )
+    /team maxpoint [number]        --> number of players taken into account (7 for ET compets) (or: max )
+    /team newrules [0/1]        --> alternate rules, habitually 1 (1 for ET compets)
+    /team fixed [num]           --> fixed number of rounds instead of points limit
+    /team warmupduration [num]  --> >0 to set number of warmup rounds (or: wduration, wud, wu )
+    /team finishtimeout [num]  --> time to finish after first, tmu default=1=adapation (or: ftimeout, fto )
+    /team blue [login]        --> put player in blue team
+    /team red [login]        --> put player in red team
+    /team score blue=# | red=# | back [#]	 --> modify team scores, or back to previous round score
+
+
+/cup
+    /cup pointslimit [number] --> points to be finalist  (or: limit )
+    /cup roundspermap  --> number of rounds by map (or: rounds, rpm, rpc )
+    /cup nbwinners --> number of winners to finish (or: nbwin, nbw, nb )
+    /cup warmupduration [num]  --> >0 to set number of warmup rounds on each map (or: wduration, wud, wu )
+    /cup finishtimeout [num]  --> time to finish after first, tmu default=1=adapation (or: ftimeout, fto )
+    /cup custom [std|motogp|xx,xx,..] --> custom won points. std, motogp, motogp5, champcar (or: cust, rpoints )
+    /cup score login=# | back [#]	 --> modify players scores, or back to previous round score
+
+
+/ktlc
+    /ktlc prep        --> prepare KTLC mode
+    /ktlc on        --> start KTLC mode
+    /ktlc off        --> stop KTLC mode
+    /ktlc wnext        --> force next challenge and put all as player
+    /ktlc next        --> force next ktlc challenge
+    /ktlc specforce [login]    --> force a player as spec
+    /ktlc spec [login]    --> put a player in spec state
+    /ktlc play [login]    --> put a player in play state
+    /ktlc free [login]    --> unforce the spec/play state
+

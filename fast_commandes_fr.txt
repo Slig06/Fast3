@@ -1,0 +1,146 @@
+Récap des commandes joueur de Fast (faites /help, ou la commande sans valeur en général pour voir la valeur actuelle) :
+
+/info  --> info sur la config du jeu en cours et du suivant (mode et paramètres liés)
+/play [pass] --> passe en joueur
+/spec  --> passe en spectateur
+/red  --> passe en rouge (mode Team)
+/blue  --> passe en bleu (mode Team)
+/cp [best|ideal|num]  --> selectionne le top utilisé pour l'affichage d'écarts de temps
+/maps [num]  --> liste les prochaines maps
+/plist   --> liste des joueurs (ou: /pl )
+/ml  --> active/desactive les affichages (manialinks)
+/pay [coppers] --> envoie des coppers au serveur
+/vote [num] --> note la map (0 a 10)
+/r  --> liste des records sur la map courante (ou: /rec , /record)
+/msg [login|id] message --> envoi message au joueur concerné uniquement
+/lang [lang]   --> choisi le language de l'interface (seulement 'en' et 'fr' actuellement), automatique sur tmf.
+/quit  --> quitte le serveur (via un kick)
+/time  --> donne l'heure (du serveur)
+
+
+
+
+Récap des  commandes admin de Fast (faites /help, /adm, ou la commande sans valeur en général pour voir la valeur actuelle) :
+
+/map nom_fichier_matchsettings --> charge un matchsettings
+/rpoints [std,motogp,etc.] --> modifie les points gagnés en Rounds et Cup
+/scorepanel [global|round|all] [on|off] --> active/désactive l'affichage du tableau de score général entre les round, et retarde le tableau de résultats du round plutot que l'afficher dès que le 1er passe la ligne.
+/custom tm_cmd arg,...    --> envoi la méthode au serveur (voir les méthodes du dédié)
+/debug [var]        --> fonction pour débuggage...
+
+/adm
+    /adm endround  --> force round suivant (ou: end )
+    /adm restart [warmup|wu|reset]  --> restart challenge en cours
+    /adm next [warmup|wu|reset]  --> force challenge suivant
+    /adm next [envir|num]  --> force un challenge dans la liste ("3" fera avancer la liste de 3 maps ou "rally" sélectionnera la prochaine map rally, ou une partie du nom d'une map)
+    /adm setnext [envir|num]  --> idem mais ne termine pas la map immédiatement
+    /adm prev [warmup|wu|reset]  --> force challenge précèdent
+    /adm prev [envir|num]        --> force un challenge situé pluôt dans la liste que le challenge actuel ("3" fera reculer la liste de 3 maps ou "rally" sélectionnera la dernière map rally, ou une partie du nom d'une map)
+    /adm setprev [envir|num]        --> idem mais ne termine pas la map immédiatement
+    /adm map [id] --> liste maps with id, move id map as next map
+    /adm setmap [id] --> idem mais ne termine pas la map immédiatement
+    /adm shuffle [num] --> mélange les maps en alternant les envirs (0=répartir les 7 tant qu'il y en a, 1=répartir proportionellement au nombre de maps de chaque envir)
+    /adm mode [nom_mode|num]  --> force mode de jeu, "0"=rounds, "1"=time attack, "2"=team, "3"=laps, "4"=stunt, "5"=cup
+    /adm name "xxx"   --> nom du serveur (ou: srvname )
+    /adm comment "xxx"  --> commentaire du serv
+    /adm srvpass "***"  --> password pour player (/adm srvpass none --> enlève le pass)
+    /adm spectpass "***"  --> password pour spec (/adm spectpass none --> enlève le pass)
+    /adm pass "***"  --> password pour player et spec (/adm pass none --> enlève le pass)
+    /adm maxplayers [num]    --> mettre le nombre max de joueurs
+    /adm maxspec [num]    --> mettre le nombre max de spec
+    /adm ftimeout [num]  --> durée pour finir après le 1er, défaut tmu=1=adapatif, defaut tms/tmo=15 (ou: ftimeout, fto )
+    /adm chattime [var]   --> durée chat à la fin, ne pas mettre moins de 10! (ou: ctime )
+    /adm opponents [0|1|num]  --> force adversaires visibles, 0=normal,1=force tous,num=force num minimum (ou: opp, showopponents )
+    /adm ladder [0|1]    --> désactiver/activer le ladder
+    /adm voteratio [num]    --> choisir le seuil des votes
+    /adm votetimeout [num]    --> mettre à 0 pour désactiver les votes, <0 pour activer auto quand admin présent
+    /adm play [login]    --> met le spec en joueur
+    /adm spec [login]    --> met le joueur en spec
+    /adm specforce [login]    --> force un joueur en spec
+    /adm free        --> libérer le joueur de l'état "forcé" (spec ou de joueur)
+    /adm autorestart    --> restart automatiquement à la fin du challenge
+    /adm noautorestart    --> annule le restart automatique à la fin du challenge
+    /adm autonewrestart [on|check|finish|round|off]   --> restart automatique des nouveaux challenges (au début, 1er checkpoint passé, 1er finish, ou fin 1er round)
+    /adm noautonewrestart  --> annule le restart automatique des nouveaux challenges
+    /adm kick [login]    --> kicker un joueur
+    /adm ban [login]    --> bannir un joueur (jusqu'à l'arret serveur)
+    /adm unban [login|cleanlist]    --> débannir un joueur / vider liste des bans
+    /adm black [login]    --> bannir un joueur (permanent)
+    /adm unblack [login|cleanlist]    --> débannir un joueur / vider liste des bans permanent
+    /adm ignore [login]    --> coupe le chat d'un joueur, il ne pourra plus écrire
+    /adm ignore [login|cleanlist]    --> désignorer un joueur / vider liste des joueurs ayant le chat désactivé
+    /adm guest [login]    --> mettre un joueur en guest (qui peut renter sur le serveur quand il est plein)
+    /adm replay [on|off|save] --> enregistrement automatique replay serveur, save=enregistre le replay actuel sans etre en auto
+
+
+/falsestart
+    /falsestart map # --> fixe le nombre max de faux departs par joueur, par map
+    /falsestart match #|init --> fixe le nombre max de faux departs par joueur, par match (ou permanent), mise à 0 des compteurs
+    /falsestart timeout # --> delai en netlost max accepte pour provoquer un faux depart
+    /falsestart giveup #|first|all --> nombre de 'suppr' precoce accepte pour un round, accepte 'suppr' pour tous ou seulement le 1er round
+
+
+/admin
+    /admin list  --> liste des admins du serveur
+    /admin add on_login|id    --> ajouter un admin (présent)
+    /admin addlogin [login]    --> ajouter un admin (non présent)
+    /admin remove [login]    --> enlever un admin
+
+
+/ta
+    /ta timelimit [num ms]    --> temps limite de jeu du challenge (ou: time, limit )
+    /ta sync [num ms]        --> départ synchronisés tous les ... ms
+    /ta warmupduration [num]  --> >0 pour definir des warmup et leur durée (ou: wduration, wud, wu )
+
+
+/laps
+    /laps nblaps [num] --> nombre de tours de la course (ou: nb, laps )
+    /laps timelimit [num ms] --> temps limite de la course, 0 pour infini et limiter aux tours (ou: limit, time )
+    /laps warmupduration [num]  --> >0 pour definir des warmup et leur durée (ou: wduration, wud, wu )
+    /laps finishtimeout [num]  --> durée pour finir après le 1er, défaut tmu=1=adapatif, defaut tms/tmo=15 (ou: ftimeout, fto )
+
+
+/rounds
+    /rounds pointslimit [number] --> nb de points pour gagner un challenge
+    /rounds newrules [0/1] --> activer/désactiver les règles alternatives (habituellement 0)
+    /rounds warmupduration [num]  --> >0 pour definir des warmup et leur durée (ou: wduration, wud, wu )
+    /rounds finishtimeout [num]  --> durée pour finir après le 1er, défaut tmu=1=adapatif, defaut tms/tmo=15 (ou: ftimeout, fto )
+    /rounds custom [std|motogp|xx,xx,..] --> change le comptage custom en Rounds, std=class., motogp, motogp5, champcar, fet (ou: cust, rpoints )
+    /rounds fixed [num]  --> nombre de rounds fixe à la place de la limite de points
+    /rounds score login=# | back [#]	 --> modifie le score des joueurs, ou revient au score de round precedant
+
+
+/team
+    /team pointslimit [number]    --> nombre de points pour gagner (7 pour les matchs ET)  (ou: limit )
+    /team maxpoint [number]        --> nb joueurs pris en comptes, (6 pour les matchs ET) (ou: max )
+    /team newrules [0/1]        --> activer/désactiver les règles alternatives (1 pour matchs ET)
+    /team fixed [num]           --> nombre de rounds fixe à la place de la limite de points
+    /team warmupduration [num]  --> >0 pour definir des warmup et leur durée (ou: wduration, wud, wu )
+    /team finishtimeout [num]  --> durée pour finir après le 1er, défaut tmu=1=adapatif, defaut tms/tmo=15 (ou: ftimeout, fto )
+    /team blue [login]        --> met le joueur chez les bleus
+    /team red [login]        --> met le joueur chez les rouges
+    /team score blue=# | red=# | back [#]    --> pour modifier les scores des équipes, ou revient au score de round precedant
+
+
+/cup
+    /cup pointslimit [number] --> nb de points pour être finaliste (ou: limit )
+    /cup roundspermap  --> nb de rounds par map (ou: rounds, rpm, rpc )
+    /cup nbwinners --> nb de gagnants pour terminer. (ou: nbwin, nbw, nb )
+    /cup warmupduration [num]  --> >0 pour definir des warmup et leur durée (ou: wduration, wud, wu )
+    /cup finishtimeout [num]  --> durée pour finir après le 1er, défaut tmu=1=adapatif, defaut tms/tmo=15 (ou: ftimeout, fto )
+    /cup custom [std|motogp|xx,xx,..] --> change le comptage custom en Rounds, std=class., motogp, motogp5, champcar (ou: cust, rpoints )
+    /cup score login=# | back [#]	 --> modifie le score des joueurs, ou revient au score de round precedant
+    /cup reset  --> reset scores
+
+
+/ktlc
+    /ktlc prep        --> prépare le mode KTLC "?"
+    /ktlc on        --> activer le mode KTLC
+    /ktlc off        --> désactiver le mode KTLC
+    /ktlc wnext        --> force challenge suivant et met tout les specs en joueurs
+    /ktlc next        --> force challenge suivant
+    /ktlc specforce [login]    --> force un joueur en spec
+    /ktlc spec [login]    --> met le joueur en spec
+    /ktlc play [login]    --> met le spec en joueur
+    /ktlc free [login]    --> libérer le joueur de l'état "forcé" de Spec ou de joueur
+

@@ -1,0 +1,484 @@
+<h1>Plugin development for Fast 3.2.x</h1>
+
+<p>It's not a complete documentation, but a basic explanation which
+should permit to someone having a minimum php programming knowledge to
+have some chance to understand how Fast and its plugins work. If you
+want to understand, please read all !...
+
+<p>If you make a plugin which could interest some other people, please
+announce it on Fast/Dedimania forum, so you will be able to get some
+advice, tests and feedbacks, or just some halp. If you want to, i can
+put your plugins at the same place as Fast itself.
+
+<p>
+<h2>Plugin definition</h2>
+
+<p>A plugin is just a php file in which is registered the plugin name,
+this name will be the base name used by Fast to call the plugin
+callbacks, most issued from the TM server callbacks or some Fast
+specific events.
+
+<p>You can use plugin.98.howto.php as a starting template. Plugins
+must have a name like plugin.NN.xxxxxx.php, knowing that they will be
+read in the plugins directory in alphanumerical order. Habitually the
+same NN and xxxxxx are used than in what is explain after, but no
+control is made. Btw, xxxxxx must be unique. In the file should appear:
+<p><pre>registerPlugin('xxxxxx',NN);</pre>
+<p>Once done, all functions <u>xxxxxxEventname(...)</u> will be
+automatically called for associated events, in the NN order (so this
+number can have a big impact in some case). Most events names are
+understandable from their name or from the associated <a
+href="http://kheops.unice.fr/slig/tmf/dedicated/ListCallbacks.html">server
+callbacks</a>. Some others are purely Fast ones;
+read <u>$_func_list</u> comments in fast_main.php (those which have a
+<u>NeedChalSure</u> are eventually delayed until the map is surely
+known, because <u>GetCurrentChallengeInfo</u> can be wrong in some
+cases, and so if the script is just started the current map is
+uncertain (this was a cause of false records in Fast2 for example).
+<br>The event <u>xxxxxxInit()</u> is called at startup to permit to
+all plugins to init themselves, in priority order, when all plugins files have already
+been included.
+
+<p>To see how events works/come, try to uncomment
+<u>registerPlugin()</u> in plugin.98.howto.php , then launch Fast in a
+terminal, so you will see the various events, which one is called in
+which case, and in which order. Eventually add prints or parameters to
+verify what is received in each case... To print, you can use
+<u>Console("...")</u> or <u>debugPrint("....",$variable)</u> which
+print also in the log file. You can also look the other existing
+plugins (look preferably the last ones for simpler examples).
+
+<p>Note: if you make global variables in your plugin, try to name them
+$xxxxxx_nom (where xxxxxx is the plugin name), to avoid name
+collisions with other plugins or future changes in Fast itself. Thanks.
+
+<p>Note2: for some complex plugin, perhaps some changes should be made
+in Fast files because else the plugin would be too complicated, or
+because of some Fast or TM server bug. In such case contact me to look
+at the problem and eventually make some Fast changes (post on
+Dedimania/Fast forum, or PM me in tm-forum or Traxico Team forum)
+
+<p>
+<h2>Send a command to the TM server</h2>
+
+<p>To send a method to the server (dedicated or not), use this function :
+<pre>addCall(action,'TMServerMethod',...)</pre>
+<ul>  action is null, true, login string, or action array :
+    <li>null -> just log errors
+    <li>true -> reject duplicate addCall method with same arguments
+    <li>login string -> login of player who will get the error message if any
+    <li>action array -> List of action which will be done when the response is received:
+                <ul><li> 'Event'=>event_array
+                    <li> 'Events'=>array(mixed delay_int and event_array)
+                    <li> 'Call'=>array(action,call_array)
+                    <li> 'Calls'=>array(mixed delay int and array(action,call_array))
+                    <li> 'CB'=>callback: array(function_name, args_array [,num of arg to replace with response])
+                    <li> 'Login'=>login string : same as action=login string
+                    <li> 'DropDuplicate'=>boolean : if true then same as action=true
+</ul></ul>
+<br>The actions permit to do some automatic action when the reply is
+received. It can be another method call, a function callback with the
+reply content in the num-th parameter. This is for advanced use, most
+time you will just use null, true or login
+
+<p>'TMServerMethod' is a TM server method, see <a
+href="http://kheops.unice.fr/slig/tmf/dedicated/ListMethods.html">TMF
+dedicated methods</a>, or build yourself the method list of the used
+server using the php script included in the dedicated archive. Note
+that all ingame servers are more limited than dedicated ones.
+
+<p>There are some other versions of this function (see
+fast_general.php) : addCallArray(action,addcall_array) where
+addcall_array is an array('TMServerMethod',...), and two versions
+permetting to delay the call (milliseconds timeout) before sending it
+to the server : addCallDelay(delay,action,'TMServerMethod',...) and addCallDelayArray(delay,action,addcall_array).
+
+
+<p>
+<h2>Available variables</h2>
+
+<p>Some global variables are available and are normally kept up to
+date automatically by Fast. Main ones come directly from the
+corresponding server methods responses (exemple:
+http://kheops.unice.fr/slig/tmu/xmlrpc/TMU-dedicated-2007-01-09.html
+), and some are the same but with previous values (used to detect
+changed values).
+<p>A Fast game admin can use the chat command '/debug variable' to get
+a print_r or the variable/array in the terminal and log, usefull to
+see values at any time. Note: don't put the leading $ (exemple: /debug _players )
+
+<p>Main are (see // Init variables in fast_main.php) :
+<p><pre>$_Version, $_SystemInfos, $_ServerPackMask, $_Game
+$_Status , $_old_Status, $_StatusCode
+$_ServerOptions
+$_GameInfos, $_NextGameInfos
+$_NetworkStats, $_PlayerList, $_Ranking, $_PlayerInfo
+$_ChallengeList, $_ChallengeInfo, $_NextChallengeInfo, $_old_ChallengeInfo
+$_CurrentChallengeIndex, $_NextChallengeIndex
+$_ForcedMods, $_ForcedMusic
+$_GuestList, $_IgnoreList, $_BanList, $_BlackList
+$_WarmUp
+$_RoundCustomPoints
+$_CallVoteRatios
+
+$_CallVoteTimeOut
+
+$_guest_list, $_ignore_list, $_ban_list, $_black_list
+$_bills
+$_map_control
+$_BestChecks, $_BestChecksName, $_IdealChecks
+$_NumberOfChecks
+
+$_players, $_teams, $_players_positions
+$_players_round_current, $_players_actives, $_players_spec, $_players_finished
+$_players_firstmap, $_players_round_time
+
+$_roundspoints_rule
+$_roundslimit_rule
+$_ml_vote_ask
+$_autorestart_map
+$_autorestart_newmap
+
+$_debug
+$_mldebug
+</pre>
+<p>Direct use of $_PlayerList, $_Ranking and $_PlayerInfo should be
+avoided : instead use $_players, which is an associative array with
+logins as index, include all there values, and include also many info
+used by Fast and plugins ($_players is made and kept up to date by
+plugin plugin.01.players.php which is mandatory and must stay the 1st plugin).
+
+<p><pre>$_debug : debug level which change what will be written in the
+        log. It's not always really logical... consider than 3 will be enough 
+        most time to understand and debug.
+$_mldebug : debug level used in manialink related plugins
+$_Game : 'TMU' (Forever, both United and Nations, are considered as TMU)
+$_currentTime : current time in milliseconds
+$_players_round_current : current round number in game (Rounds and Team modes)
+$_players_actives : number of active players
+$_players_spec : number of specs
+$_players_finished : number of player having finished (Rounds, Team and Laps modes)
+$_players_positions : array with live infos about players order in current round
+</pre>
+
+<p>There are many other global variables, plugin specific, or too much
+specific to try to document all here : you will have to search in the
+plugins...  :p
+
+<p>
+<h2>Send translated text in the player game language</h2>
+
+<p>Game language of each player is indicated in the TM server infos
+only for TMU, so except if the language is choosed manually by the
+player, it's nearly useless for older TM games.
+
+<p>How it works : all the locale.xxxxx.xml.txt file are read and
+parsed, and must have a xml struct like: 
+<p><pre>&lt;fast&gt;&lt;locale&gt;&lt;language&gt;&lt;tag&gt;sprintf like string text&lt;/tag&gt;&lt;/language&gt;&lt;/locale&gt;&lt;/fast&gt;</pre>
+<p>there can be set or not several languages, 'language' is 'en',
+'fr', etc. and have to be one of the existing Translations name of the
+game. There can be one or more 'tag', each one being the name used in
+locale functions to get the wanted la translation. The functions
+parameters after the tag will be passed as sprintf parameters, so the
+translation string can use them with %d, %f, %s etc. in correct order
+(so in the xml please add the string parameters in any !)
+
+<p>localeText() and localeTextArray() return a string, which can be
+sent to a player using addCall('ChatSendToLogin','text','login') or
+addCall('ChatSendServerMessageToLogin','text','login').
+localeTextArray() permit to create a translation composed of several
+parts as string to translate, simple string, nomber etc. which will
+be concatenated, which can make a code nicer than several localeText()
+concatenated. Tags are translated according to the indicated payer
+language, and if the tag don't exist in the player language it is
+searched in the default language one ('en' in the default Fast config).
+<p><pre>// get localized string using login language
+//   localeText($login,$tag,...)
+// set login to null if not related to a player
+// tag is the searched tag in the locale file
+// other params are sprintf like params
+localeText($login,$string)
+
+// get localized string using login language
+//   localeTextArray($login,array($tag,...))
+// set login to null if not related to a player
+// tag is the searched tag in the locale file
+// other params in the array are sprintf like params
+localeTextArray($login,$string_tag_array)
+</pre>
+
+<p>multiLocaleText() (tmu only) is a litle more complex, it does not return a
+string but an array in the
+ChatSendToLanguage()/ChatSendServerMessageToLanguage() needed
+format. It will permit to send easily a message to all players, in the
+right language for each player when available, and else in default language.
+
+<p><pre>// get localized array for ChatSendToLanguage TM method for all used languages
+//   multiLocaleText(mixed,mixed,...)
+// all mixed are concatenated, each mixed can be :
+// - an array($tag,...) , where tag is the searched tag in the locale file, and
+//   other params in the array are sprintf like params
+// - any other value will just be concatenated
+multiLocaleText($string_tag_array,...)
+</pre>
+
+
+<p>
+<h2>Manialinks</h2>
+
+<p>New in Forever, manialinks now take an id and can be drawn/updated/erased
+separately ! With also the new look and predifined styles and icons,
+we will see soon very nice things, sure !  :)
+
+<p>Fast has fully changed the way manialinks are handled, and it's
+probably simplier. 
+<br>The plugin.10.manialinks.php work is to send to the server the needed methods
+to draw/hide/erase every individual manialink to each player easily. Only
+a manialink which content have really changed will be sent.
+
+<p>All usefull functions are in plugin.10.manialinks.php !
+<br>The best is to look at the beginning of plugin.10.manialinks.php
+file, then look and try the ml_howto plugin...
+
+<br>Btw, the use of manialinks need first to know how to write a manialink xml string.
+Next will only explain how to make it work with Fast.
+
+<p>New functions manialinksShow(), manialinksShowForce() and
+manialinksHide() permit to drive things.
+You have to give a name id to you manialink, some optional infos,
+the xml string itself (whithout the "&lt;manialink ...&gt;" and
+"&lt;/manialink ...&gt;" tags), and the login of target (or true
+for all), and it will be made. The functions manialinksAddId() etc.
+should be used to create the id from name id, but using
+manialinksShow() will create it automatically if it does not exist.
+
+<p>Functions manialinksAddAction() etc. permit to create an id to use in
+action=''. You give it a name (must be unique, so use extensions
+based on your plugin name) and it return a id number. You can
+use the id number directly, or using the id name and the global array
+like $_ml_act[$action_idname].
+
+<p>xxxPlayerManialinkPageAnswer() events now include the id name of
+the clicked action and not only the id number (if the number was
+created using manialinksAddAction() function).
+
+<p>Any plugin should consider to draw what is needed for it when the
+events xxxPlayerConnect() and xxxPlayerShowML(,xxx,1) are received.
+
+<p><p>Function manialinksGetHudPartControl() permit to take control of
+some game hud part (just because only one plugin should play which one
+hud part to avoid problems), then using manialinksHideHudPart() and
+manialinksShowHudPart() is possible.
+
+<p>Be carrefull : Fast manialinks are sent individually for each
+player. Be sure to limit the size of your manialink and freqency of
+changes.
+
+<p>For debuging, try to increase $_mldebug (see fast.php) to 5 or
+more, to get logs about what manialink id is sent to who, and its byte size.
+
+
+<pre>//--------------------------------------------------------------
+// show/add a manialink to draw
+// $login:true, apply to all current users
+// $login:string, apply to specified user
+// $id_name:true, apply on all manialink
+// $id_name:string, name id of manialink (see manialinksAddId)
+//
+// $xml:string, xml manialink data
+// $x:float, optional x position (null: unchanged/default-0)
+// $y:float, optional y position (null: unchanged/default-0)
+// $duration:int, optional duration before hide (ms) (null: unchanged/default-0)
+// $autohide:bool, optional hide on action (null: unchanged/default-false)
+// Note: X and Y are probably useless for manialinks using frames
+//--------------------------------------------------------------
+function manialinksShow($login,$id_name,&$xml,$x=null,$y=null,$duration=null,$autohide=null)
+
+//--------------------------------------------------------------
+// show/add a manialink to draw, even if player disabled manialinks !
+// (see manialinksShow for parameters)
+// Only special cases please ! if the player disabled, it's not to get them...
+//--------------------------------------------------------------
+function manialinksShowForce($login,$id_name,&$xml,$x=null,$y=null,$duration=null,$autohide=null)
+
+//--------------------------------------------------------------
+// hide a manialink
+// $login:true, apply to all current users
+// $login:string, apply to specified user
+// $id_name:true, apply on all manialink
+// $id_name:string, name id of manialink
+//--------------------------------------------------------------
+function manialinksHide($login,$id_name)
+
+//--------------------------------------------------------------
+// remove a manialink
+// $login:true, apply to all current users
+// $login:string, apply to specified user
+// $id_name:true, apply on all manialink
+// $id_name:string, name id of manialink
+//--------------------------------------------------------------
+function manialinksRemove($login,$id_name)
+
+//--------------------------------------------------------------
+// true if the asked manialink is opened
+//--------------------------------------------------------------
+function manialinksIsOpened($login,$id_name)
+
+
+
+
+//--------------------------------------------------------------
+// get the action value of named one (for action='xx' in manialinks)
+//--------------------------------------------------------------
+function manialinksGetAction($name)
+
+//--------------------------------------------------------------
+// add a general action name and get its value (for action='xx' in manialinks)
+//--------------------------------------------------------------
+function manialinksAddAction($name)
+
+//--------------------------------------------------------------
+// remove a general action name and value
+//--------------------------------------------------------------
+function manialinksRemoveAction($name)
+
+//--------------------------------------------------------------
+// Get an base value of the specified size for manialink action='xx'
+// (and so avoid having 2 plugins using the same values).
+// If login is specified then get it specifically for a user.
+// Player action values start at 20000, so if you get a general
+// value >20000 then it means that some plugin was too hungry :p
+//--------------------------------------------------------------
+function manialinksGetActionBase($login=null,$size=100)
+
+
+
+
+//--------------------------------------------------------------
+// Hide hud part (need to have control of it using manialinksGetHudPartControl)
+// $plugin:string, name of plugin having control
+// $hudpart:string, which can be:
+//		'notice', notices
+//		'challenge_info', upper right challenge info
+//		'chat', chat box
+//		'checkpoint_list', bottom right checkpoint list (of first 6 players)
+//		'round_scores', no right round score panel at the end of rounds
+//		'scoretable', no auto score tables at end of rounds
+//		'global', all
+//--------------------------------------------------------------
+function manialinksHideHudPart($plugin,$hudpart,$login)
+
+//--------------------------------------------------------------
+// Show hud part (need to have control of it using manialinksGetHudPartControl)
+// (see manialinksHideHudPart for parameters)
+//--------------------------------------------------------------
+function manialinksShowHudPart($plugin,$hudpart,$login)
+
+//--------------------------------------------------------------
+// Get control on hud part
+// (see manialinksHideHudPart for parameters)
+//--------------------------------------------------------------
+function manialinksGetHudPartControl($plugin,$hudpart)
+
+//--------------------------------------------------------------
+// Get hud part controller name
+// (see manialinksHideHudPart for parameter)
+//--------------------------------------------------------------
+function manialinksHudPartController($hudpart)
+
+
+
+
+//--------------------------------------------------------------
+// add a single manialink id and get its value
+// note: each manialink part need an unic id number
+//--------------------------------------------------------------
+function manialinksAddId($idname)
+
+//--------------------------------------------------------------
+// remove a single manialink id name and value
+//--------------------------------------------------------------
+function manialinksRemoveId($idname)
+
+//--------------------------------------------------------------
+// get a single manialink id number
+//--------------------------------------------------------------
+function manialinksGetId($idname)
+</pre>
+
+<p>
+<h2>Special manialink used for records</h2>
+Fast also include in plugin.16.ml_times.php a special
+manialink permitting to show other thing than records, but at the same
+place. If you want to use it, you can loo, at 2 plugins to see how it
+works : plugin.18.ml_records.php and plugin.90.ktlc.php. Mainly, it
+need to add a callback using ml_timesAddTimesMod(), remove it using 
+ml_timesRemoveTimesMod(), and return an array of the right form when
+the callback is called.
+
+<pre>
+// Add a callback to draw times (or other) in records place
+function ml_timesAddTimesMod($name,$hook,$data)
+
+// remove a callback added with ml_timesAddTimesMod()
+function ml_timesRemoveTimesMod($name)
+</pre>
+
+The callback ($hook) has the form :
+callbackname($login,&$data,$num,$min){} , where:
+$data is the data given previously to the function ml_timesAddTimesMod(), 
+$num is the number of visible entries in the player panel, 
+$min is the minimum number of entries to return.
+It must return an array ($table in the example) containing :
+<ul>
+<li>some entries $table[xx] =
+array('Pos'=>'...','Name'=>'...','Time'=>'...'), with numerical
+indexes xx from 0 to yy (yy between $min-1 and $num-1). Values for
+'Pos','Name' and 'Time' will be visibles in the 3 columns for each
+entry (so they must be in text format comptatible with manialink, and
+with compatible width because column width are fixed).
+<li>an entry $table['Name'] = '...' giving the panel title.
+</ul>
+
+<p>
+<h2>Various functions</h2>
+
+<p>Most usefull functions are in fast_general.php (well many are
+probably of no use in plugins). Here are some of them:
+
+<p><pre>// formats a time: 1200000 -> 2:00.00
+MwTimeToString($MwTime,$msec=true)
+
+// formats a time: -12340 -> -12.34
+MwDiffTimeToString($DiffTime)
+
+// Remove colors from strings : $s$fffhello -> hello
+stripColors($str)
+
+// Remove links $h $l from strings.  if not force then remove links only if game is known 
+//  and not TMU (ie which don't support the links)
+stripLinks($str,$force=false)
+
+// return a string with Player name, used for beginning of chat line
+authorChat($author)
+
+// verify if login is in admin list
+verifyAdmin($login)
+
+// Verify than 'Login' in given array is really of type string and convert them is needed
+// because there are problems with pure numeric logins seen as int
+loginToString(&$response,$level)
+</pre>
+<p>
+<p>
+<p><h2>Notes</h2>
+<p>You can use some <a
+href="http://kheops.unice.fr/slig/tmu/xmlrpc/rpc_utilities.zip">utilities
+xmlrpc for php</a> which can help you to make tests about
+commands/methods of TM servers, and for TMU using a dedicated server
+test ingame manialinks, and so verify layout befoire trying to make it
+in a plugin
+
+
+<p><br>Good luck  ;)
+<br>Slig

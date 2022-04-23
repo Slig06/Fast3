@@ -1,0 +1,72 @@
+
+   For TM FOREVER only !!! (United and Nations)
+
+   Uniquement pour TM FOREVER !!! (United and Nations )
+
+
+QUICK INSTALLATION FOR LINUX
+----------------------------
+
+You are supposed to already have a fonctionnal TM dedicated server
+
+You are supposed to have php5 binary installed, most time included
+in the package: php5-cli 
+
+- Extract the files in the dedicated server directory
+
+- Try to start it using:
+   php5 fast.php my_used_dedicated_file_name
+
+- If ok, then modify fast3.sh if needed, and start Fast in background using:
+   ./fast3.sh my_used_dedicated_file_name_without_ending_dot_cgf
+
+  (yes, here your dedicated config file is suppose to finish with
+   .cfg, btw you can modify the script to fit your needs)
+
+
+NOTE: your dedicated HAVE TO really use the ports indicated in its
+used dedicated.cfg file, so those configured ports must not be used
+by another program !!! I suggest to use for the dedicated the ports
+2352,3452 and 5002, and make router-NAT redirections for them if
+needed (2352 tcp and udp, 3452 tcp, and, only if you want external
+remote control, 5002 tcp).
+
+- Modify if you wish fast.php with wordpad or some other text editor
+  to adapt the votes etc. to your needs.
+
+
+
+INSTALLATION RAPIDE SOUS LINUX
+------------------------------
+
+Vous etes cense avoir deja un serveur TM dedie fonctionnel.
+
+Vous etes cense avoir installe le binaire php5, la plupart du temps
+inclus dans le package : php5-cli
+
+- Extraire les fichiers dans le repertoire du dedie
+
+- Essayer de le lancer avec :
+   php5 fast.php mon_fichier_de_config_du_dedie_utilise
+
+- Si ca marche, alors modifier fast3.sh si besoin, et demarrez Fast en
+  tache de fond en utilisant :
+   ./fast3.sh config_du_dedie_sans_le_point_cfg_final
+
+  (oui, dans le cas present votre fichier de config dedie est suppose
+   avoir un nom finissant par .cfg, mais vous pouvez modifier le
+   script afin de coller a vos besoins)
+
+
+NOTE: votre dedie DOIT reellement utiliser des ports indiques dans son
+fichier dedicated.cfg utilise, donc aucun autre programme ne doit les
+utiliser !!! Je suggere d'utiliser pour le dedie les ports 2352,3452,
+et 5002, et de faire si necessaire les redirections sur le routeur-NAT
+pour ceux-ci (2352 tcp et udp, 3452 tcp, et, uniquement si vous voulez
+un acces de controle distant exterieur, le 5002 tcp).
+
+PS: Vous pouvez utiliser TCPView (chercher sur google) pour voir
+facilement quelles applications utilisent quels ports.
+
+- Si vous desirez, modifiez fast.php avec wordpad ou un autre editeur
+  de texte pour adapter le vote etc. a vos besoins.

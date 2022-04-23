@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Do not customize this file ! instead make a 'database.custom.xml.txt' file,¤ -->
+<!-- and put in it all tags, values and languages that you want to customize, -->
+<!-- so updates will not modify your changes !  ;)  -->
+
+<!-- name_for_track will get track Uid as argument -->
+
+
+<fast>
+	<database>
+		<db.0>
+			<name>$l[http://dedimania.net/tmstats/?do=stat&amp;Game=%s]Dedimania$l</name>
+			<tag>$l[http://dedimania.net/tmstats/?do=stat&amp;Game=%s]Dm$l</tag>
+			<name_for_track>$l[http://dedimania.net/tmstats/?do=stat&amp;Game=%s&amp;Show=RECORDS&amp;RecOrder3=RANK-ASC&amp;Uid=%s]Dedimania$l</name_for_track>
+			<url>
+			  <url.0>http://dedimania.net:8002/Dedimania</url.0>
+			</url>
+			<show_news>1</show_news>
+			<save_player_alias>1</save_player_alias>
+			<show_records>5</show_records>
+			<show_new_record_to_all>10</show_new_record_to_all>
+			<show_new_record_to_all_ratio>0.5</show_new_record_to_all_ratio>
+			<show_new_record_to_player>80</show_new_record_to_player>
+			<welcome_tag>database.dedimania_welcome</welcome_tag>
+		</db.0>
+	</database>
+
+
+	<locale>
+		<en>
+			<database.dedimania_welcome>Welcome on $l[http://dedimania.net/tmstats/?do=stat]Dedimania record system$l.</database.dedimania_welcome>
+		</en>
+		<fr>
+			<database.dedimania_welcome>Bienvenue sur le $l[http://dedimania.net/tmstats/?do=stat]système de records Dedimania$l.</database.dedimania_welcome>
+		</fr>
+	</locale>
+</fast>
+
+
+<!-- note: the strings will use args like in a sprintf() call, -->
+<!--       and you so can specify the used arg. For example -->
+<!--       %3$s will be replace by the 3rd arg, supposed to be a string -->
