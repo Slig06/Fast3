@@ -431,7 +431,7 @@ function ml_playersInitXmlStrings(){
 	global $_ml_act,$_ml_id,$_ml;
 
 	$_ml['ml_players_head'] = '<format textsize=1 textcolor=\'ffdf\'/>'
-	.'<frame pos=\'0 0 -0.01\'>'
+	.'<frame pos=\'%0.3f %0.3f -0.2\'>'
 	.'<quad pos=\'0.01 0 0\' size=\'%0.3f %0.3f\'  style=\'Bgs1\' substyle=\'BgList\'/>';
 
 	$_ml['ml_players_end'] = "\n</frame>";
@@ -449,7 +449,7 @@ function ml_playersInitXmlPlayerInfo($isadmin,$lw,$lh,$size,$act,$num,$login,&$p
 
 	// compute play/spec icons
 	if(!$pl['IsSpectator'] && $pl['Active']){
-		if($pl['TeamId']==1)
+		if($pl['TeamId'] == 1)
 			$url1 = 'http://slig.free.fr/img/fast_playR.dds';
 		else
 			$url1 = 'http://slig.free.fr/img/fast_play.dds';
@@ -588,13 +588,8 @@ function ml_playersUpdateXml($login,$action='show'){
 	}
 
 	// for tests
-	foreach($_players as &$pl){
-	for($i=0;$i<22;$i++)
-		$list[] = $pl['Login'];
-	}
-	$p = end($list);
-	while(count($list)<4)
-		$list[] = $p;
+	//foreach($_players as &$pl){ for($i=0;$i<220;$i++) $list[] = $pl['Login'];	}
+	//$p = end($list); while(count($list)<4) $list[] = $p;
 
 	// adapatative display
 	$lmax = count($list);
@@ -607,7 +602,7 @@ function ml_playersUpdateXml($login,$action='show'){
 	$lh = $size+0.002;
 	$lw += 2*$lh+0.024;
 	// manialink header
-	$xml = sprintf($_ml['ml_players_head'],$lw*$cmax+0.02,$lmax*$lh+0.2);
+	$xml = sprintf($_ml['ml_players_head'],$lw*$cmax/2,0.635,$lw*$cmax+0.02,$lmax*$lh+0.2);
 
 	// 1st line : title and other pages
 	$xml .= sprintf("\n<label pos='0 -0.01 -0.01' size='%0.03f 0.4' textsize='2' text=' \$s\$ff0%s '/>",
@@ -673,7 +668,7 @@ function ml_playersUpdateXml($login,$action='show'){
 
 		if($spl['Active']){
 			if($spl['IsSpectator']){
-				if($_GameInfos['GameMode'] == 2){
+				if($_GameInfos['GameMode'] == TEAM){
 					$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.blue'],'http://slig.free.fr/img/fast_play.dds',localeText($login,'ml_players.blue'));
 					$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.red'],'http://slig.free.fr/img/fast_playR.dds',localeText($login,'ml_players.red'));
 				}else
@@ -685,9 +680,9 @@ function ml_playersUpdateXml($login,$action='show'){
 					$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.specforce'],'http://slig.free.fr/img/fast_specforce.dds',localeText($login,'ml_players.specforce'));
 
 			}else{
-				if($_GameInfos['GameMode'] == 2 && $spl['TeamId'] == 1)
+				if($_GameInfos['GameMode'] == TEAM && $spl['TeamId'] == 1)
 					$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.blue'],'http://slig.free.fr/img/fast_play.dds',localeText($login,'ml_players.blue'));
-				elseif($_GameInfos['GameMode'] == 2 && $spl['TeamId'] == 0)
+				elseif($_GameInfos['GameMode'] == TEAM && $spl['TeamId'] == 0)
 					$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.red'],'http://slig.free.fr/img/fast_playR.dds',localeText($login,'ml_players.red'));
 
 				$xml .= ml_playersIconXml($pos,$size2,$_ml_act['ml_players.spec'],'http://slig.free.fr/img/fast_spec.dds',localeText($login,'ml_players.spec'));
@@ -742,8 +737,8 @@ function ml_playersUpdateXml($login,$action='show'){
 	//echo "PlayerList xml size: ".strlen($xml)."+".strlen($xml2)."\n";
 	//echo "$xml\n";
 
-	console("ml_playersUpdateXml:: xml={$xml}");
-	manialinksShow($login,'ml_players',$xml,$lw*$cmax/2,0.635);
+	//console("ml_playersUpdateXml:: xml={$xml}");
+	manialinksShow($login,'ml_players',$xml);
 	//manialinksShow($login,'ml_players2',$xml2,$lw*$cmax/2,0.635);
 }
 

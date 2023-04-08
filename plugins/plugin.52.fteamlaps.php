@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      13.06.2011
+// Date:      25.08.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ function fteamlapsInit($event){
 	$_FGameModes['TeamLaps']['PointsRule'] = 'incremental'; // round points for players
 	$_FGameModes['TeamLaps']['RanksRule'] = 'Points';  // team round ranks based on players points sum
 	$_FGameModes['TeamLaps']['ScoresRule'] = 'Points'; // team score is team points
-	$_FGameModes['TeamLaps']['GameInfos'] = array('GameMode'=>3);
+	$_FGameModes['TeamLaps']['GameInfos'] = array('GameMode'=>LAPS);
 
 	$_FGameModes['TeamLaps']['MatchEndRace'] = 'fteamlapsMatchEndRace';
 

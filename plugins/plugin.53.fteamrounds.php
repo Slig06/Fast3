@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      15.12.2010
+// Date:      25.08.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ function fteamroundsInit($event){
 	$_FGameModes['TeamRounds']['PointsRule'] = 'incremental'; // round points for players
 	$_FGameModes['TeamRounds']['RanksRule'] = 'Points';  // team round ranks based on players points sum
 	$_FGameModes['TeamRounds']['ScoresRule'] = 24; // team scores are in range 24-0
-	$_FGameModes['TeamRounds']['GameInfos'] = array('GameMode'=>0);
+	$_FGameModes['TeamRounds']['GameInfos'] = array('GameMode'=>ROUNDS);
 	$_FGameModes['TeamRounds']['RoundCustomPointsRule'] = 'none';
 
 	// max players by team who are counted

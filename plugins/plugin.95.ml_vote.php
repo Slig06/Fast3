@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      13.06.2010
+// Date:      22.09.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ function ml_voteEndResult($event){
 	global $_mldebug,$_Game,$_ml_vote_ask,$_GameInfos,$_autorestart_map,$_autorestart_newmap,$_ml_vote_minauto;
 	
 	// don't ask if Team mode or if _autorestart_map is on, only if ChatTime>=$_ml_vote_minauto (default: 15s)
-	if($_ml_vote_ask && $_GameInfos['GameMode']!=2 && $_GameInfos['ChatTime']>=$_ml_vote_minauto &&
+	if($_ml_vote_ask && $_GameInfos['GameMode'] != TEAM && $_GameInfos['ChatTime'] >= $_ml_vote_minauto &&
 		 (!isset($_autorestart_map) || !$_autorestart_map) &&
 		 (!isset($_autorestart_newmap) || !$_autorestart_newmap)){
 		console("ml_vote.Event[$event]");
@@ -107,7 +107,7 @@ function ml_votePlayerFinish($event,$login,$time){
 	if(!$_ml_vote_ask)
 		return;
 
-	if($_GameInfos['GameMode']==1 && isset($_players[$login]['BestTime'])){
+	if($_GameInfos['GameMode'] == TA && isset($_players[$login]['BestTime'])){
 		$delta = $_GameInfos['TimeAttackLimit'] - ($_currentTime - $_ml_vote_begintime);
 		if(isset($_BestChecks)){
 			$time2 = end($_BestChecks);
@@ -121,7 +121,7 @@ function ml_votePlayerFinish($event,$login,$time){
 		if($time2>1000 && $time2>$delta+6000)
 			ml_voteAskVote($login,false);
 	}
-	else if($_GameInfos['GameMode']==3 && $time>0)
+	else if($_GameInfos['GameMode'] == LAPS && $time > 0)
 		ml_voteAskVote($login,false);
 }
 
@@ -226,7 +226,7 @@ function ml_votePlayerManialinkPageAnswer($event,$login,$answer,$action){
 				console("ml_vote.Event[$event]($login,$answer)->ml_vote.$key");
 				voteSetPlayerVote($login,$pml['ml_vote.uid'],$pml['ml_vote.mode'],$key);
 
-				if($pml['ml_vote.uid']==$_ChallengeInfo['UId'] && $pml['ml_vote.mode']==$_GameInfos['GameMode']){
+				if($pml['ml_vote.uid']==$_ChallengeInfo['UId'] && $pml['ml_vote.mode'] == $_GameInfos['GameMode']){
 					$vote = voteGetChallengeVoteValue($_ChallengeInfo['UId'],$_GameInfos['GameMode']);
 					if($vote!='')
 						ml_mainAddEntry($_ml_act['ml_vote.open'],array('ml_vote.entry.value',$vote));
@@ -250,13 +250,17 @@ function ml_votePlayerManialinkPageAnswer($event,$login,$answer,$action){
 function	ml_voteInitXmlStrings(){
 	global $_ml_act,$_ml_id,$_ml;
 
-	$_ml['ml_vote_head'] = '<format textsize=\'2\'></format>'
-		.'<background bgcolor=\'000d\' bgborderx=\'0.02\' bgbordery=\'0.02\'></background>'
-		.'<line><cell width=\'0.90\'><text halign=\'center\' textsize=\'4\'>$z$s$f0f%s$z</text></cell></line>'
-		.'<line><cell width=\'0.90\'><text halign=\'center\' textsize=\'3\'>$z$s%s$z</text></cell></line>'
-		.'<line>';
-	$_ml['ml_vote_cell'] = '<cell width=\'%f\'><text halign=\'center\' action=\'%d\'>$o$ff0%s$z</text></cell>';
-	$_ml['ml_vote_end'] = '</line><line><cell width=\'0.90\'><text halign=\'center\' action=\'%d\'>$z%s</text></cell></line>';
+	$_ml['ml_vote_head'] = "<frame posn='0 35 10'><format textsize='2' textcolor='ffff'/>"
+	."<quad  sizen='54 14' posn='0 0 0' halign='center' valign='center' style='Bgs1' substyle='BgWindow1'/>"
+	."<quad  sizen='54 14' posn='0 0 0' halign='center' valign='center' style='Bgs1' substyle='BgWindow1'/>"
+	."<quad  sizen='52 4' posn='0 4.3 0.1' halign='center' valign='center' style='Bgs1' substyle='BgTitle3_4'/>"
+	."<label sizen='50 2' posn='0 4.4 0.2' halign='center' valign='center' text='%s'/>"
+	."<label sizen='50 2' posn='0 1.2 0.2' halign='center' valign='center' text='%s'/>";
+
+	$_ml['ml_vote_cell'] = 
+	"<label sizen='%0.3f 2' posn='%0.3f -1.6 0.1' halign='center' valign='center' action='%d' text='%s'/>";
+
+	$_ml['ml_vote_end'] = "<label posn='0 -4.8 0.1' halign='center' valign='center' style='CardButtonSmall' action='%d' text='%s'/></frame>";
 
 }
 
@@ -271,27 +275,29 @@ function ml_voteUpdateXml($login){
 
 	$xml = sprintf($_ml['ml_vote_head'],localeText($login,'ml_vote.query'),voteGetChallengeVoteInfos($pml['ml_vote.uid'],$pml['ml_vote.mode']));
 
-	$width = 0.80/count($_vote_list[$_vote_list_default]);
+	$width = 50 / count($_vote_list[$_vote_list_default]);
+	$pos = -50 / 2 + $width / 2;
 
 	$vote = voteGetPlayerVote($login,$pml['ml_vote.uid'],$pml['ml_vote.mode']);
 	//debugPrint("ml_voteBuildXml - $login - $vote",$vote);
 	if($vote!==false)
-		$color = '$f20';
+		$color = '$f20$o';
 	else
-		$color = '';
+		$color = '$o';
 	foreach($_vote_list[$_vote_list_default] as $key => $val){
 		if(is_numeric($val))
 			$value = ''.$val;
 		else
 			$value = localeText($login,$val);
 		if($vote===$key)
-			$xml .= sprintf($_ml['ml_vote_cell'],$width,$_ml_act['ml_vote.'.$key],'$2f0'.$value);
+			$xml .= sprintf($_ml['ml_vote_cell'],$width-1,$pos,$_ml_act['ml_vote.'.$key],'$2f0$o'.$value);
 		else
-			$xml .= sprintf($_ml['ml_vote_cell'],$width,$_ml_act['ml_vote.'.$key],$color.$value);
+			$xml .= sprintf($_ml['ml_vote_cell'],$width-1,$pos,$_ml_act['ml_vote.'.$key],$color.$value);
+		$pos += $width;
 	}
 	$xml .= sprintf($_ml['ml_vote_end'],$_ml_act['ml_vote.quit'],localeText($login,'ml.quit'));
 
-	manialinksShow($login,'ml_vote',$xml,0.45,0.56);
+	manialinksShow($login,'ml_vote',$xml);
 }
 
 ?>

@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
-// Date:      06.04.2011
+// Date:      25.08.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ function matchlogBeginRound(){
 	if(!$do_match_log || $_WarmUp || $_FWarmUp > 0)
 		return;
 
-	if ($_GameInfos['GameMode'] == 2){ // team
+	if ($_GameInfos['GameMode'] == TEAM){ // team
 		if ($_Status['Code']>=3){
 
 			// the score has changed
@@ -109,7 +109,7 @@ function matchlogEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRest
 		// call FGameMode matchlog callback if exists
 		call_user_func($_FGameModes[$_FGameMode]['MatchLogEndRound'],$event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestarting);
 
-	}elseif($_GameInfos['GameMode'] == 2 || $_GameInfos['GameMode'] == 0 || $_GameInfos['GameMode'] == 5){ // team or rounds or cup
+	}elseif($_GameInfos['GameMode'] == TEAM || $_GameInfos['GameMode'] == ROUNDS || $_GameInfos['GameMode'] == CUP){ // team or rounds or cup
 		$times = array();
 		foreach($_players as $login => &$pl){
 			if(!is_string($login))
@@ -132,7 +132,7 @@ function matchlogEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRest
 			$sep2 = ':';
 			for($i=0;$i<count($times);$i++){
 				if($i==0){
-					if($_GameInfos['GameMode']==2)
+					if($_GameInfos['GameMode'] == TEAM)
 						$msg2 .= '(B='.$_teams[0]['Score'].',R='.$_teams[1]['Score'].')';
 					else
 						$msg2 .= '('.MwTimeToString($times[$i]['FinalTime']).')';
@@ -145,7 +145,7 @@ function matchlogEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRest
 				$sep2 = ',';
 			}
 			$sep2 = "\nTimes: ";
-			for($i=0;$i<count($times)&&$i<10;$i++){
+			for($i=0;$i<count($times);$i++){
 				$msg2 .= $sep2.stripColors($times[$i]['Login']).'('.MwTimeToString($times[$i]['FinalTime']).')';
 				$sep2 = ', ';
 			}
@@ -194,7 +194,7 @@ function matchlogEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 		call_user_func($_FGameModes[$_FGameMode]['MatchLogEndRace'],$event,$Ranking,$ChallengeInfo,$GameInfos);
 
 		// team match log
-	}elseif($GameInfos['GameMode'] == 2){ // team
+	}elseif($GameInfos['GameMode'] == TEAM){ // team
 
 		$tnick0 = ''.$Ranking[0]['NickName'];
 		$tnick1 = ''.$Ranking[1]['NickName'];
@@ -259,7 +259,7 @@ function matchlogEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 
 	
 		// rounds match log
-	}elseif($GameInfos['GameMode'] == 0 || $GameInfos['GameMode'] == 5){ // rounds
+	}elseif($GameInfos['GameMode'] == ROUNDS || $GameInfos['GameMode'] == CUP){ // rounds
 
 		$cuid = isset($ChallengeInfo['UId']) ? $ChallengeInfo['UId'] : 'UID';
 		$msg1 = 'ROUNDS MATCH on ['.stripColors($ChallengeInfo['Name']).'] ('.$ChallengeInfo['Environnement'].','.$cuid.','.stripColors($ChallengeInfo['Author']).') ['.$_players_round_current.'r]';
@@ -299,7 +299,7 @@ function matchlogEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 
 		
 		// timeattack match log
-	}elseif($GameInfos['GameMode'] == 1){ // timeattack
+	}elseif($GameInfos['GameMode'] == TA){ // timeattack
 
 		$cuid = isset($ChallengeInfo['UId']) ? $ChallengeInfo['UId'] : 'UID';
 		$msg1 = 'TIMEATTACK MATCH on ['.stripColors($ChallengeInfo['Name']).'] ('.$ChallengeInfo['Environnement'].','.$cuid.','.stripColors($ChallengeInfo['Author']).')';
@@ -316,7 +316,7 @@ function matchlogEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 		matchlog($msg1."\n\n");
 
 		
-	}elseif($GameInfos['GameMode'] == 4){ // stunts
+	}elseif($GameInfos['GameMode'] == STUNTS){ // stunts
 
 		$cuid = isset($ChallengeInfo['UId']) ? $ChallengeInfo['UId'] : 'UID';
 		$msg1 = 'STUNTS MATCH on ['.stripColors($ChallengeInfo['Name']).'] ('.$ChallengeInfo['Environnement'].','.$cuid.','.stripColors($ChallengeInfo['Author']).')';
@@ -334,7 +334,7 @@ function matchlogEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 
 		
 		// laps match log
-	}elseif($GameInfos['GameMode'] == 3){
+	}elseif($GameInfos['GameMode'] == LAPS){
 		if($_NumberOfChecks > 0){
 			// make table
 			$lasttime = 0;

@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
-// Date:      21.11.2010
+// Date:      12.09.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -92,9 +92,11 @@ function chatPlayerChat($event,$login,$msg,$iscommand){
 	$command = array_shift($cmd);
 
 	// remove spaces arround comma
-	$msg2 = preg_replace('/\s*,\s*/s',',',$msg);
+	$msg = preg_replace('/\s*,\s*/s',',',$msg);
+	// replace multiple spaces by single one
+	$msg = preg_replace('/\s+/s',' ',$msg);
 	// separate words, all words
-	$cmd2 = explode(' ',$msg2);
+	$cmd2 = explode(' ',$msg);
 	array_shift($cmd2);
 
 	// get author nickname
@@ -106,7 +108,7 @@ function chatPlayerChat($event,$login,$msg,$iscommand){
 	}elseif(isset($_HelpCmd[$command]) || verifyAdmin($login)){
 		// call function for specified command (ie.: "chat_afk(parameters)")
 		// $cmd[0] is spaces free, but $cmd[1] can contain spaces.
-		// $cmd2 is fully exploded with comma separated words in one word.
+		// $cmd2 is fully spaces exploded (with comma separated words in one word).
 		if(function_exists('chat_'.$command)){
 			if(verifyAdmin($login) || !isset($_players[$login]['ChatFloodRateIgnore']) || !$_players[$login]['ChatFloodRateIgnore']){
 				call_user_func('chat_'.$command, $author, $login, $cmd, $cmd2);

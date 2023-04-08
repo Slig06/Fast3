@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      30.07.2011
+// Date:      26.08.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -603,7 +603,7 @@ function matchEverysecond($event,$seconds){
 	if($_WarmUp || $_FWarmUp > 0){
 		if(($seconds % 5) != 0 &&
 			 $_players_round_time > 0 && $_players_round_finished <= 0 && 
-			 ($_GameInfos['GameMode'] == 0 || $_GameInfos['GameMode'] == 5 || $_GameInfos['GameMode'] == 3)){
+			 ($_GameInfos['GameMode'] == ROUNDS || $_GameInfos['GameMode'] == CUP || $_GameInfos['GameMode'] == LAPS)){
 			// round or laps mode, warmup round not finished, test time in round
 			$dtime = $_currentTime - $_players_round_time;
 
@@ -735,7 +735,7 @@ function matchBeginRace($event,$GameInfos){
 
 	}elseif($_match_map > 0){
 		// start of map...
-		if($GameInfos['GameMode'] != 5 && !$_match_conf['ReportedScore']){
+		if($GameInfos['GameMode'] != CUP && !$_match_conf['ReportedScore']){
 			// init scores if not ReportedScore and not Cup mode
 			foreach($_match_scores as &$pls){
 				$pls['Score'] = 0;
@@ -843,18 +843,18 @@ function matchBeginRound(){
 		addCall(true,'NextChallenge');
 	}
 
-	if($_GameInfos['GameMode'] == 0 || $_GameInfos['GameMode'] == 5 || $_GameInfos['GameMode'] == 3){
+	if($_GameInfos['GameMode'] == ROUNDS || $_GameInfos['GameMode'] == CUP || $_GameInfos['GameMode'] == LAPS){
 		// compute wu round maxtime
 		$_match_roundmaxtime = $_ChallengeInfo['AuthorTime'];
 		//console("matchBeginRound:1: match_roundmaxtime={$_match_roundmaxtime}");
 
-		if($_ChallengeInfo['LapRace'] && ($_GameInfos['RoundsForcedLaps'] > 0 || $_GameInfos['GameMode'] == 3)){
+		if($_ChallengeInfo['LapRace'] && ($_GameInfos['RoundsForcedLaps'] > 0 || $_GameInfos['GameMode'] == LAPS)){
 			// specified number of laps : consider 1 lap time * number of laps
 			if(isset($_ChallengeInfo['NbLaps']) && $_ChallengeInfo['NbLaps'] > 1)
 				$_match_roundmaxtime = (int) floor($_match_roundmaxtime / $_ChallengeInfo['NbLaps']);
 			//console("matchBeginRound:2: match_roundmaxtime={$_match_roundmaxtime}");
 
-			if($_GameInfos['GameMode'] == 3){
+			if($_GameInfos['GameMode'] == LAPS){
 				if($_FWarmUp > 0){
 					$_match_roundmaxtime *= $_FWarmUp;
 				}else{
@@ -983,7 +983,7 @@ function matchEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestart
 
 		// in Stunts the ranks are sometimes wrong ??? recompute them with playerfinish time of best score as secondary sort key !
 		// note: seems to happens only when trying to use quick restart !
-		if($GameInfos['GameMode'] == 4){
+		if($GameInfos['GameMode'] == STUNTS){
 			$nb = count($Ranking);
 			for($n=0; $n < $nb; $n++){
 				$login = $Ranking[$n]['Login'];
@@ -1004,7 +1004,7 @@ function matchEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestart
 			$login = $prk['Login'];
 			if(isset($_players[$login]['Active']) && ($prk['Score'] > 0 || $prk['BestTime'] > 0)){
 
-				if($GameInfos['GameMode'] == 4 && $prk['Score'] > 0){
+				if($GameInfos['GameMode'] == STUNTS && $prk['Score'] > 0){
 					// add a time of best in stunts case which does not indicate a bestscore time
 					debugPrint("matchEndRound:stunts:ranking({$login}): ",$prk);
 					$prk['BestTime'] = isset($_players[$login]['BestDate']) ? $_players[$login]['BestDate'] : $_currentTime;
@@ -1023,7 +1023,7 @@ function matchEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestart
 		}
 		
 		// if in Cup mode : make score corrections for winners (rankings scores are sometimes broken because of disconnected winners)
-		if($GameInfos['GameMode'] == 5){
+		if($GameInfos['GameMode'] == CUP){
 			$maxscore = $GameInfos['CupPointsLimit'] + count($_match_scores);
 			foreach($_match_scores as &$pls){
 				if($pls['Score'] > $GameInfos['CupPointsLimit'])
@@ -1039,7 +1039,7 @@ function matchEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestart
 		foreach($_match_scores as &$pls){
 			$login = $pls['Login'];
 
-			if($GameInfos['GameMode'] == 5 && $pls['Score'] > $GameInfos['CupPointsLimit']) {
+			if($GameInfos['GameMode'] == CUP && $pls['Score'] > $GameInfos['CupPointsLimit']) {
 				// is cup winner
 				$nbwinners++;
 
@@ -1343,7 +1343,7 @@ function matchEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$wa
 		// -------------------------------------------------------------------------
 		$map_rs_next = call_user_func($_FGameModes[$_FGameMode]['MatchEndRace'],$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$warmup,$fwarmup,$scoremax,$timemin);
 
-	}elseif($GameInfos['GameMode'] == 0){
+	}elseif($GameInfos['GameMode'] == ROUNDS){
 		// -------------------------------------------------------------------------
 		// general Rounds mode
 		// -------------------------------------------------------------------------
@@ -1398,7 +1398,7 @@ function matchEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$wa
 			// map not really done, back score if needed !
 		}
 
-	}elseif($GameInfos['GameMode'] == 5){
+	}elseif($GameInfos['GameMode'] == CUP){
 		// -------------------------------------------------------------------------
 		// general Cup mode
 		// -------------------------------------------------------------------------
@@ -1447,7 +1447,7 @@ function matchEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$wa
 			match_log_copy();
 		}
 
-	}elseif($GameInfos['GameMode'] == 1){
+	}elseif($GameInfos['GameMode'] == TA){
 		// -------------------------------------------------------------------------
 		// general Time Attack mode
 		// -------------------------------------------------------------------------
@@ -1499,7 +1499,7 @@ function matchEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$wa
 			}
 		}
 
-	}elseif($GameInfos['GameMode'] == 4){
+	}elseif($GameInfos['GameMode'] == STUNTS){
 		// -------------------------------------------------------------------------
 		// general Stunts mode
 		// -------------------------------------------------------------------------
@@ -1553,7 +1553,7 @@ function matchEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$wa
 			}
 		}
 
-	}elseif($GameInfos['GameMode'] == 3){
+	}elseif($GameInfos['GameMode'] == LAPS){
 		// -------------------------------------------------------------------------
 		// general Laps mode
 		// -------------------------------------------------------------------------
@@ -1645,7 +1645,7 @@ function matchBuildLogoXml(){
 	if(isset($_match_conf['ImgUrl']) && $_match_conf['ImgUrl'] != ''){
 		$_match_logo_xml = 
 			sprintf('<quad sizen="%0.2F %0.2F" posn="43.6 %0.2F 0" halign="right" image="%s" action="'.$_ml_act['match.infos'].'" actionkey="2"/>',
-							$max,$max,46.2,htmlspecialchars($_match_conf['ImgUrl']));
+							$max,$max,46.2,htmlspecialchars($_match_conf['ImgUrl'],ENT_QUOTES,'UTF-8'));
 	}
 }
 
@@ -1725,7 +1725,7 @@ function matchUpdateInfosXml($login,$action='show'){
 	}
 
 	$title = $_match_conf['Title'];
-	$_match_info_text = htmlspecialchars(localeText($login,$_match_conf['LocaleInfo']));
+	$_match_info_text = htmlspecialchars(localeText($login,$_match_conf['LocaleInfo']),ENT_QUOTES,'UTF-8');
 
 	$xml = "<frame posn='0 8 16'>"
 		."<quad  sizen='88 56' posn='0 0 0' halign='center' valign='center' style='Bgs1' substyle='BgWindow1' action='1'/>"
@@ -1823,8 +1823,8 @@ function matchAddPlayer($login,$playerid,$nickname,$score=0,$besttime=0,$mapscor
 		$_match_scores[$login] = array('Login'=>$login,
 																	 'PlayerId'=>$playerid,
 																	 'NickName'=>tm_substr($nickname,0,24),
-																	 'NickDraw'=>htmlspecialchars(tm_substr($nickname,0,24)),
-																	 'NickDraw2'=>htmlspecialchars(tm_substr(stripColors($nickname),0,24)),
+																	 'NickDraw'=>htmlspecialchars(tm_substr($nickname,0,24),ENT_QUOTES,'UTF-8'),
+																	 'NickDraw2'=>htmlspecialchars(tm_substr(stripColors($nickname),0,24),ENT_QUOTES,'UTF-8'),
 																	 'Score'=>$score, // player server score
 																	 'BestTime'=>$besttime, // player server best time
 																	 'CPs'=>0, // map cumulated CPs
@@ -1860,7 +1860,7 @@ function matchUpdateScore($login,$force=true){
 	global $_debug,$_match_map,$_match_scores,$_players,$_match_conf,$_GameInfos;
 
 	if($_match_map < 0 || $_match_conf['MapScoresMode'] !== 'Scores' || isset($_match_conf['MapScoresList'][0]) || 
-		 ($_GameInfos['GameMode'] != 0 && $_GameInfos['GameMode'] != 5 && $_GameInfos['GameMode'] != 2))
+		 ($_GameInfos['GameMode'] != ROUNDS && $_GameInfos['GameMode'] != CUP && $_GameInfos['GameMode'] != TEAM))
 		return;
 
 	if($login === true){
@@ -1907,7 +1907,7 @@ function matchSetBonus($admlogin, $playerlogin, $bonus){
 
 	// set bonus
 	console("matchSetBonus: set score to {$playerlogin} ({$bonus})");
-	if($_match_conf['GameMode'] == 5){
+	if($_match_conf['GameMode'] == CUP){
 		// cup
 		debugPrint("matchSetBonus:: $bonus : match_scores[$playerlogin]",$_match_scores[$playerlogin]);
 		$diff = $bonus - $_match_scores[$playerlogin]['ScoreBonus'];
@@ -2160,28 +2160,28 @@ function matchServerSetup($login=true,$startmatch=false,$startdelay=0){
 
 	// ----------------------------------------
 	// set special values for RoundsRoundsLimit
-	if(isset($_match_conf['RoundsRoundsLimit']) && $_match_conf['RoundsRoundsLimit'] > 0 && ($_match_conf['GameMode'] == 0)){
+	if(isset($_match_conf['RoundsRoundsLimit']) && $_match_conf['RoundsRoundsLimit'] > 0 && ($_match_conf['GameMode'] == ROUNDS)){
 		$_roundslimit_rule = $_match_conf['RoundsRoundsLimit'];
 	}else{
 		$_roundslimit_rule = -1;
 	}
 
 	// set special values for TeamRoundsLimit
-	if(isset($_match_conf['TeamRoundsLimit']) && $_match_conf['TeamRoundsLimit'] > 0 && ($_match_conf['GameMode'] == 2)){
+	if(isset($_match_conf['TeamRoundsLimit']) && $_match_conf['TeamRoundsLimit'] > 0 && ($_match_conf['GameMode'] == ROUNDS)){
 		$_teamroundslimit_rule = $_match_conf['TeamRoundsLimit'];
 	}else{
 		$_teamroundslimit_rule = -1;
 	}
 
 	// set special values for CupAutoAdjust
-	if(isset($_match_conf['CupAutoAdjust']) && $_match_conf['CupAutoAdjust'] > 0 && ($_match_conf['GameMode'] == 5)){
+	if(isset($_match_conf['CupAutoAdjust']) && $_match_conf['CupAutoAdjust'] > 0 && ($_match_conf['GameMode'] == CUP)){
 		$_cup_autoadjust = $_match_conf['CupAutoAdjust'];
 	}else{
 		$_cup_autoadjust = 0;
 	}
 
 	// set special values for CustomPoints
-	if($_match_conf['GameMode'] == 0 || $_match_conf['GameMode'] == 5){
+	if($_match_conf['GameMode'] == ROUNDS || $_match_conf['GameMode'] == CUP){
 		if(isset($_match_conf['CustomPoints']) && $_match_conf['CustomPoints'] != '')
 			setCustomPoints($_match_conf['CustomPoints']);
 		else
@@ -2289,7 +2289,7 @@ function matchStart($login, $params, $startdelay=0){
 			$_match_config[$match_mode]['AllWarmUpDuration'] = 0;
 		if(!isset($_match_config[$match_mode]['CupWarmUpDuration']))
 			$_match_config[$match_mode]['CupWarmUpDuration'] = 0;
-		if($_match_config[$match_mode]['GameMode'] == 5)
+		if($_match_config[$match_mode]['GameMode'] == CUP)
 			$_match_config[$match_mode]['AllWarmUpDuration'] = $_match_config[$match_mode]['CupWarmUpDuration'];
 		else
 			$_match_config[$match_mode]['CupWarmUpDuration'] = $_match_config[$match_mode]['AllWarmUpDuration'];
@@ -2302,7 +2302,7 @@ function matchStart($login, $params, $startdelay=0){
 		$match_fgamemode = isset($_match_config[$match_mode]['FGameMode']) ? $_match_config[$match_mode]['FGameMode'] : '';
 		$fteams = isset($_FGameModes[$match_fgamemode]['FTeams']) ? $_FGameModes[$match_fgamemode]['FTeams'] : false;
 
-		if($_NextGameInfos['GameMode'] != 4 && $match_gamemode == 4){
+		if($_NextGameInfos['GameMode'] != STUNTS && $match_gamemode == STUNTS){
 			if(!goStunts()){ // need special trick to change to Stunts mode
 				// can't change to Stunts
 				$msg = localeText(null,'server_message').localeText(null,'interact')."Sorry, can't change to Stunts mode, you need to restart the server in Stunts mode !";
@@ -2311,7 +2311,7 @@ function matchStart($login, $params, $startdelay=0){
 				return;
 			}
 
-		}elseif($_NextGameInfos['GameMode'] == 4 && $match_gamemode != 4){
+		}elseif($_NextGameInfos['GameMode'] == STUNTS && $match_gamemode != STUNTS){
 			if(!goNotStunts()){ // need special trick to change from Stunts mode
 				// can't change from Stunts
 				$msg = localeText(null,'server_message').localeText(null,'interact')."Sorry, can't change from Stunts mode, you need to restart the server in other mode !";
@@ -2320,7 +2320,7 @@ function matchStart($login, $params, $startdelay=0){
 				return;
 			}
 
-		}elseif($_NextGameInfos['GameMode'] == 3 && $match_gamemode != 3){
+		}elseif($_NextGameInfos['GameMode'] == LAPS && $match_gamemode != LAPS){
 			// currently Laps mode and have to go to other : need to change the game mode before loading maps (dedicated "feature")
 			addCall(true,'SetGameMode',$match_gamemode);
 			if($_StatusCode < 5){
@@ -2376,7 +2376,7 @@ function matchStart($login, $params, $startdelay=0){
 			$_match_conf['MapRestartsWu'] = 0;
 
 		// MapRestarts
-		if($_match_conf['MapRestarts'] > 0 && $match_gamemode != 1 && $match_gamemode != 4 && $match_gamemode != 3){
+		if($_match_conf['MapRestarts'] > 0 && $match_gamemode != TA && $match_gamemode != STUNTS && $match_gamemode != LAPS){
 			console("matchStart:: MapRestarts only in TA, Stunts and Laps, disable it !");
 			$_match_conf['MapRestarts'] = 0;
 		}
@@ -2400,7 +2400,7 @@ function matchStart($login, $params, $startdelay=0){
 		if(!isset($_match_conf['MapScoresMode']) ||
 			 ($_match_conf['MapScoresMode'] != 'Scores' && $_match_conf['MapScoresMode'] != 'Times' && $_match_conf['MapScoresMode'] != 'Checkpoints')){
 			// default value
-			if($match_gamemode == 0 || $match_gamemode == 5 || $match_gamemode == 2 || $match_gamemode == 4 || $fteams)
+			if($match_gamemode == ROUNDS || $match_gamemode == CUP || $match_gamemode == TEAM || $match_gamemode == STUNTS || $fteams)
 				$_match_conf['MapScoresMode'] = 'Scores';
 			else
 				$_match_conf['MapScoresMode'] = 'Times';
@@ -2422,8 +2422,8 @@ function matchStart($login, $params, $startdelay=0){
 			$_match_conf['GlobalScore'] = false;
 			$_match_conf['ShowScore'] = false;
 			// only with limited number of rounds, in Rounds or Team
-			if(!($match_gamemode == 0 && $_match_conf['RoundsRoundsLimit'] > 0) &&
-				 !($match_gamemode == 2 && $_match_conf['TeamRoundsLimit'] > 0)){
+			if(!($match_gamemode == ROUNDS && $_match_conf['RoundsRoundsLimit'] > 0) &&
+				 !($match_gamemode == TEAM && $_match_conf['TeamRoundsLimit'] > 0)){
 				$_match_conf['ReportedScore'] = false;
 				$_match_conf['GlobalScore'] = true;
 				$_match_conf['ShowScore'] = true;
@@ -2444,7 +2444,7 @@ function matchStart($login, $params, $startdelay=0){
 		}
 
 		// verify if EndMatchCondition is needed and supported by dedicated
-		if($_match_conf['GameMode'] == 5){
+		if($_match_conf['GameMode'] == CUP){
 			$_match_conf['NumberOfMaps'] = 'CupEnd';
 			$_match_conf['LimitText'] = '';
 
@@ -2967,7 +2967,7 @@ function matchReadConfigs($matchconfigfile){
 		}
 
 		if(isset($mconfig['Ident']) && $mconfig['Ident'] != '' &&
-			 $mconfig['GameMode'] >= 0 && $mconfig['GameMode'] <= 5 &&
+			 $mconfig['GameMode'] >= MINMODE && $mconfig['GameMode'] <= MAXMODE &&
 			 ($gmode < 0 || $mconfig['GameMode'] == $gmode)){
 
 			$ident = $mconfig['Ident'];

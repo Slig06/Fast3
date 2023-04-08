@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      20.06.2011
+// Date:      25.08.2011
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ function fteamrelayInit($event){
 	$_FGameModes['TeamRelay']['RanksRule'] = 'CPTime';
 	$_FGameModes['TeamRelay']['ScoresRule'] = 'CPTime';
 	$_FGameModes['TeamRelay']['MapScoresRule'] = 'Copy';
-	$_FGameModes['TeamRelay']['GameInfos'] = array('GameMode'=>1,'TimeAttackSynchStartPeriod'=>0,'TimeAttackLimit'=>0,'AllWarmUpDuration'=>0);
+	$_FGameModes['TeamRelay']['GameInfos'] = array('GameMode'=>TA,'TimeAttackSynchStartPeriod'=>0,'TimeAttackLimit'=>0,'AllWarmUpDuration'=>0);
 	//$_FGameModes['TeamRelay']['MatchLogEndRound'] = 'fteamrelayMatchLogEndRound';
 	$_FGameModes['TeamRelay']['MatchLogEndRace'] = 'fteamrelayMatchLogEndRace';
 	$_FGameModes['TeamRelay']['MatchEndRace'] = 'fteamrelayMatchEndRace';

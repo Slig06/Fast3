@@ -1,14 +1,14 @@
 <?php
 ////////////////////////////////////////////////////////////////
 //¤
-// File:      FAST 3.2 (First Automatic Server for Trackmania)
+// File:      FAST 3.2 / 4.0 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      10.12.2010
+// Date:      02.06.2021
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
 //
-// KTLC is a survival mode, basically every round 1 or 2 players are eliminated for the end of the map
+// KTLC is a survival mode, basically every round 1, 2 or 3 players are eliminated at the end of the map
 // 
 if(!$_is_relay) registerPlugin('ktlc',90,1.0);
 
@@ -22,19 +22,19 @@ if(!$_is_relay) registerPlugin('ktlc',90,1.0);
 //$_ktlc_result_url = "http://xxxx.free.fr/ktlc/" 
 
 
-// $_ktlc_state
+// $_ktlc_state (info for dev)
 // -1: off
 // 0: prep
-// 1: on, waiting map
-// 2: waiting map next
-// 3: on fire
-// 4: next/first restart
-// 5: go/first on fire round
+// 1: in waiting map, WAITING
+// 2: waiting map, WAITING
+// 3: play round, PLAY
+// 4: restart before real play round, WAIT/READY
+// 5: first play round, GO
 
 
 // --- other variables ---
 function ktlcInit($event){
-  global $_debug,$_DedConfig,$_Game,$_ktlc_state,$_ktlc_res,$_ktlc_round,$_ktlc_round_wait,$_ktlc_GameInfos,$_ktlc_ServerOptions,$ktlcfilename,$ktlcfile,$ktlcresultfile,$ktlclog_roundnum,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_oldnb,$_ktlc_auto_spec,$_ktlc_auto_wnext,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_ktlc_vote_ask;
+  global $_debug,$_DedConfig,$_Game,$_ktlc_state,$_ktlc_res,$_ktlc_round,$_ktlc_round_wait,$_ktlc_GameInfos,$_ktlc_ServerOptions,$ktlcfilename,$ktlcfile,$ktlcresultfile,$ktlclog_roundnum,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_triplekill_limit,$_ktlc_oldnb,$_ktlc_auto_spec,$_ktlc_auto_wnext,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_ktlc_vote_ask;
 	if($_debug>3) console("ktlc.Event[$event]");
 
 	$_ktlc_ftimeouts = array(50000,35000,30000,25000);
@@ -44,6 +44,7 @@ function ktlcInit($event){
 
 	$_ktlc_final_limit = 3;
 	$_ktlc_dualkill_limit = 8;
+	$_ktlc_triplekill_limit = 3*$_ktlc_dualkill_limit - 2*$_ktlc_final_limit; // ie same number of rounds for dual and single
 
   $_ktlc_state = -1;
   $_ktlc_GameInfos = array();
@@ -74,7 +75,8 @@ function ktlcPrep($login){
 	if($_ktlc_state == -1){
 		$_ktlc_GameInfos = $_GameInfos;
 		$_ktlc_ServerOptions = $_ServerOptions;
-		addCall($login,'SetServerName','KTLC');
+		if(stripos($_ServerOptions['Name'],'ktlc') === false)
+			addCall($login,'SetServerName','KTLC');
 		addCall($login,'SetServerComment','$l[http://slig.free.fr/TM/KTLC/ktlc.html]KTLC$l'
 						.' - Kill The Last Cup: an online rounds survival game. :)');
 		addCall($login,'SetLadderMode',0);
@@ -117,7 +119,7 @@ function ktlcOn($login){
 		addCall($login,'LoadMatchSettings','KTLC.txt');
 		addCall($login,'SetLadderMode',0);
 		addCall($login,'SetCallVoteTimeOut',0);
-		addCall($login,'SetGameMode',0);
+		addCall($login,'SetGameMode',ROUNDS);
 		addCall($login,'SetChatTime',2000);
 		addCall($login,'SetUseNewRulesRound',false);
 		addCall($login,'SetRoundPointsLimit',1);
@@ -147,11 +149,11 @@ function ktlcOn($login){
 
 
 function ktlcOff($login){
-	global $_debug,$_ktlc_state,$_ktlc_GameInfos,$_ktlc_ServerOptions,$_ml_vote_ask,$_ktlc_vote_ask,$_map_control;
+	global $_debug,$_ktlc_state,$_ktlc_GameInfos,$_ktlc_ServerOptions,$_ml_vote_ask,$_ktlc_vote_ask,$_map_control,$_players;
   if(!is_string($login))
     $login = ''.$login;
 
-	if($_ktlc_state>0){
+	if($_ktlc_state > 0){
 		$_map_control = true;
 		ml_timesRemoveTimesMod('ktlc');
 
@@ -183,11 +185,21 @@ function ktlcOff($login){
 		$msg = localeText(null,'server_message').$login.localeText(null,'interact').' KTLC is already OFF !!!';
 		addCall(null,'ChatSendToLogin', $msg, $login);
 	}
+
+	// set all as free player
+	foreach($_players as $login => $pl){
+		if($pl['Active']){
+			if($pl['IsSpectator'])
+				addCall(null,'ForceSpectator',''.$kpl['Login'],1);
+			addCall(null,'ForceSpectator',$pl['Login'],2);
+			addCall(null,'ForceSpectator',$pl['Login'],0);
+		}
+	}
 }
 
 
 function ktlcBeginChallenge($event,$ChallengeInfo,$GameInfos){
-  global $_ktlc_state;
+  global $_ktlc_state,$_ktlc_res,$_players;
   //console("ktlc.Event[$event]");
 
   if($_ktlc_state == 5){
@@ -200,11 +212,40 @@ function ktlcBeginChallenge($event,$ChallengeInfo,$GameInfos){
     // send message in offical chat
     addCall(null,'ChatSendServerMessage', $msg);
   }
+
+	// set spec/play if needed, just in case...
+	if($_ktlc_state == 3 || $_ktlc_state == 5){
+		// playing round : set (again) loosers as spec, set others as player
+		foreach($_ktlc_res as $login => $kpl){
+			if($kpl['Loose'] > 0){
+				if(isset($_players[$login]['Active']) && $_players[$login]['Active'] && !$_players[$login]['IsSpectator']){
+					addCall(null,'ForceSpectator',''.$kpl['Login'],2);
+					addCall(null,'ForceSpectator',''.$kpl['Login'],1);
+				}
+			}else{
+				if(isset($_players[$login]['Active']) && $_players[$login]['Active'] && $_players[$login]['IsSpectator']){
+					addCall(null,'ForceSpectator',''.$kpl['Login'],2);
+					addCall(null,'ForceSpectator',''.$kpl['Login'],0);
+				}
+			}
+		}
+
+	}elseif($_ktlc_state == 1 || $_ktlc_state == 2 || $_ktlc_state == 4){
+		// first map restart and waiting map : set all as players
+		foreach($_players as $login => $pl){
+			if($pl['Active']){
+				if($pl['IsSpectator'])
+					addCall(null,'ForceSpectator',''.$pl['Login'],1);
+				addCall(null,'ForceSpectator',$pl['Login'],2);
+				addCall(null,'ForceSpectator',$pl['Login'],0);
+			}
+		}
+	}
 }
 
 
 function ktlcBeginRound($event){
-  global $_ktlc_state,$_ktlc_res,$_ktlc_round,$_ktlc_round_wait,$_StatusCode,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_oldnb,$_players_actives,$_players_spec,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_GameInfos;
+  global $_ktlc_state,$_ktlc_res,$_ktlc_round,$_ktlc_round_wait,$_StatusCode,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_triplekill_limit,$_ktlc_oldnb,$_players,$_players_actives,$_players_spec,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_GameInfos;
  	//console("ktlc.Event[$event]");
 
 	$ftimeout = ' $n$bbb(Finish: '.floor($_GameInfos['FinishTimeout']/1000).'s)';
@@ -229,7 +270,9 @@ function ktlcBeginRound($event){
 		$_ktlc_oldnb = $_players_actives;
 
     $msg = localeText(null,'server_message').'$z$s$i$faa !!! $c88Goo $d44Goooo $e55Goooo$f66OOOO $f88!!!';
-		if($_players_actives-$_players_spec > $_ktlc_dualkill_limit)
+		if($_players_actives-$_players_spec > $_ktlc_triplekill_limit)
+			$msg .= ' $ff0(Triple Kill supposed)'.$ftimeout;
+		else if($_players_actives-$_players_spec > $_ktlc_dualkill_limit)
 			$msg .= ' $ff0(Dual Kill supposed)'.$ftimeout;
 		else
 			$msg .= ' $ff0(Simple Kill supposed)'.$ftimeout;
@@ -240,7 +283,9 @@ function ktlcBeginRound($event){
 		// ktlc round
   }elseif($_ktlc_state == 3){
     $msg = localeText(null,'server_message').localeText(null,'interact').($_ktlc_round+1).' $d44Goooo !';
-		if($_ktlc_oldnb > $_ktlc_dualkill_limit)
+		if($_ktlc_oldnb > $_ktlc_triplekill_limit)
+			$msg .= '  $o$ff0Triple Kill ! '.$_ktlc_oldnb.' -> '.($_ktlc_oldnb-3).$ftimeout;
+		elseif($_ktlc_oldnb > $_ktlc_dualkill_limit)
 			$msg .= '  $o$ff0Dual Kill ! '.$_ktlc_oldnb.' -> '.($_ktlc_oldnb-2).$ftimeout;
 		elseif($_ktlc_oldnb > $_ktlc_final_limit)
 			$msg .= '  $o$ff0Simple Kill ! '.$_ktlc_oldnb.' -> '.($_ktlc_oldnb-1).$ftimeout;
@@ -279,7 +324,7 @@ function ktlcEndRound($event){
 
 
 function ktlcEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
-	global $_ktlc_state,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_ktlc_round_wait,$_players_actives,$_StatusCode;
+	global $_ktlc_state,$_ktlc_ftimeout,$_ktlc_ftimeouts,$_ktlc_round_wait,$_players_actives,$_players,$_StatusCode;
 	//console("ktlc.Event[$event]");
 
 	if($_ktlc_state == 1 || $_ktlc_state == 2){
@@ -302,14 +347,26 @@ function ktlcEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 		//addCall(null,'SetChatTime',500);
 		addCall(null,'ChallengeRestart');
 
-		ktlcLogRace($Ranking,$ChallengeInfo,$GameInfos);
+		if(!ktlcLogRace($Ranking,$ChallengeInfo,$GameInfos)){
+			$msg = localeText(null,'server_message').localeText(null,'interact').' KTLC:  restarting the challenge !...';
+			// send message in offical chat
+			addCall(null,'ChatSendServerMessage', $msg);
 
-		$msg = localeText(null,'server_message').localeText(null,'interact').' KTLC:  restarting the challenge !...';
-		// send message in offical chat
-		addCall(null,'ChatSendServerMessage', $msg);
+		}else{
+			// map finished: set all as player
+			foreach($_players as $login => $pl){
+				if($pl['Active']){
+					if($pl['IsSpectator'])
+						addCall(null,'ForceSpectator',''.$pl['Login'],1);
+					addCall(null,'ForceSpectator',$pl['Login'],2);
+					addCall(null,'ForceSpectator',$pl['Login'],0);
+				}
+			}
+		}
 	}
 
 	ml_timesRefresh();
+
 }
 
 
@@ -332,18 +389,34 @@ function ktlcPlayerConnect($event,$login){
 		$msg = localeText(null,'server_message').localeText(null,'interact');
 		if($_ktlc_round > 0){
 			if(!isset($_ktlc_res[$login])){
-				addCall(null,'ForceSpectator',''.$login,1);
+				console("ktlcPlayerConnect:: {$login} => spec (not in list)");
+				addCall(null,'ForceSpectator',''.$login,2);
+				addCallDelay(5000,null,'ForceSpectator',''.$login,1);
+				addCallDelay(10000,null,'ForceSpectator',''.$login,1);
+				addCallDelay(20000,null,'ForceSpectator',''.$login,1);
 				$msg .= 'Sorry, already started ! please wait as spectator...';
 
 			}elseif($_ktlc_res[$login]['Loose'] == 1){
-				addCall(null,'ForceSpectator',''.$login,1);
+				console("ktlcPlayerConnect:: {$login} => spec (have lost)");
+				addCall(null,'ForceSpectator',''.$login,2);
+				addCallDelay(5000,null,'ForceSpectator',''.$login,1);
+				addCallDelay(10000,null,'ForceSpectator',''.$login,1);
+				addCallDelay(20000,null,'ForceSpectator',''.$login,1);
 				$msg .= 'Sorry, you already lost : please wait as spectator...';
 
-			}else
+			}else{
+				console("ktlcPlayerConnect:: {$login} => play (still in game)");
+				addCall(null,'ForceSpectator',''.$login,2);
+				addCall(null,'ForceSpectator',''.$login,0);
 				$msg .= '$d44Goooo ! Round is started : try to finish !';
+			}
 
-		}else
+		}else{
+			console("ktlcPlayerConnect:: {$login} => play (first round)");
+			addCall(null,'ForceSpectator',''.$login,2);
+			addCall(null,'ForceSpectator',''.$login,0);
 			$msg .= '$d44Goooo ! First round is started : try to finish !';
+		}
 
 		addCall(null,'ChatSendToLogin', $msg, ''.$login);
 	}
@@ -351,9 +424,9 @@ function ktlcPlayerConnect($event,$login){
 
 
 function ktlcBuildResArray($endround=false){
-	global $_debug,$_ktlc_state,$_ktlc_res,$_ktlc_round,$_players,$_players_positions,$_PlayerList,$_ktlc_oldnb,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_auto_spec,$_ktlc_auto_wnext;
+	global $_debug,$_ktlc_state,$_ktlc_res,$_ktlc_round,$_players,$_players_positions,$_PlayerList,$_ktlc_oldnb,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_triplekill_limit,$_ktlc_auto_spec,$_ktlc_auto_wnext;
 	
-	$retval = false; // true when map is was last round of map
+	$retval = false; // true if was last round of map
 
 	// at least 1 player should have finished when $endround is true, filtered by ktlcLogRace()
 	if($_ktlc_state != 3)
@@ -367,16 +440,38 @@ function ktlcBuildResArray($endround=false){
 		$login = $plp['Login'];
 		$nickname = $plp['NickName'];
 		$nickdraw = $plp['NickDraw'];
-		$res[$login] = array('Login'=>$login,'NickName'=>$nickname,'NickDraw'=>$nickdraw,'Rank'=>$pos++,'FinalTime'=>$plp['FinalTime'],'Check'=>$plp['Check'],'Time'=>$plp['Time'],'Round'=>$_ktlc_round,'Spec'=>false,'Loose'=>0);
+
+		if(!isset($_ktlc_res[$login]['Loose'])){
+			// not in list
+			if($_ktlc_round <= 1){
+				// new player, else doon't add in list
+				$res[$login] = array('Login'=>$login,'NickName'=>$nickname,'NickDraw'=>$nickdraw,'Rank'=>$pos++,'FinalTime'=>$plp['FinalTime'],'Check'=>$plp['Check'],'Time'=>$plp['Time'],'Round'=>$_ktlc_round,'Spec'=>false,'Loose'=>0);
+				$nbp++;
+				if($plp['FinalTime'] > 0)
+					$nbfinished++;
+			}
+
+		}elseif($_ktlc_res[$login]['Loose'] > 0){
+			// already looser, keep previous info and set spec (again)
+			$res[$login] = $_ktlc_res[$login];
+			console("ktlcBuildResArray:: {$login} ==> spec (played while had lost !)");
+			addCall(null,'ForceSpectator',''.$login,1);
+			addCallDelay(1000,null,'ForceSpectator',''.$login,1);
+
+		}else{
+			// still player, use new round infos
+			$res[$login] = array('Login'=>$login,'NickName'=>$nickname,'NickDraw'=>$nickdraw,'Rank'=>$pos++,'FinalTime'=>$plp['FinalTime'],'Check'=>$plp['Check'],'Time'=>$plp['Time'],'Round'=>$_ktlc_round,'Spec'=>false,'Loose'=>0);
+			$nbp++;
+			if($plp['FinalTime'] > 0)
+				$nbfinished++;
+		}
 		if(isset($_ktlc_res[$login]))
 			unset($_ktlc_res[$login]);
-		$nbp++;
-		if($plp['FinalTime'] > 0)
-			$nbfinished++;
 	}
+
+	// keep players who have not play this round in list
 	foreach($_ktlc_res as &$plk){
 		$login = $plk['Login'];
-		//$res[$login] = array('Login'=>$login,'NickName'=>$plk['NickName'],'NickDraw'=>$plk['NickDraw'],'Rank'=>$pos++,'FinalTime'=>$plk['FinalTime'],'Check'=>$plk['Check'],'Time'=>$plk['Time'],'Round'=>$plk['Round'],'Spec'=>true,'Loose'=>0);
 		$res[$login] = $plk;
 	}
 
@@ -392,7 +487,9 @@ function ktlcBuildResArray($endround=false){
 				// force spec all not playing
 				foreach($_players as $login => &$pl){
 					if($pl['Active'] && !isset($res[$login])){
+						console("ktlcBuildResArray:: {$login} => spec (not in list)");
 						addCall(null,'ForceSpectator',''.$login,1);
+						addCallDelay(1000,null,'ForceSpectator',''.$login,1);
 						$msg .= $sep.'['.stripColors($pl['NickName']).']'; $sep = ', ';
 					}
 				}
@@ -407,17 +504,21 @@ function ktlcBuildResArray($endround=false){
 			//debugPrint("ktlcBuildResArray - $nbp - keys",$keys);
 
 			// minimum number of player who loose depend of number of supposed playing players
-			$nbloose = 1;
-			if($_ktlc_oldnb > $_ktlc_dualkill_limit)
-				$nbloose = 2;
+			$nbloose = ($_ktlc_oldnb > $_ktlc_triplekill_limit) ? 3 : (($_ktlc_oldnb > $_ktlc_dualkill_limit) ? 2 : 1);
+			console("ktlcBuildResArray:: {$_ktlc_oldnb}, {$_ktlc_dualkill_limit}, {$_ktlc_triplekill_limit} : {$nbloose} loosers");
 
 			$nb = $_ktlc_oldnb - 1;
-
+			$nbl = -1;
+			
+			console("ktlcBuildResArray:1: nb=$nb , nbloose=$nbloose");
 			// all who did not played or not finished loose
 			while($nb > 0 && (($nb >= $nbp) || ($res[$keys[$nb]]['FinalTime'] <= 0))){
-				console("ktlcBuildResArray - 1.make loose: $nb");
-				if($_ktlc_auto_spec)
+				console("ktlcBuildResArray:: 1.make loose: $nb ({$res[$keys[$nb]]['Login']} ,  not finished)");
+				if($_ktlc_auto_spec){
+					console("ktlcBuildResArray:: {$res[$keys[$nb]]['Login']} => spec (have lost, not finished)");
 					addCall(null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+					addCallDelay(1000,null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+				}
 				$msg .= $sep.stripColors($res[$keys[$nb]]['NickName']); $sep = ', ';
 				$res[$keys[$nb]]['Round'] = $_ktlc_round;
 				if($res[$keys[$nb]]['FinalTime'] < 0){ // did not played, need to set values
@@ -426,25 +527,37 @@ function ktlcBuildResArray($endround=false){
 					$res[$keys[$nb]]['Check'] = 0;
 					$res[$keys[$nb]]['Time'] = 0;
 				}
-				$res[$keys[$nb--]]['Loose'] = 1;
-				$nbloose--;
-			}
-			// make loose all (in case of multikill) after (in list) the best looser
-			while($nb > 0 && $nbloose > 1){
-				console("ktlcBuildResArray - 2.make loose: $nb");
-				if($_ktlc_auto_spec)
-					addCall(null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
-				$msg .= $sep.stripColors($res[$keys[$nb]]['NickName']); $sep = ', ';
-				$res[$keys[$nb--]]['Loose'] = 1;
-				$nbloose--;
-			}
-			// make loose nb (the best looser) and all previous with same final time
-			if($nb > 0 && $nbloose > 0){
 				$nbl = $nb;
+				$res[$keys[$nb--]]['Loose'] = 1;
+				$nbloose--;
+			}
+
+			console("ktlcBuildResArray:2: nb=$nb , nbloose=$nbloose");
+			// make loose all (in case of multikill) after (in list) the best looser
+			while($nb > 0 && $nbloose > 0){
+				console("ktlcBuildResArray:: 2.make loose: $nb ({$res[$keys[$nb]]['Login']} ,  looser #{$nbloose})");
+				if($_ktlc_auto_spec){
+					console("ktlcBuildResArray:: {$res[$keys[$nb]]['Login']} => spec (have lost, looser #{$nbloose})");
+					addCall(null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+					addCallDelay(1000,null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+				}
+				$msg .= $sep.stripColors($res[$keys[$nb]]['NickName']); $sep = ', ';
+				$nbl = $nb;
+				$res[$keys[$nb--]]['Loose'] = 1;
+				$nbloose--;
+			}
+
+			console("ktlcBuildResArray:3: nb={$nb} , nbl={$nbl} , nbloose={$nbloose}");
+			// make loose nb (the best looser) and all previous with same final time
+			if($nbl > 0 && $nbloose >= 0){
+  			console("ktlcBuildResArray:4: {nb=$nb} , nbl={$nbl} , {nbloose=$nbloose}");
 				while($nb >= 0 && $res[$keys[$nb]]['FinalTime'] == $res[$keys[$nbl]]['FinalTime']){
-					console("ktlcBuildResArray - 3.make loose: $nb");
-					if($_ktlc_auto_spec)
+					console("ktlcBuildResArray:5: 3.make loose: $nb ({$res[$keys[$nb]]['Login']} ,  same time as {$nbl})");
+					if($_ktlc_auto_spec){
+						console("ktlcBuildResArray:: {$res[$keys[$nb]]['Login']} => spec (have lost, same time as first looser)");
 						addCall(null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+						addCallDelay(1000,null,'ForceSpectator',''.$res[$keys[$nb]]['Login'],1);
+					}
 					$msg .= $sep.stripColors($res[$keys[$nb]]['NickName']); $sep = ', ';
 					$res[$keys[$nb--]]['Loose'] = 1;
 					$nbloose--;
@@ -453,11 +566,30 @@ function ktlcBuildResArray($endround=false){
 
 			// new old number of remaining players
 			$_ktlc_oldnb = $nb + 1;
-			$msg .= "  \$bbb(remain: $_ktlc_oldnb)";
+			$msg .= "\n\$bbbremain({$_ktlc_oldnb})";
+			$sep = ': $z';
+			foreach($res as $login => $kpl){
+				if($kpl['Loose'] <= 0){
+					$msg .= $sep.$kpl['NickName'];
+					$sep = ', $z';
+					if(isset($_players[$login]['Active']) && $_players[$login]['Active'] && $_players[$login]['IsSpectator']){
+						console("ktlcBuildResArray:: {$login} ==> play (still player but was spec)");
+						addCall(null,'ForceSpectator',''.$kpl['Login'],1);
+						addCall(null,'ForceSpectator',''.$kpl['Login'],2);
+						addCall(null,'ForceSpectator',''.$kpl['Login'],0);
+					}
+				}else{
+					if(isset($_players[$login]['Active']) && $_players[$login]['Active'] && !$_players[$login]['IsSpectator']){
+						console("ktlcBuildResArray:: {$login} ==> spec (looser but not in spec)");
+						addCall(null,'ForceSpectator',''.$kpl['Login'],2);
+						addCall(null,'ForceSpectator',''.$kpl['Login'],1);
+					}
+				}
+			}
 
 			// Special victory : only one is remaining !
 			if($nb <= 0){
-				console("ktlcBuildResArray - 5.make win: $nb");
+				console("ktlcBuildResArray:: 5.make win: $nb  ({$res[$keys[0]]['Login']},  alone)");
 				$msg .= "\n\$ff0\$oSpecial winner :  \$2f2".stripColors($res[$keys[0]]['NickName']);
 				$res[$keys[0]]['Loose'] = 2;
 
@@ -472,7 +604,7 @@ function ktlcBuildResArray($endround=false){
 			$sep = '';
 			$nb = $_ktlc_oldnb - 1;
 			while($nb >= 0){
-				console("ktlcBuildResArray - 6.make win: $nb");
+				console("ktlcBuildResArray:: 6.make win: $nb  ({$res[$keys[$nb]]['Login']},  finalist)");
 				$msg2 = stripColors($res[$keys[$nb]]['NickName']).$sep.$msg2; $sep = ' , ';
 				$res[$keys[$nb--]]['Loose'] = 2;
 			}
@@ -494,13 +626,14 @@ function ktlcBuildResArray($endround=false){
 //------------------------------------------
 function ktlcLogRace($Ranking,$ChallengeInfo,$GameInfos){
 	global $_debug,$_ktlc_state,$_ktlc_res,$_ktlc_round,$_players,$_players_positions,$_PlayerList;
+	$lastround = false;
 
 	//debugPrint("ktlcLogRace - _players",$_players);
 	if($_debug>2) debugPrint("ktlcLogRace - $_ktlc_state - $_ktlc_round - _players_positions",$_players_positions);
 	
 	// not in ktlc race or nobody finished the round, don't kill, don't log
 	if($_ktlc_state != 3 || !isset($_players_positions[0]['FinalTime']) || $_players_positions[0]['FinalTime'] <= 0)
-		return;
+		return $lastround;
 
 	// build new round results
 	$_ktlc_round++;
@@ -508,7 +641,7 @@ function ktlcLogRace($Ranking,$ChallengeInfo,$GameInfos){
 
 	// don't log waiting rounds !
 	if($_ktlc_round < 1)
-		return;
+		return $lastround;
 
 	//debugPrint("ktlcLogRace - _ktlc_res ($_ktlc_round)",$_ktlc_res);
 
@@ -526,6 +659,8 @@ function ktlcLogRace($Ranking,$ChallengeInfo,$GameInfos){
 	}
 
 	ktlclog($msg1."\n",$lastround);
+
+	return $lastround;
 }
 
 
@@ -603,7 +738,7 @@ function ktlclog_on(){
 
 	if($ktlcresultfile === false){
 		$ktlcresultfilename = 'ktlc.'.strtolower($_Game).'.'.$_DedConfig['login'].'.'.date('ymd');
-		$ktlcresultfile = fopen('fastlog/'.$ktlcresultfilename.'.txt','ab');
+		$ktlcresultfile = fopen('fastlog/ktlc/'.$ktlcresultfilename.'.txt','ab');
 	}
 }
 
@@ -637,7 +772,7 @@ function ktlclogResultCopy(){
 
 		// make html ktlc_result
 		$datas = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>TM Match</title></head><body><pre>';
-		$datas .= file_get_contents('fastlog/'.$ktlcresultfilename.'.txt');
+		$datas .= file_get_contents('fastlog/ktlc/'.$ktlcresultfilename.'.txt');
 		$datas .= '</pre></body></html>';
 		$nb = file_put_contents('fastlog/'.$ktlcresultfilename.'.html',$datas);
 
@@ -723,9 +858,9 @@ function ktlcWNext($login=null,$msg=' Next waiting challenge !',$change='next',$
 // -----------------------------------------------------------
 
 
-function chat_ktlc($author, $login, $params){
+function chat_ktlc($author, $login, $params, $params2=null){
 	global $_GameInfos,$_NextGameInfos,$_ServerOptions,$_autorestart_no,$_StatusCode,$_players;
-	global $_ktlc_state,$_ktlc_GameInfos,$_ktlc_ServerOptions,$_players,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_auto_spec,$_ktlc_auto_wnext;
+	global $_ktlc_state,$_ktlc_GameInfos,$_ktlc_ServerOptions,$_players,$_ktlc_final_limit,$_ktlc_dualkill_limit,$_ktlc_triplekill_limit,$_ktlc_auto_spec,$_ktlc_auto_wnext;
 
 	// verify if author is in admin list
 	if(!verifyAdmin($login))
@@ -826,11 +961,28 @@ function chat_ktlc($author, $login, $params){
 		// activate ktlc mode
 	}elseif(isset($params[0]) && $params[0] == 'on'){
 		ktlcOn($login);
-		// set dualkill limit value if specified
-		$num = $params[1]+0;
-		if($_ktlc_final_limit < $num)
-			$_ktlc_dualkill_limit = $num;
-		$msg = localeText(null,'server_message').localeText(null,'interact')."KTLC Dualkill limit value : $_ktlc_dualkill_limit";
+		// set dualkill and triplekill limit values if specified
+
+		if(isset($params2[1])){
+			$num = $params2[1]+0;
+			if($_ktlc_final_limit < $num){
+				$_ktlc_dualkill_limit = $num;
+				if(isset($params2[2])){
+					$num2 = $params2[2]+0;
+					if($_ktlc_dualkill_limit < $num2)
+						$_ktlc_triplekill_limit = $num2;
+					else
+						$_ktlc_triplekill_limit = 3*$_ktlc_dualkill_limit - 2*$_ktlc_final_limit; // ie same number of rounds for dual and single
+				}else
+					$_ktlc_triplekill_limit = 3*$_ktlc_dualkill_limit - 2*$_ktlc_final_limit; // ie same number of rounds for dual and single
+
+				if($_ktlc_dualkill_limit < $_ktlc_final_limit + 2)
+					$_ktlc_dualkill_limit = $_ktlc_final_limit + 2;
+				if($_ktlc_triplekill_limit < $_ktlc_final_limit + 3)
+					$_ktlc_triplekill_limit = $_ktlc_final_limit + 3;
+			}
+		}
+		$msg = localeText(null,'server_message').localeText(null,'interact')."KTLC Dualkill limit: {$_ktlc_dualkill_limit} , Triplekill limit: {$_ktlc_triplekill_limit}";
 		addCall(null,'ChatSendServerMessage', $msg);
 
 		// desactivate ktlc mode
@@ -846,15 +998,26 @@ function chat_ktlc($author, $login, $params){
 
 		// set dualkill limit
 	}elseif(isset($params[0]) && $params[0] == 'limit'){
-		$num = $params[1]+0;
-		$msg = localeText(null,'server_message').localeText(null,'interact');
-		if($_ktlc_final_limit >= $num)
-			$msg .= 'Bad dualkill limit value !';
-			
-		else{
-			$_ktlc_dualkill_limit = $num;
-			$msg .= "KTLC Dualkill limit value : $num";
+		if(isset($params2[1])){
+			$num = $params2[1]+0;
+			if($_ktlc_final_limit < $num){
+				$_ktlc_dualkill_limit = $num;
+				if(isset($params2[2])){
+					$num2 = $params2[2]+0;
+					if($_ktlc_dualkill_limit < $num2)
+						$_ktlc_triplekill_limit = $num2;
+					else
+						$_ktlc_triplekill_limit = 3*$_ktlc_dualkill_limit - 2*$_ktlc_final_limit; // ie same number of rounds for dual and single
+				}else
+					$_ktlc_triplekill_limit = 3*$_ktlc_dualkill_limit - 2*$_ktlc_final_limit; // ie same number of rounds for dual and single
+
+				if($_ktlc_dualkill_limit < $_ktlc_final_limit + 2)
+					$_ktlc_dualkill_limit = $_ktlc_final_limit + 2;
+				if($_ktlc_triplekill_limit < $_ktlc_final_limit + 3)
+					$_ktlc_triplekill_limit = $_ktlc_final_limit + 3;
+			}
 		}
+		$msg = localeText(null,'server_message').localeText(null,'interact')."KTLC Dualkill limit: {$_ktlc_dualkill_limit} , Triplekill limit: {$_ktlc_triplekill_limit}";
 		addCall(null,'ChatSendServerMessage', $msg);
 
 
@@ -934,7 +1097,7 @@ function chat_ktlc($author, $login, $params){
 
 		// help
 	}else{
-		$msg = localeText(null,'server_message') . localeText(null,'interact').'/ktlc prep, on [limit], off, wnext [#|envir], wprev [#|envir], wrestart, next, restart, limit, specforce login, spec login, play login, free login';
+		$msg = localeText(null,'server_message') . localeText(null,'interact').'/ktlc prep, on [limit1] [limit2], off, wnext [#|envir], wprev [#|envir], wrestart, next, restart, limit [limit1] [limit2], specforce login, spec login, play login, free login';
 		// send message to user who wrote command
 		addCall(null,'ChatSendToLogin', $msg, $login);
 	}
