@@ -3,18 +3,18 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      23.03.2010
+// Date:      12.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
 
-registerCommand('team','/team pointslimit [number] , maxpoint [number] , newrules [0/1] , fixed [number] , gap [#|off] , warmupduration [number] , fwarmupduration [number] , ftimeout [number] , blue [login], red [login], score b=num|r=num|back [#]',true);
+registerCommand('team','/team pointslimit [number] , maxpoint [number] , newrules [0/1] , fixed [number] , gap [#|off] , playersperteam|ppt [#], warmupduration [number] , fwarmupduration [number] , ftimeout [number] , blue [login], red [login], score b=num|r=num|back [#]',true);
 
 //------------------------------------------
 // Team Commands
 //------------------------------------------
 function chat_team($author, $login, $params, $params2){
-	global $_GameInfos,$_NextGameInfos,$_Game,$_is_dedicated,$_teamroundslimit_rule,$_players,$_FWarmUpDuration,$_teamgap_rule;
+	global $_GameInfos,$_NextGameInfos,$_Game,$_is_dedicated,$_teamroundslimit_rule,$_players,$_FWarmUpDuration,$_teamgap_rule,$_teams,$_team_playersperteam;
 
 	// verify if author is in admin list
 	if(!verifyAdmin($login))
@@ -151,6 +151,23 @@ function chat_team($author, $login, $params, $params2){
 			addCall(null,'ChatSendToLogin', $msg, $login);
 		}
 			
+		// PPT : egual players per team points !
+		//  - handled if TeamMaxPoints==0
+		//  - will use TeamPointsLimit as pointslimit
+		//  - will set TeamUseNewRules true and TeamPointsLimitNewRules to pointslimit*10 (like gap mode)
+		//  - will use the smallest number of players (of both teams) and don't give points to players of the other team above that number
+		//  - if playersperteam >0 then give points only to 1st playersperteam (or number of smallest team) players in each team,
+		//    each round best player will have playersperteam*2 points
+	}elseif(isset($params[0]) && ($params[0] == 'playersperteam' || $params[0] == 'ppt' || $params[0] == 'tp')){
+		$_team_playersperteam = $params[1]+0;
+		if($_team_playersperteam < 0)
+			$_team_playersperteam = 0;
+		addCall($login,'SetMaxPointsTeam',0);
+		addCall($login,'SetUseNewRulesTeam',True);
+		$msg = localeText(null,'server_message') . localeText(null,'interact').'PlayersPerTeam '.$_team_playersperteam;
+		// send message to user who wrote command
+		addCall(null,'ChatSendToLogin', $msg, $login);
+		
     // warmup duration
   }elseif(isset($params[0]) && ($params[0] == 'warmupduration' || $params[0] == 'wuduration' || $params[0] == 'wud' || $params[0] == 'wu')){
     if(isset($params[1])) {
@@ -252,9 +269,11 @@ function chat_team($author, $login, $params, $params2){
 							if($team == 'blue' || $team == 'b' || $team == '0'){
 								$val[] = array('PlayerId'=>0,'Score'=>$score);
 								$msg .= 'Blue score to '.$score.'... ';
+								$_teams[0]['RaceScore'] = $score;
 							}elseif($team == 'red' || $team == 'r' || $team == '1'){
 								$val[] = array('PlayerId'=>1,'Score'=>$score);
 								$msg .= 'Red score to '.$score.'... ';
+								$_teams[1]['RaceScore'] = $score;
 							}
 						}
 					}
