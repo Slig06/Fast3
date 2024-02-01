@@ -3,17 +3,18 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      08.04.2023
+// Date:      09.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
 
 // Please do not modify it, it is used for autoupdate and dedimania info
 // eventually modofied FASTver strings will be refused by Dedimania !
-$_FASTver = '3.2.4d';
+$_FASTver = '3.2.4e';
 
 //$_GAMEFIXURL = 'http://www.tm-forum.com/viewtopic.php?f=6&t=16357';
 $_GAMEFIXURL = 'http://www.tm-forum.com/viewtopic.php?f=28&t=19288';
+
 
 //--------------------------------------------------------------
 // TMF

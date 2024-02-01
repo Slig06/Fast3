@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
-// Date:      20.09.2011
+// Date:      13.04.2023
 // Author:    Gilles Masson
 // 
 // These are public functions usable in plugins
@@ -1141,7 +1141,7 @@ function loginToString(&$response,$level){
 // return string with challenge and mode infos
 //------------------------------------------
 function stringInfos($gameinfos,$challenge,$fgamemode=''){
-	global $_modelist,$_roundslimit_rule,$_teamroundslimit_rule,$_cup_autoadjust,$_FWarmUpDuration,$_teamgap_rule;
+	global $_modelist,$_roundslimit_rule,$_teamroundslimit_rule,$_cup_autoadjust,$_FWarmUpDuration,$_teamgap_rule,$_team_playersperteam;
 
 	$gmode = $gameinfos['GameMode'];
 	if($challenge !== null && isset($challenge['Name'])){
@@ -1181,6 +1181,8 @@ function stringInfos($gameinfos,$challenge,$fgamemode=''){
 				$msg .= localeText(null,'track_round').',$nPointsLimit='.localeText(null,'highlight').$_teamgap_rule.' (min-gap=2)';
 			else
 				$msg .= localeText(null,'track_round').',$nPointsLimit='.localeText(null,'highlight').$gameinfos['TeamPointsLimitNewRules'];
+			if($gameinfos['TeamMaxPoints'] == 0)
+				$msg .= localeText(null,'track_round').',$nPPT='.localeText(null,'highlight').$_team_playersperteam;
 		}else
 			$msg .= localeText(null,'track_round').',$nPointsLimit='.localeText(null,'highlight').$gameinfos['TeamPointsLimit'];
 		if(isset($_teamroundslimit_rule) && $_teamroundslimit_rule > 0)
