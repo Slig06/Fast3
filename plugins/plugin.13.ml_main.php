@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      25.08.2011
+// Date:      09.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -666,7 +666,7 @@ function ml_mainBuildPlNumXml(){
 	// if round mode then draw round number in bottom left
 	if($_GameInfos['GameMode'] == ROUNDS || $_GameInfos['GameMode'] == TEAM || $_GameInfos['GameMode'] == CUP){
 		$teamsg = '';
-		if($_GameInfos['GameMode'] == TEAM)
+		if($_GameInfos['GameMode'] == TEAM && isset($_Ranking[1]['Score']))
 			$teamsg = '$333/ $339'.$_teams[0]['Num'].'$n$aaa vs $m$933'.$_teams[1]['Num']
 				.' $333/ $s$00f'.$_Ranking[0]['Score'].'$n$ddd <> $m$f00'.$_Ranking[1]['Score'];
 		$_ml_main_plnum_xml .= sprintf('<label posn="-62.6 -46.4 10" textsize="1" text="$cccr:$fff %d %s"/>',

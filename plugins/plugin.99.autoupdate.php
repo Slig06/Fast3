@@ -3,9 +3,12 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      12.04.2008
+// Date:      09.04.2023
 // Author:    Gilles Masson
 // 
+//   https://github.com/Slig06/Fast3
+//   http://slig.info/fast3.2/
+//
 ////////////////////////////////////////////////////////////////
 
 if(!function_exists('zip_open')){

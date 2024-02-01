@@ -10,6 +10,7 @@
 //
 registerPlugin('ml_team',19,1.0);
 
+// Team Scores Panel
 
 
 // --- other variables ---

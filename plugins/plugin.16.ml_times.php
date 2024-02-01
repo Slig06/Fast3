@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 / 4.0 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      29.09.2011
+// Date:      09.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ function ml_timesRefresh($login=true){
 			}
 		}
 	}else if(isset($_players[$login]['ML']['Show.times']) && $_players[$login]['ML']['Show.times'] && $_players[$login]['ML']['Show.ml_times'] > 0){
-		if($pl['Status2'] < 2)
+		if($_players[$login]['Status2'] < 2)
 			ml_timesUpdateXml1($login,'refresh');
 		else
 			ml_timesUpdateXmlF($login,'refresh');

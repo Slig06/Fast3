@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
-// Date:      25.08.2011
+// Date:      12.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -82,11 +82,11 @@ function matchlogBeginRound(){
 				$tnick1 = stripColors(''.$_Ranking[1]['NickName']);
 
 				$msg = '$z $ddd* Score: '.$_teamcolor[0].$tnick0.' '.$_Ranking[0]['Score'];
-				$msg .= '$ddd <> '.$_teamcolor[1].$_Ranking[1]['Score'].' '.$tnick1.'$z';
+				$msg .= '$ddd - '.$_teamcolor[1].$_Ranking[1]['Score'].' '.$tnick1.'$z';
 
 				addCall(null,'ChatSendServerMessage', $msg);
 				console('Score - '.stripColors($msg));
-				$msg = 'Score: '.$tnick0.' '.$_Ranking[0]['Score'].' <> '.$_Ranking[1]['Score'].' '.$tnick1."\n";
+				$msg = 'Score: '.$tnick0.' '.$_Ranking[0]['Score'].' - '.$_Ranking[1]['Score'].' '.$tnick1."\n";
 				matchlog($msg);
 			}
 		}

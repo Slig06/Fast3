@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      25.08.2011
+// Date:      12.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -332,7 +332,7 @@ function ml_specinfosUpdateLapInfoXml($login,$action='show',$cp=-1,$lap=-1){
 // action can be 'show', 'hide', 'remove'
 //--------------------------------------------------------------
 function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
-	global $_mldebug,$_players,$_StatusCode,$_BestPlayersChecks,$_GameInfos,$_BestChecks,$_IdealChecks,$_BestChecksName,$_spec_players_bg_xml,$_players_positions,$_players_actives,$_players_spec;
+	global $_mldebug,$_players,$_StatusCode,$_BestPlayersChecks,$_GameInfos,$_BestChecks,$_IdealChecks,$_BestChecksName,$_spec_players_bg_xml,$_players_positions,$_players_actives,$_players_spec,$_teams;
 	if($login===true){
 		foreach($_players as $login => &$pl){
 			if(isset($pl['ML']) && $pl['Status2']==1 && $pl['ML']['ShowML'])
@@ -374,9 +374,11 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 		$lines = 2;
 	if($lines > 22)
 		$lines = 22;
-
+	
 	// show bg
 	$h = $hline*$lines+1;
+	if($_GameInfos['GameMode'] == TEAM) // 1 line more to show Team Score !
+		$h += $hline;
 	$xml = sprintf($_spec_players_bg_xml,$h,$h-23.6);
 	manialinksShow($login,'ml_specinfos.spec.bg',$xml);
 
@@ -396,6 +398,7 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 		$pdiff = $pmax - $lines;
 	else
 		$pdiff = 0;
+
 	$msg = '';
 	for($line=0;$line<$lines;$line++){
 		$pos = ($line < $lmax)? $line : $line+$pdiff;;
@@ -409,21 +412,21 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 			// color
 			if($_players[$pl2['Login']]['TeamId']==0){ // blue
 				if($pl2['Login']==$login) // login
-					$color = '$0be';
+					$color = '$45e';
 				elseif($pl2['FinalTime']>0) // finished
 					$color = '$33e';
 				elseif($pl2['FinalTime']==0) // gave up
-					$color = '$337';
+					$color = '$338';
 				else
 					$color = '$00e';
 				
 			}elseif($_players[$pl2['Login']]['TeamId']==1){ // red
 				if($pl2['Login']==$login) // login
-					$color = '$eb0';
+					$color = '$e54';
 				elseif($pl2['FinalTime']>0) // finished
 					$color = '$f33';
 				elseif($pl2['FinalTime']==0) // gave up
-					$color = '$733';
+					$color = '$833';
 				else
 					$color = '$e00';
 				
@@ -437,12 +440,21 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 				else
 					$color = '$edd';
 			}
+			$pcolor = $color;
 			if($pl2['FinalTime']>0) // finished
-				$color .= '$i';
+				$pcolor .= '$i';
 
-			$msg = ($pos<9 ? '$s$ff0 '.($pos+1).'.  ' : '$s$ff0'.($pos+1).'. ')
-				.$color.$_players[$plogin]['NickDraw2'];
 
+			// if Team then show player score (supposed) on left instead of position
+			if($_players[$pl2['Login']]['TeamId'] >= 0){
+				$tsc = ($_players[$pl2['Login']]['TeamScore'] > 0) ? $color.$_players[$pl2['Login']]['TeamScore'] : '$n . ';
+				$tpos = $_players[$pl2['Login']]['Position']['TPos'];
+				$msg = ($tsc<10 ? '$s$ddd$m $n<$m'.$tsc.'$ddd$n>$m  ' : '$s$ddd$n<$m'.$tsc.'$ddd$n>$m ').$pcolor.$_players[$plogin]['NickDraw2'];
+			}
+			else{
+				$msg = ($pos<9 ? '$o$m$s$ff0 '.($pos+1).'.  ' : '$o$m$s$ff0'.($pos+1).'. ').$pcolor.$_players[$plogin]['NickDraw2'];
+			}
+			
 			if($pos>0){
 				// not first player and not finished : diff with first player
 				if($pl2['FinalTime']==0)
@@ -460,20 +472,24 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 				}
 			}else{
 				// first player
-				$time2 = $pl2['Time'];
-				$strtime2 = MwTimeToString($time2);
+				if($pl2['FinalTime']==0)
+					$strtime2 = 'out';
+				else{
+					$time2 = $pl2['Time'];
+					$strtime2 = MwTimeToString($time2);
 
-				// first player : add diff against best top
-				if($_GameInfos['GameMode'] != LAPS || $_players[$plogin]['FinalTime'] < 0){
-					$time2 = end($_players[$plogin][$Checkpoints]);
-					$key2 = key($_players[$plogin][$Checkpoints]);
-					if(isset($_BestChecks[$key2]) && $_BestChecks[$key2]>0){
-						$msg3 = '$s$bbb>$n'.$_BestChecksName.'$m: ';
-						$diff = $time2 - $_BestChecks[$key2];
-						if($diff>0)
-							$msg3 .= '$b11'.MwDiffTimeToString($diff);
-						else
-							$msg3 .= '$11b'.MwDiffTimeToString($diff);
+					// first player : add diff against best top
+					if($_GameInfos['GameMode'] != LAPS || $_players[$plogin]['FinalTime'] < 0){
+						$time2 = end($_players[$plogin][$Checkpoints]);
+						$key2 = key($_players[$plogin][$Checkpoints]);
+						if(isset($_BestChecks[$key2]) && $_BestChecks[$key2]>0){
+							$msg3 = '$s$bbb>$n'.$_BestChecksName.'$m: ';
+							$diff = $time2 - $_BestChecks[$key2];
+							if($diff>0)
+								$msg3 .= '$b11'.MwDiffTimeToString($diff);
+							else
+								$msg3 .= '$11b'.MwDiffTimeToString($diff);
+						}
 					}
 				}
 			}
@@ -491,8 +507,23 @@ function ml_specinfosUpdateSpecPlayersXml($login,$action='show'){
 		}
 		$y -= $hline;
 	}
+
+	if($_GameInfos['GameMode'] == TEAM){
+		// Teams points (supposed)
+		$msg = '$z$s$eeeScore: $00f'.$_teams[0]['RaceScore'].'$n$eee - $m$f00'.$_teams[1]['RaceScore'].'$eee.';
+		$msg .= ' Points$n(';
+		if($_GameInfos['TeamMaxPoints'] == 0) // PPT Team points
+			$msg .= $_teams[0]['Max'].' vs '.$_teams[0]['Max'];
+		else  // standard Team
+			$msg .= $_GameInfos['TeamMaxPoints'].' max';
+		$msg .= ')$m:  $00f'.$_teams[0]['Score'].' $n$eee<>$m $f00'.$_teams[1]['Score'].'$eee.';
+		$xml .= sprintf('<label sizen="25 2" posn="0 %0.2F" text="%s"/>',$y,$msg);
+		$y -= $hline;
+	}
+
 	$xml = sprintf('<frame posn="-64 %0.2F -39.2"><format textsize="2"/>',(-23.2-$y)).$xml.'</frame>';
 	//console("ml_specinfosUpdateSpecPlayersXml - $login - $xml");
+	//console("ml_specinfosUpdateSpecPlayersXml - players \n".print_r($_players,true));
 	manialinksShow($login,'ml_specinfos.spec',$xml);
 }
 

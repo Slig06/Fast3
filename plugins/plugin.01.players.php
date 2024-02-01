@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
-// Date:      04.09.2011
+// Date:      12.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -80,7 +80,8 @@ registerPlugin('players',1,1.0,null);
 //                                and not finishing ones get points too if they have passed at least 2 cps
 //                                0 can be used to count not finishing players without giving a bonus
 
-
+// $_team_playersperteam : special Points mode when TeamMaxPoint is 0 which count same number of players per team, default 0 (auto)
+//                         note: end of map can't be handled by RoundsPointsLimitNewRules because of manually modified scores
 
 // Fast teams infos, local teams for use by special script modes (nothing to do with the game Team mode)
 //     fgmodes and fteams plugins are needed for correct handling !
@@ -331,7 +332,7 @@ function playersPlayerSetup($login){
 
 
 function playersInit($event){
-	global $_debug,$_players,$_memdebug,$_memdebugs,$_memdebugmode,$_players_old,$_players_checkchange,$_players_positions,$_players_actives,$_players_spec,$_players_giveup,$_players_giveup2,$_players_playing,$_used_languages,$_players_round_current,$_players_firstmap,$_players_firstround,$_NetStats_KickTime_Playing,$_NetStats_KickTime_Synchro,$_players_round_time,$_DegradedMode,$_LastCheckNum,$_teams,$_players_missings,$_mem,$_preferredspec_default,$_players_maxlist,$_players_round_finished,$_players_roundplayed_current,$_players_round_restarting,$_players_round_restarting_wu,$_players_round_restartplayers,$_players_antilock,$_players_prev_map_uid,$_players_round_checkpoints,$_players_rounds_scores,$_always_use_FWarmUp,$_ChatFloodRateMax,$_fteams_rules,$_fteams,$_fteams_round,$_fteams_max,$_fteams_scoretable,$_fteams_changes,$_fteams_ranksrule,$_fteams_drawrule,$_fteams_pointsrule,$_fteams_scoresrule,$_fteams_mapscoresrule,$_fteams_on;
+	global $_debug,$_players,$_memdebug,$_memdebugs,$_memdebugmode,$_players_old,$_players_checkchange,$_players_positions,$_players_actives,$_players_spec,$_players_giveup,$_players_giveup2,$_players_playing,$_used_languages,$_players_round_current,$_players_firstmap,$_players_firstround,$_NetStats_KickTime_Playing,$_NetStats_KickTime_Synchro,$_players_round_time,$_DegradedMode,$_LastCheckNum,$_teams,$_players_missings,$_mem,$_preferredspec_default,$_players_maxlist,$_players_round_finished,$_players_roundplayed_current,$_players_round_restarting,$_players_round_restarting_wu,$_players_round_restartplayers,$_players_antilock,$_players_prev_map_uid,$_players_round_checkpoints,$_players_rounds_scores,$_always_use_FWarmUp,$_ChatFloodRateMax,$_fteams_rules,$_fteams,$_fteams_round,$_fteams_max,$_fteams_scoretable,$_fteams_changes,$_fteams_ranksrule,$_fteams_drawrule,$_fteams_pointsrule,$_fteams_scoresrule,$_fteams_mapscoresrule,$_fteams_on,$_team_playersperteam;
 	if($_debug>6) console("players{$event}::");
 
   if($_memdebug>0) $_mem = memory_get_usage($_memdebugmode); else $_mem = 0;
@@ -364,7 +365,8 @@ function playersInit($event){
 	$_players_prev_map_uid = '';
 	$_players_round_checkpoints = 0;
 	$_players_rounds_scores = array();
-
+	$_team_playersperteam = 0;
+	
 	if(!isset($_ChatFloodRateMax))
 		$_ChatFloodRateMax = 7; // max flood rate within 5 seconds (max burst is double)
 	if($_ChatFloodRateMax < 3)
@@ -493,6 +495,10 @@ function playersInit($event){
 	$_teams[1]['Num'] = 0;
 	$_teams[0]['Score'] = 0;
 	$_teams[1]['Score'] = 0;
+	$_teams[0]['RaceScore'] = 0;
+	$_teams[1]['RaceScore'] = 0;
+	$_teams[0]['Max'] = 0;
+	$_teams[1]['Max'] = 0;
 }
 
 
@@ -847,7 +853,7 @@ function playersPlayerConnect($event,$login,$pinfo,$pdetailedinfo,$pranking){
 		$pl['Checkpoints'] = array();
 		$pl['LapCheckpoints'] = array();
 		$pl['BestLapCheckpoints'] = array();
-		$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+		$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 														'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 														'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 														'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -1236,7 +1242,7 @@ function playersPlayerCheckpoint($event,$login,$time,$lapnum,$checkpt,$hiddenabo
 		$pl['Checkpoints'] = array();
 		$pl['FinalTime'] = -1;
 		$pl['LastCpTime'] = -1;
-		$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+		$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 														'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 														'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 														'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -1430,7 +1436,7 @@ function playersPlayerCheckpoint($event,$login,$time,$lapnum,$checkpt,$hiddenabo
 
 
 function playersPlayerFinish($event,$login,$time,$checkpts=null){
-	global $_debug,$_StatusCode,$_beginround_time,$_players,$_currentTime,$_GameInfos,$_ChallengeInfo,$_players_checkchange,$_NetStats_KickTime_Synchro,$_LastCheckNum,$_players_round_restarting,$_CheatTests,$_callFuncsArgs;
+	global $_debug,$_StatusCode,$_beginround_time,$_players,$_currentTime,$_GameInfos,$_ChallengeInfo,$_players_checkchange,$_NetStats_KickTime_Synchro,$_LastCheckNum,$_players_round_restarting,$_CheatTests,$_callFuncsArgs,$_teams;
 	if($_StatusCode != 4){
 		if($time == 0){
 			if($_debug>7) console("playersPlayerFinish({$login},{$time}):: StatusCode={$_StatusCode} -> drop event !");
@@ -1466,7 +1472,7 @@ function playersPlayerFinish($event,$login,$time,$checkpts=null){
 	$pl = &$_players[$login];
 
 
-	if($time == 0){
+	if($time == 0){ // del
 
 		if($_GameInfos['GameMode'] == TA){
 			// TA: a finish 0 is always a start
@@ -1485,7 +1491,7 @@ function playersPlayerFinish($event,$login,$time,$checkpts=null){
 				$pl['CheckpointNumber'] = -1;
 				$pl['Checkpoints'] = array();
 				$pl['FinalTime'] = -1;
-				$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+				$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 																'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 																'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 																'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -1510,7 +1516,7 @@ function playersPlayerFinish($event,$login,$time,$checkpts=null){
 			}
 		}
 
-	}else{
+	}else{ // player finish
 		if($_players[$login]['FinalTime'] > 0){
 			if($_debug>0) console("playersPlayerFinish({$login},{$time}):: already a final time ({$_players[$login]['FinalTime']}) -> drop event !");
 			dropEvent();
@@ -1678,12 +1684,25 @@ function playersPlayerFinish($event,$login,$time,$checkpts=null){
 		}
 	}
 
+	
+	// scores in case of special Team PPT
+	if($_GameInfos['GameMode'] == TEAM && $_GameInfos['TeamMaxPoints'] == 0){
+		if(($_teams[0]['RaceScore']+1 >= $_GameInfos['TeamPointsLimitNewRules'] || $_teams[1]['RaceScore']+1 >= $_GameInfos['TeamPointsLimitNewRules'])){
+			if($time > 0){
+				// send 0-0 scores in special Team PPT before EndRound to avoid unwanted end of map !
+				$val = array(array('PlayerId'=>0,'Score'=>0),array('PlayerId'=>1,'Score'=>0));
+				addCall(true,'ForceScores',$val,true);
+				console("playersPlayerFinish::ForceScores 0-0 to avoid unwanted end of map! (current:{$_teams[0]['RaceScore']}-{$_teams[1]['RaceScore']})");
+			}
+		}
+	}
 
+	
 	if($_GameInfos['GameMode'] == TA && $time == 0){
 		$pl['CheckpointNumber'] = -1;
 		$pl['Checkpoints'] = array();
 		$pl['FinalTime'] = -1;
-		$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+		$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 														'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 														'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 														'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -1798,7 +1817,7 @@ function playersChallengeListChange($event){
 
 
 function playersBeginRace($event,$GameInfos,$ChallengeInfo,$newcup,$warmup,$fwarmup){
-	global $_debug,$_mldebug,$_memdebug,$_memdebugmode,$_players,$_players_old,$_PlayerList,$_PlayerInfo,$_StatusCode,$_Ranking,$_NumberOfChecks,$_players_positions,$_currentTime,$_last_matchsettings,$_players_round_current,$_DegradedModePlayers,$_DegradedMode2Players,$_DegradedMode,$_OrigVehicleNetQuality,$_ServerOptions,$_OrigIsP2PUpload,$_OrigIsP2PDownload,$_LastCheckNum,$_is_relay,$_players_roundplayed_current,$_players_round_finished,$_players_round_restarting,$_players_prev_map_uid,$_players_rounds_scores,$_players_round_time,$_GameInfos,$_WarmUp,$_FWarmUp,$_FWarmUpState,$_FWarmUpDuration,$_NextFWarmUp,$_PlayerList,$_match_map;
+	global $_debug,$_mldebug,$_memdebug,$_memdebugmode,$_players,$_players_old,$_PlayerList,$_PlayerInfo,$_StatusCode,$_Ranking,$_NumberOfChecks,$_players_positions,$_currentTime,$_last_matchsettings,$_players_round_current,$_DegradedModePlayers,$_DegradedMode2Players,$_DegradedMode,$_OrigVehicleNetQuality,$_ServerOptions,$_OrigIsP2PUpload,$_OrigIsP2PDownload,$_LastCheckNum,$_is_relay,$_players_roundplayed_current,$_players_round_finished,$_players_round_restarting,$_players_prev_map_uid,$_players_rounds_scores,$_players_round_time,$_GameInfos,$_WarmUp,$_FWarmUp,$_FWarmUpState,$_FWarmUpDuration,$_NextFWarmUp,$_PlayerList,$_match_map,$_teams;
 
 	if($_players_round_restarting){
 		if($_players_prev_map_uid == $ChallengeInfo['UId']){
@@ -1863,6 +1882,13 @@ function playersBeginRace($event,$GameInfos,$ChallengeInfo,$newcup,$warmup,$fwar
 	$_players_positions = array();
 	$_players_rounds_scores = array(0=>playersGetScores());
 
+ 	$_teams[0]['Num'] = 0;
+	$_teams[1]['Num'] = 0;
+	$_teams[0]['Score'] = 0;
+	$_teams[1]['Score'] = 0;
+	$_teams[0]['RaceScore'] = $_Ranking[0]['Score'];
+	$_teams[1]['RaceScore'] = $_Ranking[1]['Score'];
+
 	if($_GameInfos['GameMode'] != CUP || $newcup){
 		// reset teams scores unless in a running cup
 		fteamsClearRanks();
@@ -1893,7 +1919,7 @@ function playersBeginRace($event,$GameInfos,$ChallengeInfo,$newcup,$warmup,$fwar
 		$pl['FTeamPointsList'] = array(0=>0);
 		$pl['TeamScore'] = 0;
 		$pl['TeamScores'] = array(0=>0);
-		$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+		$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 														'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 														'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 														'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -2074,7 +2100,7 @@ function playersEndResult($event){
 
 
 function playersEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$warmup,$fwarmup){
-	global $_debug,$_players,$_StatusCode,$_players_firstmap,$_currentTime,$_WarmUp,$_FWarmUp,$_FWarmUpState,$_NextFWarmUp,$_FWarmUpDuration,$_players_round_restarting,$_players_round_restarting_wu,$_players_prev_map_uid,$_players_round_time,$_NextGameInfos;
+	global $_debug,$_players,$_StatusCode,$_players_firstmap,$_currentTime,$_WarmUp,$_FWarmUp,$_FWarmUpState,$_NextFWarmUp,$_FWarmUpDuration,$_players_round_restarting,$_players_round_restarting_wu,$_players_prev_map_uid,$_players_round_time,$_NextGameInfos,$_GameInfos,$_teams;
 	if($_players_round_restarting){
 		// special restarting made a challenge restart : be sure to have a restart !
 		$_players_prev_map_uid = $ChallengeInfo['UId'];
@@ -2114,6 +2140,7 @@ function playersEndRace($event,$Ranking,$ChallengeInfo,$GameInfos,$continuecup,$
 				unset($pl['toSpec']);
 		}
 	}
+
 
 	// change to FWarmUp if wanted
 	playersWarmUp2FWarmUp();
@@ -2249,7 +2276,7 @@ function playersBeginRound($event){
 		$pl['FinishEventTime'] = $_currentTime;
 		$pl['RSdelays'] = 0;
 
-		$pl['Position'] = array('Pos'=>-1,'Check'=>-1,
+		$pl['Position'] = array('Pos'=>-1,'TPos'=>-1,'Check'=>-1,
 														'FirstLogin'=>'','FirstDiffTime'=>0,'FirstDiffCheck'=>0,
 														'Prev2Login'=>'','Prev2DiffTime'=>0,'Prev2DiffCheck'=>0,
 														'PrevLogin'=>'','PrevDiffTime'=>0,'PrevDiffCheck'=>0,
@@ -2290,11 +2317,17 @@ function playersBeginRound($event){
 
 
 function playersBeginRound_Post($event){
-	global $_players_round_restarting,$_fteams_on,$_fteams_ranksrule,$_fteams_drawrule,$_fteams_pointsrule,$_fteams_scoresrule,$_fteams_mapscoresrule,$_fteams_rules,$_roundspoints_points;
+	global $_players_round_restarting,$_fteams_on,$_fteams_ranksrule,$_fteams_drawrule,$_fteams_pointsrule,$_fteams_scoresrule,$_fteams_mapscoresrule,$_fteams_rules,$_roundspoints_points,$_GameInfos,$_Ranking,$_teams;
 	if($_players_round_restarting)
 		return;
 	playersStoreFastState();
 
+	// special Team PPT scores keep scores to restore later
+	if($_GameInfos['GameMode'] == TEAM){  // && $_GameInfos['TeamMaxPoints'] == 0){
+		$_teams[0]['RaceScore'] = $_Ranking[0]['Score'];
+		$_teams[1]['RaceScore'] = $_Ranking[1]['Score'];
+	}
+	
 	// set fteams real points rule
 	if($_fteams_on){
 		$_fteams_ranksrule = $_fteams_rules['RanksRule'];
@@ -2343,7 +2376,7 @@ function playersBeginRound_Post($event){
 
 
 function playersBeforeEndRound($event,$delay){
-	global $_debug,$_players_round_restarting,$_GameInfos,$_FWarmUp,$_FWarmUpState,$_players_checkchange,$_players_round_current,$_players,$_players_positions,$_fteams_on,$_fteams,$_fteams_round,$_fteams_changes;
+	global $_debug,$_players_round_restarting,$_GameInfos,$_Ranking,$_FWarmUp,$_FWarmUpState,$_players_checkchange,$_players_round_current,$_players,$_players_positions,$_fteams_on,$_fteams,$_fteams_round,$_fteams_changes,$_teams,$_teamcolor;
 	if($_debug>1) console("players{$event}($delay)::");
 
 	if($delay == 0){
@@ -2358,7 +2391,7 @@ function playersBeforeEndRound($event,$delay){
 				delayTransition(2000);
 			}
 		}
-
+		
 	}elseif($delay < 0){
 		// last BeforeEndRound call for this end of round...
 		if($_players_round_restarting)
@@ -2387,6 +2420,47 @@ function playersBeforeEndRound($event,$delay){
 			$pos++;
 		}
 
+		// scores in case of special Team PPT
+		if($_GameInfos['GameMode'] == TEAM && $_GameInfos['TeamMaxPoints'] == 0){
+			if($_teams[0]['Score'] > $_teams[1]['Score']){
+				$_teams[0]['RaceScore']++;
+				console("playersBeforeEndRound::blue team win round {$_teams[0]['Score']} <> {$_teams[1]['Score']} !");
+				$tnick0 = stripColors(''.$_Ranking[0]['NickName']);
+				$msg = '$z$s'.$_teamcolor[0].$tnick0.' $fff win the round (';
+			}
+			else if($_teams[0]['Score'] < $_teams[1]['Score']){
+				$_teams[1]['RaceScore']++;
+				console("playersBeforeEndRound::red team win round {$_teams[0]['Score']} <> {$_teams[1]['Score']} !");
+				$tnick1 = stripColors(''.$_Ranking[1]['NickName']);
+				$msg = '$z$s'.$_teamcolor[1].$tnick1.' $fff win the round (';
+			}
+			else{
+				console("playersBeforeEndRound::draw round {$_teams[0]['Score']} <> {$_teams[1]['Score']} !");
+				$msg = '$z$s$fffDraw round (';
+			}
+			// simulate values in _Ranking table for other plugins...
+			$_Ranking[0]['Score'] = $_teams[0]['RaceScore'];
+			$_Ranking[1]['Score'] = $_teams[1]['RaceScore'];
+			
+			// show round result in chat
+			$msg .= $_teamcolor[0].$_teams[0]['Score'].'$fff$n <> $m'.$_teamcolor[1].$_teams[1]['Score'].'$fff).';
+			$msg .= ' Score: '.$_teamcolor[0].$_teams[0]['RaceScore'].'$fff$n - $m'.$_teamcolor[1].$_teams[1]['RaceScore'];
+			addCall(null,'ChatSendServerMessage', $msg);
+			
+			// send scores
+			$val = array(array('PlayerId'=>0,'Score'=>$_teams[0]['RaceScore']),
+									 array('PlayerId'=>1,'Score'=>$_teams[1]['RaceScore']));
+			$msg = "blue={$_Ranking[0]['Score']},red={$_Ranking[1]['Score']}";
+			$msg2 = "blue={$_teams[0]['RaceScore']},red={$_teams[1]['RaceScore']}";
+			addCall(true,'ForceScores',$val,true);
+			console("playersBeforeEndRound::ForceScores ! (was: {$msg} , now: {$msg2})");
+			// PPT end or race
+			if($_Ranking[0]['Score'] >= $_GameInfos['TeamPointsLimitNewRules'] || $_Ranking[0]['Score'] >= $_GameInfos['TeamPointsLimitNewRules']){
+				if($_debug>0) console("playersBeforeEndRound {$_Ranking[0]['Score']} - {$_Ranking[1]['Score']} / {$_GameInfos['TeamPointsLimitNewRules']} -> EndRace");
+				addCall(true,'NextChallenge');
+			}
+		}
+		
 	}else{
 		// delayed transition
 		if($_debug>2) console("playersBeforeEndRound:: delayed ({$delay})");
@@ -2395,7 +2469,7 @@ function playersBeforeEndRound($event,$delay){
 
 
 function playersEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialRestarting){
-	global $_debug,$_players,$_StatusCode,$_GameInfos,$_WarmUp,$_FWarmUp,$_players_round_current,$_players_positions,$_LastCheckNum,$_players_missings,$_players_round_restarting,$_players_rounds_scores,$_players_antilock,$_players_round_restarting,$_players_firstround;
+	global $_debug,$_players,$_StatusCode,$_GameInfos,$_WarmUp,$_FWarmUp,$_players_round_current,$_players_positions,$_LastCheckNum,$_players_missings,$_players_round_restarting,$_players_rounds_scores,$_players_antilock,$_players_round_restarting,$_players_firstround,$_Ranking,$_GameInfos,$_teams,$_teamcolor;
 
 	// in Cup mode when round finish for map change, it can take time and release antilock...
 	$_players_antilock = -15;
@@ -2472,6 +2546,7 @@ function playersEndRound($event,$Ranking,$ChallengeInfo,$GameInfos,$SpecialResta
 		}
 	}
 
+	
 	// standard EndRound stuff...
 
 	if($_debug>0) console("players{$event}:: (Status=$_StatusCode)");
@@ -2560,7 +2635,7 @@ function playersPlayerCountPlayers(){
 // compute player positions and relative gaps
 // Special $sec values when called by: BeginRound: -1, PlayerFinish: -2, BeforeEndRound: -3
 function playersComputePositions($sec=-1){
-	global $_debug,$_players_checkchange,$_players,$_players_positions,$_players_actives,$_players_spec,$_players_giveup,$_players_giveup2,$_players_playing,$_currentTime,$_players_finished,$_GameInfos,$_teams,$_PlayerList,$_GameInfos,$_StatusCode,$_players_antilock,$_players_round_restarting,$_players_round_time,$_MFCTransition,$_fteams_max,$_fteams_on,$_fteams_rules,$_fteams,$_fteams_round,$_fteams_pointsrule,$_fteams_scoresrule;
+	global $_debug,$_players_checkchange,$_players,$_players_positions,$_players_actives,$_players_spec,$_players_giveup,$_players_giveup2,$_players_playing,$_currentTime,$_players_finished,$_GameInfos,$_teams,$_PlayerList,$_GameInfos,$_StatusCode,$_players_antilock,$_players_round_restarting,$_players_round_time,$_MFCTransition,$_fteams_max,$_fteams_on,$_fteams_rules,$_fteams,$_fteams_round,$_fteams_pointsrule,$_fteams_scoresrule,$_team_playersperteam;
 
 	$_players_checkchange = false;
 
@@ -2637,6 +2712,8 @@ function playersComputePositions($sec=-1){
 	$firstdcheck = 0;
 	$firstdtime = 0;
 
+	$t0pos = 1;
+	$t1pos = 1;
 	foreach($_players_positions as $pos => &$plp){
 		$login = $plp['Login'];
 		$position = &$_players[$login]['Position'];
@@ -2703,12 +2780,31 @@ function playersComputePositions($sec=-1){
 		if($position['Pos'] != $pos){
 			$plp['Change'] |= 1;
 			$position['Pos'] = $pos;
+
+		}
+		// for special PPT team mode
+		if($_players[$login]['TeamId'] == 0){
+			if($position['TPos'] != $t0pos)
+				$plp['Change'] |= 1;
+			$position['TPos'] = $t0pos;
+			$t0pos++;
+			console("playersComputePositions:: {$login} pos:{$_players[$login]['TeamId']} tpos:{$position['TPos']}");
+		}
+		elseif($_players[$login]['TeamId'] == 1){
+			if($position['TPos'] != $t1pos)
+				$plp['Change'] |= 1;
+			$position['TPos'] = $t1pos;
+			$t1pos++;
+			console("playersComputePositions:: {$login} pos:{$_players[$login]['TeamId']} tpos:{$position['TPos']}");
+		}
+		else{
+			$position['TPos'] = -1;
 		}
 		if($position['Check'] != $plp['Check']){
 			$plp['Change'] |= 2;
 			$position['Check'] = $plp['Check'];
 		}
-
+		
 		// set prev2 infos
 		if($position['Prev2Login'] != $prev2login || 
 			 $position['Prev2DiffTime'] != -$prev2dtime ||
@@ -2850,33 +2946,64 @@ function playersComputePositions($sec=-1){
 				$max++;
 				if($pl2['TeamId'] == 0)
 					$_teams[0]['Num']++;
-				elseif($pl2['TeamId'] == 1)
+				else if($pl2['TeamId'] == 1)
 				$_teams[1]['Num']++;
 			}	
 		}
-
 		if($max > $_GameInfos['TeamMaxPoints'])
 			$max = $_GameInfos['TeamMaxPoints'];
 
+		// special Team PPT score mode
+		$tmax = ($_teams[0]['Num'] < $_teams[1]['Num']) ? $_teams[0]['Num'] : $_teams[1]['Num'];
+		if($_GameInfos['TeamMaxPoints'] == 0){
+			$max = $tmax * 2;
+			if($_team_playersperteam > 0)
+				$max = $_team_playersperteam * 2;
+			if($_team_playersperteam > 0 && $_team_playersperteam < $tmax)
+				$tmax = $_team_playersperteam;
+		}
+		$_teams[0]['Max'] = $tmax;
+		$_teams[1]['Max'] = $tmax;
+		
 		foreach($_PlayerList as $key => &$pl2){
 			$login = $pl2['Login'];
 			if(isset($_players[$login]['Active'])){
-				if($_players[$login]['FinalTime'] != 0 && ($_players[$login]['FinalTime'] > 0 || $sec >= 0) &&
+				if($sec == -1 || $_players[$login]['FinalTime'] == 0) {
+					$_players[$login]['TeamScore'] = 0;
+					//console("playersComputePositions:: {$login} TeamScore=0  $sec !!!!!");
+				}
+				else if(($_players[$login]['FinalTime'] > 0 || $sec == -2 || $sec >= 0) &&
 					 isset($_players[$login]['Position']['Pos']) && $_players[$login]['Position']['Pos'] >= 0){
-					$score = $max - $_players[$login]['Position']['Pos'];
-					if($score < 0)
-						$score = 0;
+					if($_GameInfos['TeamMaxPoints'] == 0){
+						// Team PPT points
+						// note: Pos start at 0 but TPos start at 1
+						if($_players[$login]['Position']['TPos'] > $tmax){
+							$score = 0;
+						}
+						else{
+							$pos = $_players[$login]['Position']['Pos'] + 1;
+							if($pos > $_players[$login]['Position']['TPos'] + $tmax)
+								$pos = $_players[$login]['Position']['TPos'] + $tmax;
+							$score = $max + 1 - $pos;
+						}
+					}
+					else{
+						// Team classic points
+						$score = $max - $_players[$login]['Position']['Pos'];
+						if($score < 0)
+							$score = 0;
+					}
 					$_players[$login]['TeamScore'] = $score;
+					//console("playersComputePositions:: {$login} TeamScore= {$score}");
 					if($pl2['TeamId'] == 0)
 						$_teams[0]['Score'] += $score;
 					elseif($pl2['TeamId'] == 1)
 					$_teams[1]['Score'] += $score;
-				}else{
-					$_players[$login]['TeamScore'] = 0;
 				}
 			}
 		}
 	}
+	//console("playersComputePositions:: t0 Score: {$_teams[0]['Score']}  t1 Score: {$_teams[1]['Score']} $sec !!!!");
 
 	fteamsComputePositions($sec);
 
@@ -3314,14 +3441,14 @@ function playersEverysecond($event,$sec){
 // compare function for usort, return -1 if $a should be before $b
 function playersPosCompare($a, $b)
 {
-	// no cp
+	// both have no cp
 	if($a['Check'] < 0 && $b['Check'] < 0)
 		return strcmp($a['Login'],$b['Login']);
-	// 2nd have del
-	if($a['FinalTime'] > 0 && $b['FinalTime'] <= 0)
+	// b have del : b behind
+	if($a['FinalTime'] != 0 && $b['FinalTime'] == 0)
 		return -1;
-	// 1st have del
-	elseif($a['FinalTime'] <= 0 && $b['FinalTime'] > 0)
+	// a have del : a behind
+	elseif($a['FinalTime'] == 0 && $b['FinalTime'] != 0)
 		return 1;
 	// only 1st
 	if($b['Check'] < 0)

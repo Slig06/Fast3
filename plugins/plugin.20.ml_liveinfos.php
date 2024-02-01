@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      25.08.2011
+// Date:      10.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -48,8 +48,8 @@ function ml_liveinfosInit($event){
 		$_live_players_default = !$_is_relay;
 	$_live_players_default = $_live_players_default+0;
 
-	$_live_players_bg_xml =
-		'<quad sizen="25.5 2.4" posn="-68.2 -16.65 -44" style="BgsPlayerCard" substyle="BgPlayerCardBig"/>'; // "BgPlayerName" , "BgCard" , "BgPlayerCardBig"
+	$_live_players_bg_xml =   // old width 25.5
+		'<quad sizen="28.5 2.4" posn="-68.2 -16.65 -44" style="BgsPlayerCard" substyle="BgPlayerCardBig"/>'; // "BgPlayerName" , "BgCard" , "BgPlayerCardBig"
 	$_live_players_bg2_xml =
 		'<quad sizen="23.5 2.4" posn="-36.2 30.65 -61" style="BgsPlayerCard" substyle="BgPlayerCardBig"/>'; // "BgPlayerName" , "BgCard" , "BgPlayerCardBig"
 	
@@ -709,7 +709,10 @@ function ml_liveinfosUpdatePlayerLivePlayersXml($login,$action='show'){
 		}
 		if($_GameInfos['GameMode'] == TEAM){
 			$dx2 = ($lip<2)? 0.0 : 30.0;
+			// teams points (supposed)
 			$msg2 = '$s$00f'.$_teams[0]['Score'].' $n$ddd<>$m $f00'.$_teams[1]['Score'];
+			// player points (supposed)
+			$msg2 .= '  $n$ddd<$w'.$color.$_players[$login]['TeamScore'].'$n$ddd>';
 			$xml .= sprintf('<label posn="%0.2F %0.2F %0.2F" textsize="2" text="%s"/>',
 											-49.5+$dx2,-16.8+$dy,-44+$dz,$msg2);
 		}

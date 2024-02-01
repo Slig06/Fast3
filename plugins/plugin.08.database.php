@@ -3,7 +3,7 @@
 //¤
 // File:      FAST 3.2 (First Automatic Server for Trackmania)
 // Web:       
-// Date:      25.08.2011
+// Date:      11.04.2023
 // Author:    Gilles Masson
 // 
 ////////////////////////////////////////////////////////////////
@@ -700,7 +700,8 @@ function databaseEndRace($event,$Ranking,$ChallengeInfo,$GameInfos){
 
 		usort($times,"databaseRecCompare");
 		if($_debug>=0){
-			debugPrint('databaseEndRace - times',minmaxArray($times));
+			$a = minmaxArray($times);
+			debugPrint('databaseEndRace - times',$a);
 		}
 		// get BestCheckpoints of best player
 		//if(isset($times[0]['Login'])){
